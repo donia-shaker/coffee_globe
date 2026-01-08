@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import Footer from "@/Components/Footer.vue";
 import Header from "@/Components/Header.vue";
 import HeroSlide from "@/Components/HeroSlide.vue";
-import About from "@/Components/About.vue";
-import Features from "@/Components/Features.vue";
 import CTA from "@/Components/CTA.vue";
 import Services from "@/Components/Services.vue";
 import CustomerReviews from "@/Components/CustomerReviews.vue";
@@ -16,10 +13,6 @@ defineProps({
     about_page_data: Object,
     social_media_infos: Object,
     services: Object,
-    features: Object,
-    categories: Object,
-    main_center: Object,
-    branches: Object,
 });
 </script>
 
