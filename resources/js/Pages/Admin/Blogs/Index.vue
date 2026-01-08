@@ -34,7 +34,7 @@ const { sortColumn, sortDirection } = useSortTable("blogs", {
             tableName="blogs"
             tableAction="أضافة  مدونة"
             :tableActionLink="route('blogs.create')"
-            :tableLink="route('blogs.index')"
+            :tableLink="route('admin_blogs.index')"
         >
             <template v-slot:header>
                 <h4 class="fw-bold py-2 mb-3 fs-2">المدونة </h4>

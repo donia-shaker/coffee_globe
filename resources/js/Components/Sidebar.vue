@@ -6,7 +6,7 @@
         <div class="app-brand demo">
             <a href="" class="app-brand-link">
                 <span class="app-brand-logo demo">
-                    <img src="/images/logo.svg" width="180"  alt="" />
+                    <img src="/images/logo.svg" width="180" alt="" />
                 </span>
             </a>
             <a
@@ -66,16 +66,77 @@
             >
                 <Link :href="route('services.index')" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                    <div> الخدمات</div>
+                    <div>الخدمات</div>
                 </Link>
             </li>
             <li
-                :class="{ active: route().current() === 'features.index' }"
+                :class="{
+                    active: route().current() === 'service_companies.index',
+                }"
                 class="menu-item"
             >
-                <Link :href="route('service_companies.index')" class="menu-link">
+                <Link
+                    :href="route('service_companies.index')"
+                    class="menu-link"
+                >
                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                    <div> حدمات الشركات</div>
+                    <div>حدمات الشركات</div>
+                </Link>
+            </li>
+            <li
+                :class="{ active: route().current() === 'admin_blogs.index' }"
+                class="menu-item"
+            >
+                <Link :href="route('admin_blogs.index')" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div>المدونة</div>
+                </Link>
+            </li>
+            <li
+                :class="{ active: route().current() === 'experts.index' }"
+                class="menu-item"
+            >
+                <Link :href="route('experts.index')" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div>خبرائنا</div>
+                </Link>
+            </li>
+            <li
+                :class="{ active: route().current() === 'values.index' }"
+                class="menu-item"
+            >
+                <Link :href="route('values.index')" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div>قيمنا</div>
+                </Link>
+            </li>
+            <li
+                :class="{
+                    active: route().current() === 'client_reviews.index',
+                }"
+                class="menu-item"
+            >
+                <Link :href="route('client_reviews.index')" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div>اراء العملاء</div>
+                </Link>
+            </li>
+            <li
+                :class="{ active: route().current() === 'fqs.index' }"
+                class="menu-item"
+            >
+                <Link :href="route('fqs.index')" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div>الاسئلة الشائعة</div>
+                </Link>
+            </li>
+            <li
+                :class="{ active: route().current() === 'why_uss.index' }"
+                class="menu-item"
+            >
+                <Link :href="route('why_uss.index')" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div>لماذا نحن</div>
                 </Link>
             </li>
             <li class="menu-item">
@@ -100,8 +161,7 @@
                     </li>
                     <li
                         :class="{
-                            active:
-                                route().current() === 'main_centers.index',
+                            active: route().current() === 'main_centers.index',
                         }"
                     >
                         <Link
@@ -113,25 +173,21 @@
                                 style="font-size: 10px"
                             >
                             </i>
-                            <div> المركز الرئيسي</div>
+                            <div>المركز الرئيسي</div>
                         </Link>
                     </li>
                     <li
                         :class="{
-                            active:
-                                route().current() === 'branches.index',
+                            active: route().current() === 'branches.index',
                         }"
                     >
-                        <Link
-                            :href="route('branches.index')"
-                            class="menu-link"
-                        >
+                        <Link :href="route('branches.index')" class="menu-link">
                             <i
                                 class="menu-icon tf-icons bx bxs-circle"
                                 style="font-size: 10px"
                             >
                             </i>
-                            <div> الفروع</div>
+                            <div>الفروع</div>
                         </Link>
                     </li>
                     <li

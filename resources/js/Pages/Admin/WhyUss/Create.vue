@@ -25,7 +25,7 @@ const formFields = props.langs.reduce(
 const form = useForm(formFields);
 
 const submit = () => {
-    form.post(route("values.store"), {
+    form.post(route("why_uss.store"), {
         onFinish: () => form.reset("image"), // Only reset the image field
     });
 };
@@ -34,20 +34,20 @@ const submit = () => {
 <template>
     <DashboardLayout>
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-2 mb-3 fs-2">اضافة قيمنا</h4>
+            <h4 class="fw-bold py-2 mb-3 fs-2">اضافة لماذا نحن</h4>
 
             <!-- Multi Column with Form Separator -->
             <div class="card mb-4">
                 <div class="card-body row">
                     <form @submit.prevent="submit">
                         <div class="row">
-                            <input type="hidden" name="route" value="add" />
+                            <input type="hidden" name="route" why_us="add" />
                             <Input
                                 v-for="lang in langs"
                                 :key="lang.code"
                                 :label="` الاسم ${lang.code}`"
-                                :model-value="form[`name_${lang.code}`]"
-                                @update:model-value="
+                                :model-why_us="form[`name_${lang.code}`]"
+                                @update:model-why_us="
                                     (val) => (form[`name_${lang.code}`] = val)
                                 "
                                 :message="form.errors[`name_${lang.code}`]"
@@ -56,8 +56,8 @@ const submit = () => {
                                 v-for="lang in langs"
                                 :key="lang.code"
                                 :label="` النص ${lang.code}`"
-                                :model-value="form[`text${lang.code}`]"
-                                @update:model-value="
+                                :model-why_us="form[`text${lang.code}`]"
+                                @update:model-why_us="
                                     (val) =>
                                         (form[`text${lang.code}`] = val)
                                 "
@@ -87,7 +87,7 @@ const submit = () => {
                                 حفظ
                             </button>
                             <a
-                                href="/values"
+                                href="/why_uss"
                                 class="btn btn-outline-secondary"
                                 style="border-color: #aaa"
                                 >إلغاء</a

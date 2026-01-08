@@ -34,5 +34,17 @@ class WhyUsSeeder extends Seeder
                 'en' => 'Our team is always ready to answer your technical inquiries'
             ]
         ]);
+
+        
+        WhyUs::create([
+            'name' =>   [
+                'ar' => 'الدعم الفني المتواصل',
+                'en' => 'Continuous technical support'
+            ],
+            'text' => [
+                'ar' => 'فريقنا على استعداد دائم للإجابة على استفساراتك الفنية',
+                'en' => 'Our team is always ready to answer your technical inquiries'
+            ]
+        ]);
     }
 }

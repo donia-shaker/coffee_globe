@@ -8,29 +8,29 @@ import Textarea from "@/Components/Textarea.vue";
 
 const props = defineProps({
     langs: Array,
-    value: Object, // <-- تم التعديل هنا
+    why_us: Object, // <-- تم التعديل هنا
 });
 
-const value = props.value;
+const why_us = props.why_us;
 
 const initialForm = {
     image: "",
-    imagePreview: value.text?.url || "",
-    is_active: value.is_active ? "1" : "0",
+    imagePreview: why_us.text?.url || "",
+    is_active: why_us.is_active ? "1" : "0",
     _method: "put",
 };
 
 // تعبئة أسماء اللغات
 props.langs.forEach((lang) => {
-    initialForm[`name_${lang.code}`] = value.name?.[lang.code] || "";
-    initialForm[`text_${lang.code}`] = value.text?.[lang.code] || "";
+    initialForm[`name_${lang.code}`] = why_us.name?.[lang.code] || "";
+    initialForm[`text_${lang.code}`] = why_us.text?.[lang.code] || "";
 });
 
 // هنا نستخدم useForm
 const form = useForm(initialForm);
 
 const submit = () => {
-    form.post(route("values.update", value.id), {
+    form.post(route("why_uss.update", why_us.id), {
         forceFormData: true,
         onSuccess: () => {
             form.reset("image"); // مسح الصورة فقط بعد الإرسال
@@ -42,7 +42,7 @@ const submit = () => {
 <template>
     <DashboardLayout>
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-2 mb-3 fs-2">تعديل قيمنا</h4>
+            <h4 class="fw-bold py-2 mb-3 fs-2">تعديل لماذا نحن</h4>
 
             <div class="card mb-4">
                 <div class="card-body row">
@@ -52,8 +52,8 @@ const submit = () => {
                                 v-for="lang in langs"
                                 :key="lang.code"
                                 :label="` الاسم ${lang.code}`"
-                                :model-value="form[`name_${lang.code}`]"
-                                @update:model-value="
+                                :model-why_us="form[`name_${lang.code}`]"
+                                @update:model-why_us="
                                     (val) => (form[`name_${lang.code}`] = val)
                                 "
                                 :message="form.errors[`name_${lang.code}`]"
@@ -63,8 +63,8 @@ const submit = () => {
                                 v-for="lang in langs"
                                 :key="lang.code"
                                 :label="` النص ${lang.code}`"
-                                :model-value="form[`text${lang.code}`]"
-                                @update:model-value="
+                                :model-why_us="form[`text${lang.code}`]"
+                                @update:model-why_us="
                                     (val) =>
                                         (form[`text${lang.code}`] = val)
                                 "
@@ -94,7 +94,7 @@ const submit = () => {
                                 حفظ
                             </button>
                             <a
-                                href="/values"
+                                href="/why_uss"
                                 class="btn btn-outline-secondary"
                                 style="border-color: #aaa"
                                 >إلغاء</a

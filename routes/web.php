@@ -79,12 +79,12 @@ Route::middleware(['auth', 'role:super_admin|admin'])->group(function () {
     });
     
     Route::controller(BlogController::class)->group(function () {
-        Route::get('/bogs', 'index')->name('bogs.index');
-        Route::get('/bogs/create', 'create')->name('bogs.create');
-        Route::post('/bogs/store', 'store')->name('bogs.store');
-        Route::get('/bogs/edit/{id}', 'edit')->name('bogs.edit');
-        Route::put('/bogs/update/{id}', 'update')->name('bogs.update');
-        Route::post('/bogs/active/{id}', 'active')->name('bogs.active');
+        Route::get('/admin_blogs', 'index')->name('admin_blogs.index');
+        Route::get('/blogs/create', 'create')->name('blogs.create');
+        Route::post('/blogs/store', 'store')->name('blogs.store');
+        Route::get('/blogs/edit/{id}', 'edit')->name('blogs.edit');
+        Route::put('/blogs/update/{id}', 'update')->name('blogs.update');
+        Route::post('/blogs/active/{id}', 'active')->name('blogs.active');
     });
 
     Route::controller(ValueController::class)->group(function () {
@@ -106,12 +106,12 @@ Route::middleware(['auth', 'role:super_admin|admin'])->group(function () {
     });
 
     Route::controller(WhyUsController::class)->group(function () {
-        Route::get('/whu_uss', 'index')->name('whu_uss.index');
-        Route::get('/whu_uss/create', 'create')->name('whu_uss.create');
-        Route::post('/whu_uss/store', 'store')->name('whu_uss.store');
-        Route::get('/whu_uss/edit/{id}', 'edit')->name('whu_uss.edit');
-        Route::put('/whu_uss/update/{id}', 'update')->name('whu_uss.update');
-        Route::post('/whu_uss/active/{id}', 'active')->name('whu_uss.active');
+        Route::get('/why_uss', 'index')->name('why_uss.index');
+        Route::get('/why_uss/create', 'create')->name('why_uss.create');
+        Route::post('/why_uss/store', 'store')->name('why_uss.store');
+        Route::get('/why_uss/edit/{id}', 'edit')->name('why_uss.edit');
+        Route::put('/why_uss/update/{id}', 'update')->name('why_uss.update');
+        Route::post('/why_uss/active/{id}', 'active')->name('why_uss.active');
     });
 
     Route::controller(ServiceCompanyController::class)->group(function () {

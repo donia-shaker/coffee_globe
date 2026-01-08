@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Blog;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -31,7 +32,8 @@ class BlogSeeder extends Seeder
 The journey begins with selecting the finest green beans directly from farmers around the world, adhering to the highest ethical and quality standards. Then, the beans are carefully roasted using the latest roasting techniques and optimal profiles for each variety, highlighting the natural flavors of every bean.
 
 At a specialty coffee shop, the coffee is served under the supervision of professional baristas, focusing on the art of preparation and hospitality, making every tasting experience unforgettable. Whether you are a beginner or an expert, specialty coffee offers a unique journey that reflects everyone’s passion for taste and quality.'
-                ]
+                ],
+                'date' => Carbon::now(),
             ]);
         }
     }

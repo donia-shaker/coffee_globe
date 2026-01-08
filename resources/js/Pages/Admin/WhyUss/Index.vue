@@ -14,12 +14,12 @@ const { openModal } = useModal();
 
 // استيراد البيانات عبر الـ props
 const props = defineProps({
-    values: Object,
+    why_uss: Object,
     langs: Object,
 });
 
 // استخدام الدالة العامة للترتيب
-const { sortColumn, sortDirection } = useSortTable("values", {
+const { sortColumn, sortDirection } = useSortTable("why_uss", {
     sort: "id",
     direction: "desc",
     search: "",
@@ -30,14 +30,14 @@ const { sortColumn, sortDirection } = useSortTable("values", {
 <template>
     <DashboardLayout>
         <DataTableData
-            :paginationData="values"
-            tableName="values"
-            tableAction="أضافة  قيمنا"
-            :tableActionLink="route('values.create')"
-            :tableLink="route('values.index')"
+            :paginationData="why_uss"
+            tableName="why_uss"
+            tableAction="أضافة  لماذا نحن"
+            :tableActionLink="route('why_uss.create')"
+            :tableLink="route('why_uss.index')"
         >
             <template v-slot:header>
-                <h4 class="fw-bold py-2 mb-3 fs-2">قيمنا </h4>
+                <h4 class="fw-bold py-2 mb-3 fs-2">لماذا نحن </h4>
             </template>
 
             <template v-slot:thead>
@@ -58,28 +58,28 @@ const { sortColumn, sortDirection } = useSortTable("values", {
             </template>
 
             <template v-slot:tbody>
-                <tr v-for="value in values.data" :key="value.id">
-                    <td>{{ value.id }}</td>
+                <tr v-for="why_us in why_uss.data" :key="why_us.id">
+                    <td>{{ why_us.id }}</td>
                     <td>
                         <img
-                            v-if="value.media"
+                            v-if="why_us.media"
                             class="img-fluid rounded"
-                            :src="value.media.thumb_url"
+                            :src="why_us.media.thumb_url"
                             height="60"
                             width="60"
                         />
                         <p v-else>لايوجد صورة</p>
                     </td>
-                    <td>{{ value.name['ar'] }}</td>
+                    <td>{{ why_us.name['ar'] }}</td>
 
-                    <td>{{ value.name['en'] }}</td>
+                    <td>{{ why_us.name['en'] }}</td>
 
                     <td>
-                        <TableStatus :active="value.is_active" />
+                        <TableStatus :active="why_us.is_active" />
                     </td>
                     <td>
-                        <ActiveAction :active="value.is_active" @click="openModal(route('values.active', value.id), 'danger', value.id)"/>
-                        <Link :href="route('values.edit', value.id)">
+                        <ActiveAction :active="why_us.is_active" @click="openModal(route('why_uss.active', why_us.id), 'danger', why_us.id)"/>
+                        <Link :href="route('why_uss.edit', why_us.id)">
                             <EditAction />
                         </Link>
                     </td>
