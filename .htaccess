@@ -1,0 +1,33 @@
+# Check if mod_rewrite module is loaded
+<IfModule mod_rewrite.c>
+
+  # Enable URL rewriting
+  RewriteEngine On
+
+  # Avoid infinite loops by not rewriting existing files or directories within /public/
+  RewriteCond %{REQUEST_URI} !^/public/
+
+  # Rewrite all other requests to /public/
+  RewriteRule ^(.*)$ /public/$1 [L]
+
+  # Exclude specific files from URL rewriting
+  # Don't rewrite assetlinks.json
+  RewriteRule ^\.well-known/assetlinks\.json$ - [L]
+  # Don't rewrite apple-app-site-association
+  RewriteRule ^\.well-known/apple-app-site-association$ - [L]
+
+  # Block access to certain file types
+  RewriteRule .*\.(htaccess|htpasswd|ini|phps|fla|log|sh|env|htaccess|json|lock|php)$ - [F,NC]
+
+  # Security Headers
+  # Block Cross-Site Scripting attacks (if browser supports)
+  Header set X-XSS-Protection "1; mode=block"
+  # Prevent clickjacking by disallowing framing from other domains
+  Header always append X-Frame-Options SAMEORIGIN
+  # Enforce HTTPS and prevent downgrade attacks (consider proper configuration for your site)
+  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  # Restrict referrer information sent with outgoing requests
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  # Prevent browsers from MIME-sniffing content type
+  Header set X-Content-Type-Options "nosniff"
+</IfModule>

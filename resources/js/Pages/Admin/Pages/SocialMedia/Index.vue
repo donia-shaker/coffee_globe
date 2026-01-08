@@ -1,0 +1,108 @@
+<script setup>
+import { ref } from "vue";
+import { useSortTable } from "@/Composables/useSortTable";
+import DashboardLayout from "@/Layouts/DashboardLayout.vue";
+import { Link } from "@inertiajs/vue3";
+import DataTableData from "@/Components/DataTableData.vue";
+import TableStatus from "@/Components/TableStatus.vue";
+import ActiveAction from "@/Components/ActiveAction.vue";
+import EditAction from "@/Components/EditAction.vue";
+import { useModal } from "@/Composables/useModal";
+import FormModel from "@/Components/FormModel.vue";
+
+const { openModal } = useModal();
+
+// استيراد البيانات عبر الـ props
+const props = defineProps({
+    social_media_infos: Object,
+    langs: Object,
+});
+
+// استخدام الدالة العامة للترتيب
+const { sortColumn, sortDirection } = useSortTable("social_medias", {
+    sort: "id",
+    direction: "desc",
+    search: "",
+    perPage: 10,
+});
+</script>
+
+<template>
+    <DashboardLayout>
+        <DataTableData
+            :paginationData="social_media_infos"
+            tableName="social_media_infos"
+            tableAction="أضافة  حساب تواصل جديد"
+            :tableActionLink="route('social_media_infos.create')"
+            :tableLink="route('social_media_infos.index')"
+        >
+            <template v-slot:header>
+                <h4 class="fw-bold py-2 mb-3 fs-2">حسابات التواصل</h4>
+            </template>
+
+            <template v-slot:thead>
+                <tr>
+                    <th class="sortable" data-column="id"># ⬍</th>
+                    <th data-column="id">الايقونة</th>
+                    <th data-column="name">الاسم</th>
+                    <th data-column="url">الرابط</th>
+
+                    <th class="sortable" data-column="is_active">الحالة ⬍</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </template>
+
+            <template v-slot:tbody>
+                <tr
+                    v-for="social_media_info in social_media_infos.data"
+                    :key="social_media_info.id"
+                >
+                    <td>{{ social_media_info.id }}</td>
+                    <td>
+                        <i :class="social_media_info.icon"></i>
+                    </td>
+                    <td>{{ social_media_info.name }}</td>
+                    <td>{{ social_media_info.url }}</td>
+                    <td>
+                        <TableStatus :active="social_media_info.is_active" />
+                    </td>
+                    <td>
+                        <ActiveAction
+                            :active="social_media_info.is_active"
+                            @click="
+                                openModal(
+                                    route(
+                                        'social_media_infos.active',
+                                        social_media_info.id
+                                    ),
+                                    'danger',
+                                    social_media_info.id
+                                )
+                            "
+                        />
+                        <Link
+                            :href="
+                                route(
+                                    'social_media_infos.edit',
+                                    social_media_info.id
+                                )
+                            "
+                        >
+                            <EditAction />
+                        </Link>
+                    </td>
+                </tr>
+            </template>
+        </DataTableData>
+    </DashboardLayout>
+</template>
+
+<style scoped>
+.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+.sortable:hover {
+    background-color: #f8f9fa;
+}
+</style>

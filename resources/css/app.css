@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.layout-content-navbar .layout-menu {
+    z-index: 1000 !important;
+}
+.layout-overlay {
+    z-index: 999 !important;
+}
+.layout-menu-fixed body:not(.modal-open) .layout-content-navbar .layout-navbar{
+    z-index: 998 !important;
+
+}
+/* .ant-modal-root .ant-modal-wrap {
+    z-index: 999999; 
+} */

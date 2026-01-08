@@ -1,0 +1,260 @@
+<template>
+    <aside
+        id="layout-menu"
+        class="layout-menu menu-vertical menu bg-menu-theme"
+    >
+        <div class="app-brand demo">
+            <a href="" class="app-brand-link">
+                <span class="app-brand-logo demo">
+                    <img src="/images/logo.svg" width="180"  alt="" />
+                </span>
+            </a>
+            <a
+                href="javascript:void(0);"
+                class="layout-menu-toggle menu-link text-large ms-auto"
+            >
+                <i class="bx bx-chevron-left bx-sm align-middle"></i>
+            </a>
+        </div>
+
+        <div class="menu-inner-shadow"></div>
+
+        <ul class="menu-inner py-1">
+            <li
+                :class="{ active: route().current() === 'dashboard' }"
+                class="menu-item"
+            >
+                <Link :href="route('dashboard')" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div>لوحة التحكم</div>
+                </Link>
+            </li>
+
+            <!-- <li :class="{ active: route().current() === 'users.index' }" class="menu-item">
+                <Link :href="route('users.index')" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-user"></i>
+                    <div>المستخدمين</div>
+                </Link>
+            </li> -->
+            <li class="menu-item">
+                <div class="menu-link menu-toggle" @click="toggleMenu('users')">
+                    <i class="menu-icon tf-icons bx bx-user"></i>
+                    <div>المستخدمين</div>
+                </div>
+                <ul v-if="openMenus.includes('users')" class="list mx-3">
+                    <li
+                        :class="{ active: route().current() === 'users.index' }"
+                        class="menu-item"
+                    >
+                        <Link
+                            :href="route('users.index', { role: 'admin' })"
+                            class="menu-link {{ route().current() === 'users.index' ? 'active' : '' }}"
+                        >
+                            <i
+                                class="menu-icon tf-icons bx bxs-circle"
+                                style="font-size: 10px"
+                            >
+                            </i>
+                            <div>مديرين النظام</div>
+                        </Link>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- المنتجات (قائمة فرعية قابلة للفتح) -->
+            <li class="menu-item">
+                <div
+                    class="menu-link menu-toggle"
+                    @click="toggleMenu('products')"
+                >
+                    <i class="menu-icon tf-icons bx bx-copy"></i>
+                    <div>المنتجات</div>
+                </div>
+
+                <ul v-if="openMenus.includes('products')" class="list">
+                    <li
+                        :class="{
+                            active: route().current() === 'categories.index',
+                        }"
+                        class=""
+                    >
+                        <Link
+                            :href="route('categories.index')"
+                            class="menu-link"
+                        >
+                            <i
+                                class="menu-icon tf-icons bx bxs-circle"
+                                style="font-size: 10px"
+                            >
+                            </i>
+                            <div>التصنيفات</div>
+                        </Link>
+                    </li>
+                    <li
+                        :class="{
+                            active:
+                                route().current() === 'admin_products.index',
+                        }"
+                    >
+                        <Link
+                            :href="route('admin_products.index')"
+                            class="menu-link"
+                        >
+                            <i
+                                class="menu-icon tf-icons bx bxs-circle"
+                                style="font-size: 10px"
+                            >
+                            </i>
+                            <div>المنتجات</div>
+                        </Link>
+                    </li>
+                </ul>
+            </li>
+            <li
+                :class="{ active: route().current() === 'features.index' }"
+                class="menu-item"
+            >
+                <Link :href="route('features.index')" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div> المميزات</div>
+                </Link>
+            </li>
+            <li
+                :class="{ active: route().current() === 'services.index' }"
+                class="menu-item"
+            >
+                <Link :href="route('services.index')" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div> الخدمات</div>
+                </Link>
+            </li>
+            <li class="menu-item">
+                <div class="menu-link menu-toggle" @click="toggleMenu('pages')">
+                    <i class="menu-icon tf-icons bx bx-category"></i>
+                    <div>الصفحات</div>
+                </div>
+                <ul v-if="openMenus.includes('pages')" class="list mx-3">
+                    <li
+                        :class="{
+                            active: route().current() === 'sliders.index',
+                        }"
+                    >
+                        <Link :href="route('sliders.index')" class="menu-link">
+                            <i
+                                class="menu-icon tf-icons bx bxs-circle"
+                                style="font-size: 10px"
+                            >
+                            </i>
+                            <div>السلايدر</div>
+                        </Link>
+                    </li>
+                    <li
+                        :class="{
+                            active:
+                                route().current() === 'main_centers.index',
+                        }"
+                    >
+                        <Link
+                            :href="route('main_centers.index')"
+                            class="menu-link"
+                        >
+                            <i
+                                class="menu-icon tf-icons bx bxs-circle"
+                                style="font-size: 10px"
+                            >
+                            </i>
+                            <div> المركز الرئيسي</div>
+                        </Link>
+                    </li>
+                    <li
+                        :class="{
+                            active:
+                                route().current() === 'branches.index',
+                        }"
+                    >
+                        <Link
+                            :href="route('branches.index')"
+                            class="menu-link"
+                        >
+                            <i
+                                class="menu-icon tf-icons bx bxs-circle"
+                                style="font-size: 10px"
+                            >
+                            </i>
+                            <div> الفروع</div>
+                        </Link>
+                    </li>
+                    <li
+                        :class="{
+                            active:
+                                route().current() === 'about_page_infos.index',
+                        }"
+                    >
+                        <Link
+                            :href="route('about_page_infos.index')"
+                            class="menu-link"
+                        >
+                            <i
+                                class="menu-icon tf-icons bx bxs-circle"
+                                style="font-size: 10px"
+                            >
+                            </i>
+                            <div>من نحن</div>
+                        </Link>
+                    </li>
+                    <li
+                        :class="{
+                            active:
+                                route().current() === 'contact_us_infos.index',
+                        }"
+                    >
+                        <Link
+                            :href="route('contact_us_infos.index')"
+                            class="menu-link"
+                        >
+                            <i
+                                class="menu-icon tf-icons bx bxs-circle"
+                                style="font-size: 10px"
+                            >
+                            </i>
+                            <div>وسائل التواصل</div>
+                        </Link>
+                    </li>
+                    <li
+                        :class="{
+                            active: route().current() === 'sliders.index',
+                        }"
+                    >
+                        <Link
+                            :href="route('social_media_infos.index')"
+                            class="menu-link"
+                        >
+                            <i
+                                class="menu-icon tf-icons bx bxs-circle"
+                                style="font-size: 10px"
+                            >
+                            </i>
+                            <div>حسابات التواصل</div>
+                        </Link>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </aside>
+</template>
+
+<script setup>
+import { ref } from "vue";
+import { Link } from "@inertiajs/vue3";
+import FormModel from "./FormModel.vue";
+
+const openMenus = ref([]);
+
+const toggleMenu = (menu) => {
+    if (openMenus.value.includes(menu)) {
+        openMenus.value = openMenus.value.filter((item) => item !== menu);
+    } else {
+        openMenus.value.push(menu);
+    }
+};
+</script>
