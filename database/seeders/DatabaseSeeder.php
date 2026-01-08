@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call(WhyUsSeeder::class);
         $this->call(ClientReviewSeeder::class);
         $this->call(BlogSeeder::class);
+        $this->call(FQSeeder::class);
 
     }
 }

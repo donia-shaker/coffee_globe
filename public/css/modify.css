@@ -46,7 +46,7 @@ table.dataTable tfoot th {
 }
 
 .bg-menu-theme .menu-inner>.menu-item.active:before {
-    background: #342000;
+    background: #501810;
 }
 
 .dark-style .bg-menu-theme {
@@ -72,12 +72,12 @@ table.dataTable tfoot th {
 }
 
 .light-style .bg-menu-theme .menu-inner>.menu-item.active>.menu-link {
-    background-color: #342000!important;
+    background-color: #501810!important;
     color: black!important;
 }
 
 .light-style .bg-menu-theme .menu-inner>.menu-item.active:before {
-    background: #342000;
+    background: #501810;
 }
 
 .light-style .bg-menu-theme .menu-sub>.menu-item.active>.menu-link:not(.menu-toggle):before {
@@ -86,11 +86,11 @@ table.dataTable tfoot th {
 }
 
 .light-style .bg-menu-theme .menu-inner>.menu-item.open .menu-item.active>.menu-link:before {
-    box-shadow: 0 0 0 2px #342000 ;
+    box-shadow: 0 0 0 2px #501810 ;
 }
 
 .light-style .app-brand .layout-menu-toggle i {
-    color: #342000;
+    color: #501810;
 }
 
 .light-style .bg-menu-theme .menu-inner-shadow {
@@ -109,9 +109,9 @@ table.dataTable tfoot th {
 button[type="submit"],
 .card-header .create-new,
 .page-item.active .page-link {
-    background: #342000  !important;
-    border-color: #342000  !important;
-    box-shadow: 0 0.125rem 0.125rem 0 #342000 !important;
+    background: #501810  !important;
+    border-color: #501810  !important;
+    box-shadow: 0 0.125rem 0.125rem 0 #501810 !important;
     color: white;
 
 }
@@ -151,7 +151,7 @@ button[type="submit"]:hover,
 .light-style .bg-menu-theme .menu-link.active,
 .light-style .bg-menu-theme .menu-link:focus,
 .light-style .bg-menu-theme .menu-link:hover {
-    color: #342000  !important;
+    color: #501810  !important;
 }
 
 table {
