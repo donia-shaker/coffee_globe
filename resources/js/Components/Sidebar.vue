@@ -60,65 +60,6 @@
                     </li>
                 </ul>
             </li>
-
-            <!-- المنتجات (قائمة فرعية قابلة للفتح) -->
-            <li class="menu-item">
-                <div
-                    class="menu-link menu-toggle"
-                    @click="toggleMenu('products')"
-                >
-                    <i class="menu-icon tf-icons bx bx-copy"></i>
-                    <div>المنتجات</div>
-                </div>
-
-                <ul v-if="openMenus.includes('products')" class="list">
-                    <li
-                        :class="{
-                            active: route().current() === 'categories.index',
-                        }"
-                        class=""
-                    >
-                        <Link
-                            :href="route('categories.index')"
-                            class="menu-link"
-                        >
-                            <i
-                                class="menu-icon tf-icons bx bxs-circle"
-                                style="font-size: 10px"
-                            >
-                            </i>
-                            <div>التصنيفات</div>
-                        </Link>
-                    </li>
-                    <li
-                        :class="{
-                            active:
-                                route().current() === 'admin_products.index',
-                        }"
-                    >
-                        <Link
-                            :href="route('admin_products.index')"
-                            class="menu-link"
-                        >
-                            <i
-                                class="menu-icon tf-icons bx bxs-circle"
-                                style="font-size: 10px"
-                            >
-                            </i>
-                            <div>المنتجات</div>
-                        </Link>
-                    </li>
-                </ul>
-            </li>
-            <li
-                :class="{ active: route().current() === 'features.index' }"
-                class="menu-item"
-            >
-                <Link :href="route('features.index')" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                    <div> المميزات</div>
-                </Link>
-            </li>
             <li
                 :class="{ active: route().current() === 'services.index' }"
                 class="menu-item"
@@ -126,6 +67,15 @@
                 <Link :href="route('services.index')" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                     <div> الخدمات</div>
+                </Link>
+            </li>
+            <li
+                :class="{ active: route().current() === 'features.index' }"
+                class="menu-item"
+            >
+                <Link :href="route('service_companies.index')" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div> حدمات الشركات</div>
                 </Link>
             </li>
             <li class="menu-item">
