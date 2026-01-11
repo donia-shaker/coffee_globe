@@ -115,13 +115,13 @@ onMounted(() => {
                 class="flex justify-between items-start py-2 mx-auto px-4 md:mt-10 lg:mt-0 xl:px-4"
                 :class="mobileMenuOpen ? 'bg-background xl:bg-[unset]' : ''"
             >
-                <div class="mb-10 mx-10 xl:mx-20">
-                    <img src="/images/logo.png" alt="" class="w-[80px] mt-2 md:w-[100px]"  />
+                <div class="mb-10 mx-10 xl:mx-20 w-[80px] mt-2 md:w-[100px] relative">
+                    <img src="/images/logo.png" alt="" class="w-full h-full object-content-fit"  />
                 </div>
                 <!-- Desktop Menu -->
-                <div class="hidden xl:block">
+                <div class="hidden xl:block -scale-2">
                     <ul
-                        class="flex gap-3 font-bold text-main items-end mb-2 text-sm xl:text-base"
+                        class="flex gap-3 font-bold  text-main items-end mb-2 text-sm xl:text-base ltr:text-sm"
                     >
                         <li>
                             <Link href="/">
