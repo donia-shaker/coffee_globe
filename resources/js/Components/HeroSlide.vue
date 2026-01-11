@@ -95,12 +95,12 @@ const props = defineProps({
                     >
                         <!-- النص -->
                         <div
-                            class="w-full xl:w-[55%] flex flex-col items-center mt-14 xl:-mt-36 px-4 rtl:xl:pr-12 ltr:xl:pl-12"
+                            class="w-full xl:w-[55%] flex flex-col items-center mt-40 md:mt-60 xl:mt-0 px-4 rtl:xl:pr-12 ltr:xl:pl-12"
                         >
                             <div class="w-full xl:w-[90%]">
-                                <div class="mb-6 xl:mb-10 mx-10 xl:mx-20">
+                                <!-- <div class="mb-6 xl:mb-10 mx-10 xl:mx-20">
                                     <img src="/images/logo.png" alt="" class="w-[80px]  md:w-[100px]" />
-                                </div>
+                                </div> -->
                                 <h1
                                     class="text-2xl sm:text-4xl font-bold mb-6"
                                     style="line-height: 1.5"

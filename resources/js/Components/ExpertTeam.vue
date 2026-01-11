@@ -18,14 +18,27 @@ defineProps({
                     style="line-height: 1.8"
                 >
                     {{ $t("expert_team_desc") }}
-            </p>
+                </p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div
-                    class="text-main bg-background rounded-xl w-full p-6"
-                    v-for="expert  in experts"
+                    class="text-main bg-background rounded-3xl   p-6 w-full"
+                    v-for="expert in experts"
                 >
-                    <div class="text-center">
+                    <div class="w-full h-[250px] overflow-hidden rounded-3xl">
+                        <img
+                            :src="expert.media?.url ?? '/images/service.png'"
+                            alt=""
+                            class="w-full object-contain"
+                            :style="{
+                                transform:
+                                    $i18n.locale === 'en'
+                                        ? 'rotateY(180deg)'
+                                        : 'none',
+                            }"
+                        />
+                    </div>
+                    <div class="text-center mt-6">
                         <h3 class="font-bold text-lg md:text-xl">
                             {{ $tt(expert.name) }}
                         </h3>

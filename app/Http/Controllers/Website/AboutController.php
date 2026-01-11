@@ -17,8 +17,8 @@ class AboutController extends Controller
     {
 
         return Inertia::render('Website/About', [
-            'values' => Value::where('is_active', 1)->get(),
-            'experts' => Expert::where('is_active', 1)->get(),
+            'values' => Value::with('media')->where('is_active', 1)->get(),
+            'experts' => Expert::with('media')->where('is_active', 1)->get(),
             'contact_us_infos' => ContactUs::where('is_active', 1)->get(),
             'social_media_infos' => SocialMedia::where('is_active', 1)->get(),
             'about_page_data' => AboutPage::with('media')->get(),

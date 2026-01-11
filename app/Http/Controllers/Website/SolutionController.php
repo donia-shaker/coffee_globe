@@ -17,7 +17,7 @@ class SolutionController extends Controller
 
         return Inertia::render('Website/Solution', [
             'service_companies' => ServiceCompany::where('is_active', 1)->get(),
-            'why_uss' => WhyUs::where('is_active', 1)->get(),
+            'why_uss' => WhyUs::with('media')->where('is_active', 1)->get(),
             'contact_us_infos' => ContactUs::where('is_active', 1)->get(),
             'social_media_infos' => SocialMedia::where('is_active', 1)->get(),
 

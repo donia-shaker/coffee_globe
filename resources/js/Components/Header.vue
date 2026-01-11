@@ -105,8 +105,6 @@ onMounted(() => {
         document.documentElement.setAttribute("lang", "ar");
     }
 });
-
-
 </script>
 
 <template>
@@ -114,9 +112,12 @@ onMounted(() => {
     <div class="absolute w-full my-2 mt-6 md:mt-10 z-50">
         <div class="container">
             <nav
-                class="flex justify-end items-center py-2 mx-auto px-4 xl:px-0"
+                class="flex justify-between items-start py-2 mx-auto px-4 md:mt-10 lg:mt-0 xl:px-4"
                 :class="mobileMenuOpen ? 'bg-background xl:bg-[unset]' : ''"
             >
+                <div class="mb-10 mx-10 xl:mx-20">
+                    <img src="/images/logo.png" alt="" class="w-[80px] mt-2 md:w-[100px]"  />
+                </div>
                 <!-- Desktop Menu -->
                 <div class="hidden xl:block">
                     <ul

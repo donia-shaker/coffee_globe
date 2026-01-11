@@ -31,7 +31,7 @@ class IndexController extends Controller
             'services' => Service::with('media')->where('is_active', 1)->get(),
             'client_reviews' => ClientReview::with('media')->get(),
             'fqs' => FQ::where('is_active', 1)->limit(3)->get(),
-            'blogs' => Blog::where('is_active', 1)->limit(5)->get(),
+            'blogs' => Blog::with('media')->where('is_active', 1)->limit(5)->get(),
             'contact_us_infos' => ContactUs::where('is_active', 1)->get(),
             'social_media_infos' => SocialMedia::where('is_active', 1)->get(),
 

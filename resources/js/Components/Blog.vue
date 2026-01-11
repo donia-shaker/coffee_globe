@@ -16,7 +16,7 @@ const formatDate = (dateString, locale = "ar") => {
 </script>
 <template>
     <div class="relative bg-bg_light dark:bg-bg_dark">
-        <div class="container py-[80px] pt-[140px]">
+        <div class="container py-[80px] pt-[250px]">
             <h3
                 class="text-2xl font-bold max-w-[900px]"
                 style="line-height: 1.7"
