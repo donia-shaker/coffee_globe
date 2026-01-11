@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContactUs;
+use App\Models\ServiceCompany;
 use App\Models\SocialMedia;
+use App\Models\WhyUs;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,6 +16,8 @@ class SolutionController extends Controller
     {
 
         return Inertia::render('Website/Solution', [
+            'service_companies' => ServiceCompany::where('is_active', 1)->get(),
+            'why_uss' => WhyUs::where('is_active', 1)->get(),
             'contact_us_infos' => ContactUs::where('is_active', 1)->get(),
             'social_media_infos' => SocialMedia::where('is_active', 1)->get(),
 

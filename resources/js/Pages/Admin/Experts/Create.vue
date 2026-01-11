@@ -17,6 +17,7 @@ const formFields = props.langs.reduce(
         return acc;
     },
     {
+        image: null,
         is_active: "1",
     }
 );
@@ -25,6 +26,7 @@ const form = useForm(formFields);
 
 const submit = () => {
     form.post(route("experts.store"), {
+        onFinish: () => form.reset("image"), // Only reset the image field
     });
 };
 </script>
@@ -32,7 +34,7 @@ const submit = () => {
 <template>
     <DashboardLayout>
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-2 mb-3 fs-2">اضافة   خبرائنا</h4>
+            <h4 class="fw-bold py-2 mb-3 fs-2">اضافة خبرائنا</h4>
 
             <!-- Multi Column with Form Separator -->
             <div class="card mb-4">
@@ -50,17 +52,25 @@ const submit = () => {
                                 "
                                 :message="form.errors[`name_${lang.code}`]"
                             />
-                            
-                             <Textarea
+
+                            <Textarea
                                 v-for="lang in langs"
                                 :key="lang.code"
                                 :label="` النص ${lang.code}`"
                                 :model-value="form[`text${lang.code}`]"
                                 @update:model-value="
-                                    (val) =>
-                                        (form[`text${lang.code}`] = val)
+                                    (val) => (form[`text${lang.code}`] = val)
                                 "
                                 :message="form.errors[`text${lang.code}`]"
+                            />
+
+                            <FileInput
+                                v-model="form.image"
+                                fieldName="image"
+                                label="الصورة  "
+                                previewId="imagePreview"
+                                :src="form.imagePreview"
+                                :message="form.errors.image"
                             />
 
                             <Active

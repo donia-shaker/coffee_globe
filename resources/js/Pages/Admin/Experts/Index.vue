@@ -37,12 +37,13 @@ const { sortColumn, sortDirection } = useSortTable("experts", {
             :tableLink="route('experts.index')"
         >
             <template v-slot:header>
-                <h4 class="fw-bold py-2 mb-3 fs-2">  خبرائنا </h4>
+                <h4 class="fw-bold py-2 mb-3 fs-2">خبرائنا</h4>
             </template>
 
             <template v-slot:thead>
                 <tr>
                     <th class="sortable" data-column="id"># ⬍</th>
+                    <th data-column="id">الصورة</th>
                     <th
                         v-for="lang in langs"
                         :key="lang.code"
@@ -59,15 +60,34 @@ const { sortColumn, sortDirection } = useSortTable("experts", {
             <template v-slot:tbody>
                 <tr v-for="expert in experts.data" :key="expert.id">
                     <td>{{ expert.id }}</td>
-                    <td>{{ expert.name['ar'] }}</td>
+                    <td>
+                        <img
+                            v-if="expert.media"
+                            class="img-fluid rounded"
+                            :src="expert.media.thumb_url"
+                            height="60"
+                            width="60"
+                        />
+                        <p v-else>لايوجد صورة</p>
+                    </td>
+                    <td>{{ expert.name["ar"] }}</td>
 
-                    <td>{{ expert.name['en'] }}</td>
+                    <td>{{ expert.name["en"] }}</td>
 
                     <td>
                         <TableStatus :active="expert.is_active" />
                     </td>
                     <td>
-                        <ActiveAction :active="expert.is_active" @click="openModal(route('experts.active', expert.id), 'danger', expert.id)"/>
+                        <ActiveAction
+                            :active="expert.is_active"
+                            @click="
+                                openModal(
+                                    route('experts.active', expert.id),
+                                    'danger',
+                                    expert.id
+                                )
+                            "
+                        />
                         <Link :href="route('experts.edit', expert.id)">
                             <EditAction />
                         </Link>
@@ -75,9 +95,7 @@ const { sortColumn, sortDirection } = useSortTable("experts", {
                 </tr>
             </template>
         </DataTableData>
-        
     </DashboardLayout>
-
 </template>
 
 <style scoped>

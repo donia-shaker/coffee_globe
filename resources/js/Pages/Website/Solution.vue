@@ -14,7 +14,8 @@ import PartnerService from "@/Components/PartnerService.vue";
 import Values from "@/Components/Values.vue";
 import WhyUs from "@/Components/WhyUs.vue";
 defineProps({
-    brands: Object,
+    service_companies: Object,
+    why_uss: Object,
     about_page_data: Object,
     contact_us_infos: Object,
     social_media_infos: Object,
@@ -26,8 +27,8 @@ defineProps({
 
     <Header :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Header>
     <PageTitle :title="$t('our_solutions')"></PageTitle>
-    <PartnerService :about_page_data="about_page_data"></PartnerService>
-    <WhyUs :about_page_data="about_page_data"></WhyUs>
+    <PartnerService :service_companies="service_companies"></PartnerService>
+    <WhyUs :why_uss="why_uss"></WhyUs>
     <OrderService :about_page_data="about_page_data"></OrderService>
 
 </div>  

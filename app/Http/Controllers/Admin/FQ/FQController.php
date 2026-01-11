@@ -79,9 +79,9 @@ class FQController extends Controller
                 'is_active' => $request->is_active,
             ]);
 
-            return to_route('fqs.index')->with('success', 'تمت الاضافة بنجاح');
+            return to_route('admin_fqs.index')->with('success', 'تمت الاضافة بنجاح');
         } catch (\Exception $e) {
-            return to_route('fqs.index')->with('error', 'Something went wrong :(');
+            return to_route('admin_fqs.index')->with('error', 'Something went wrong :(');
         }
     }
     public function edit($id)
@@ -115,7 +115,7 @@ class FQController extends Controller
         ]);
 
 
-        return redirect()->route('fqs.index')->with('success', 'تم تحديث الخدمة بنجاح!');
+        return redirect()->route('admin_fqs.index')->with('success', 'تم تحديث الخدمة بنجاح!');
     }
 
     public function active($id)

@@ -10,6 +10,9 @@ import HomeBlogs from "@/Components/HomeBlogs.vue";
 defineProps({
     sliders: Object,
     contact_us_infos: Object,
+    client_reviews: Object,
+    fqs: Object,
+    blogs: Object,
     about_page_data: Object,
     social_media_infos: Object,
     services: Object,
@@ -24,12 +27,10 @@ defineProps({
         ></Header>
         <HeroSlide id="home" :sliders="sliders"></HeroSlide>
         <Services :services="services"></Services>
-        <CustomerReviews></CustomerReviews>
+        <CustomerReviews :client_reviews="client_reviews"></CustomerReviews>
         <CTA class="bg-fifth"></CTA>
-        <FQS></FQS>
-        <HomeBlogs></HomeBlogs>
-        <!-- <About id="about" :about_page_data="about_page_data"></About>
-        <Features class="bg-fifth" :features="features"></Features> -->
+        <FQS :fqs="fqs"></FQS>
+        <HomeBlogs :blogs="blogs"></HomeBlogs>
         <ContactForm
             :contact_us_infos="contact_us_infos"
             :social_media_infos="social_media_infos"

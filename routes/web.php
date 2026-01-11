@@ -70,7 +70,7 @@ Route::middleware(['auth', 'role:super_admin|admin'])->group(function () {
     });
     
     Route::controller(FQController::class)->group(function () {
-        Route::get('/fqs', 'index')->name('fqs.index');
+        Route::get('/admin_fqs', 'index')->name('admin_fqs.index');
         Route::get('/fqs/create', 'create')->name('fqs.create');
         Route::post('/fqs/store', 'store')->name('fqs.store');
         Route::get('/fqs/edit/{id}', 'edit')->name('fqs.edit');

@@ -29,6 +29,7 @@ class ExpertRequest extends FormRequest
             $rules["name_{$locale->code}"] = ['required', 'string', 'max:255'];
             $rules["text_{$locale->code}"] = ['required', 'string'];
         }
+        $rules['image'] = ['required_if:route,add', 'nullable', 'image', 'mimes:jpeg,png,jpg,gif'];
 
         return $rules;
     }

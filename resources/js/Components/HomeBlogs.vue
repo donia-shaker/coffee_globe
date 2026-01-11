@@ -8,7 +8,7 @@ import { Link } from "@inertiajs/vue3";
 import BlogCard from "./BlogCard.vue";
 
 defineProps({
-    // services: Object,
+    blogs: Object,
 });
 
 const modules = [Autoplay, Pagination, Navigation, Scrollbar];
@@ -45,44 +45,11 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
                         class="w-full max-w-full h-full relative"
                     >
                         <swiper-slide
-                            v-for="brand in 6"
-                            :key="brand"
+                            v-for="blog in blogs"
+                            :key="blog"
                             class=""
                         >
-                            <BlogCard />
-                            <!-- <div class="p-4 pb-2">
-                                <img
-                                    src="/images/service.png"
-                                    alt=""
-                                    class="w-full h-auto rounded-2xl object-contain"
-                                    :style="{
-                                        transform:
-                                            $i18n.locale === 'en'
-                                                ? 'rotateY(180deg)'
-                                                : 'none',
-                                    }"
-                                />
-                            </div>
-                            <div class="px-4 text-start mb-10">
-                                <h3
-                                    class="text-3xl text-main sm:text-xl font-bold mb-1"
-                                    style="line-height: 1.5"
-                                >
-                                    المحمصة
-                                </h3>
-                                <p
-                                    class="text-main text-sm text-secondary leading-[1.7]"
-                                >
-                                    تحميص احترافـــــــــــي يبرز الخصائص الحسية
-                                    لكل نوع بن
-                                </p>
-                                <Link href="#">
-                                    <div class="text-primary flex items-end mt-2 font-bold"
-                                        >{{ $t("read_more") }}
-                                        <i class="fas fa-arrow-left mx-2"></i>
-                                    </div>
-                                </Link>
-                            </div> -->
+                            <BlogCard :blog="blog"/>
                         </swiper-slide></swiper
                     >
                 </div>

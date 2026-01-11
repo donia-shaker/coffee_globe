@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
+use App\Models\Blog;
 use App\Models\ContactUs;
 use App\Models\SocialMedia;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class BlogsController extends Controller
         return Inertia::render('Website/Blogs', [
             'contact_us_infos' => ContactUs::where('is_active', 1)->get(),
             'social_media_infos' => SocialMedia::where('is_active', 1)->get(),
+            'blogs' => Blog::with('media')->where('is_active', 1)->get(),
 
         ]);
     }
@@ -26,7 +28,7 @@ class BlogsController extends Controller
             
             'contact_us_infos' => ContactUs::where('is_active', 1)->get(),
             'social_media_infos' => SocialMedia::where('is_active', 1)->get(),
-            // 'blog' => NewItem::with('media')->where('is_active', 1)->find($id),
+            'blog' => Blog::with('media')->where('is_active', 1)->find($id),
 
         ]);
     }

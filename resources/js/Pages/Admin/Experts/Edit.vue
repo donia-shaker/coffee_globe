@@ -14,7 +14,9 @@ const props = defineProps({
 const expert = props.expert;
 
 const initialForm = {
-    is_active: expert.is_active ? "1" : "0",
+    image: "",
+    imagePreview: service.text?.url || "",
+    is_active: service.is_active ? "1" : "0",
     _method: "put",
 };
 
@@ -30,7 +32,9 @@ const form = useForm(initialForm);
 const submit = () => {
     form.post(route("experts.update", expert.id), {
         forceFormData: true,
-        onSuccess: () => {},
+        onSuccess: () => {
+            form.reset("image"); // مسح الصورة فقط بعد الإرسال
+        },
     });
 };
 </script>
@@ -38,7 +42,7 @@ const submit = () => {
 <template>
     <DashboardLayout>
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-2 mb-3 fs-2">تعديل   خبرائنا</h4>
+            <h4 class="fw-bold py-2 mb-3 fs-2">تعديل خبرائنا</h4>
 
             <div class="card mb-4">
                 <div class="card-body row">
@@ -63,6 +67,15 @@ const submit = () => {
                                     (val) => (form[`text${lang.code}`] = val)
                                 "
                                 :message="form.errors[`text${lang.code}`]"
+                            />
+
+                            <FileInput
+                                v-model="form.image"
+                                fieldName="image"
+                                label="الصورة"
+                                previewId="imagePreview"
+                                :src="form.imagePreview"
+                                :message="form.errors.image"
                             />
 
                             <Active

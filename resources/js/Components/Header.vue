@@ -149,7 +149,7 @@ onMounted(() => {
                             <Link href="/solution">
                                 <Button
                                     :type="
-                                        activeTab === '#our_solutions'
+                                        activeTab === '/our_solutions'
                                             ? 'primary'
                                             : 'secondary'
                                     "

@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import SectionTitle from "./SectionTitle.vue";
-
 defineProps({
-    features: Object,
+    why_uss: Object,
 });
 </script>
 
@@ -26,19 +24,30 @@ defineProps({
                     class="text-3xl text-background sm:text-4xl font-bold mb-10"
                     style="line-height: 1.5"
                 >
-                    {{ $t("latest_news") }}
+                    {{ $t("why_coffee_globe") }}
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-3  gap-10"
+                >
                     <div
-                        class="text-main  bg-background_two flex items-center gap-4 rounded-xl w-full p-2"
-                        v-for="feature in 4"
+                        class="text-main bg-background_two flex items-center gap-4 rounded-xl w-full p-2"
+                        v-for="why_us in why_uss"
                     >
-                    <div class="h-[120px] w-[160px] bg-background rounded-xl flex justify-center items-center">
-                        <img src="/images/icon_1.svg" alt="">
-                    </div>
+                        <div
+                            class="h-[120px] w-[160px] bg-background rounded-xl flex justify-center items-center"
+                        >
+                            <img
+                                :src="why_us.media?.url ?? '/images/icon_1.svg'"
+                                :alt="$tt(why_us.name)"
+                            />
+                        </div>
                         <div class="text-start">
-                            <h3 class="font-bold text-lg md:text-xl">الجودة</h3>
-                            <p class="text-sm" style="line-height: 1.5;">التزام صارم بأعلى معايير الجودة في كل مرحلة</p>
+                            <h3 class="font-bold text-lg md:text-xl">
+                                {{ $tt(why_us.name) }}
+                            </h3>
+                            <p class="text-sm" style="line-height: 1.5">
+                                {{ $tt(why_us.text) }}
+                            </p>
                         </div>
                     </div>
                 </div>

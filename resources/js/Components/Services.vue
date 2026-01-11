@@ -66,8 +66,8 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
                         class="w-full max-w-full h-full relative"
                     >
                         <swiper-slide
-                            v-for="brand in 6"
-                            :key="brand"
+                            v-for="service in services"
+                            :key="service"
                             class="relative h-[360px] md:h-[300px]"
                         >
                             <img
@@ -83,8 +83,11 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
                             <div class="absolute w-full h-full top-0">
                                 <div class="p-4 pb-2">
                                     <img
-                                        src="/images/service.png"
-                                        alt=""
+                                        :src="
+                                            service.media?.url ??
+                                            '/images/service.png'
+                                        "
+                                        :alt="$tt(service.name) "
                                         class="w-full h-auto rounded-xl object-contain"
                                         :style="{
                                             transform:
@@ -99,13 +102,12 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
                                         class="text-3xl text-main sm:text-xl font-bold mb-1"
                                         style="line-height: 1.5"
                                     >
-                                        المحمصة
+                                        {{ $tt(service.name) }}
                                     </h3>
                                     <p
                                         class="text-main text-sm text-secondary leading-[1.7]"
                                     >
-                                        تحميص احترافـــــــــــي يبرز الخصائص
-                                        الحسية لكل نوع بن
+                                        {{ $tt(service.text) }}
                                     </p>
                                 </div>
                             </div>

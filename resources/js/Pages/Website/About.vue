@@ -11,7 +11,8 @@ import Join from "@/Components/Join.vue";
 import PageTitle from "@/Components/PageTitle.vue";
 import Values from "@/Components/Values.vue";
 defineProps({
-    brands: Object,
+    values: Object,
+    experts: Object,
     about_page_data: Object,
     contact_us_infos: Object,
     social_media_infos: Object,
@@ -24,8 +25,8 @@ defineProps({
     <Header :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Header>
     <PageTitle :title="$t('about')"></PageTitle>
     <About :about_page_data="about_page_data"></About>
-    <Values :about_page_data="about_page_data"></Values>
-    <ExpertTeam :about_page_data="about_page_data"></ExpertTeam>
+    <Values :values="values"></Values>
+    <ExpertTeam :experts="experts"></ExpertTeam>
     <Join :about_page_data="about_page_data"></Join>
 </div>  
     <!-- <Footer :sections="sections" :brands="brands" :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Footer> -->

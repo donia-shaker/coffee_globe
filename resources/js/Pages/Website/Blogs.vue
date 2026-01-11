@@ -17,6 +17,7 @@ import WhyUs from "@/Components/WhyUs.vue";
 defineProps({
     contact_us_infos: Object,
     social_media_infos: Object,
+    blogs: Object,
 });
 </script>
 
@@ -25,7 +26,7 @@ defineProps({
 
     <Header :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Header>
     <PageTitle :title="$t('blogs')"></PageTitle>
-    <Blogs></Blogs>
+    <Blogs :blogs="blogs"></Blogs>
 
 </div>  
     <!-- <Footer :sections="sections" :brands="brands" :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Footer> -->

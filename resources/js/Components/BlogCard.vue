@@ -2,15 +2,15 @@
 import { Link } from "@inertiajs/vue3";
 
 defineProps({
-    // news: Object,
+    blog: Object,
 });
 </script>
 <template>
     <div class="relative border border-primary rounded-3xl">
         <div class="p-4 pb-2">
             <img
-                src="/images/service.png"
-                alt=""
+                :src="blog.media?.url ?? '/images/service.png'"
+                :alt="$tt(blog.name)"
                 class="w-full h-auto rounded-2xl object-contain"
                 :style="{
                     transform:
@@ -20,15 +20,15 @@ defineProps({
         </div>
         <div class="px-4 text-start mb-10">
             <h3
-                class="text-3xl text-main sm:text-xl font-bold mb-1"
+                class="text-3xl text-main sm:text-xl font-bold mb-3 mt-1"
                 style="line-height: 1.5"
             >
-                المحمصة
+                {{ $tt(blog.name) }}
             </h3>
             <p class="text-main text-sm text-secondary leading-[1.7]">
-                تحميص احترافـــــــــــي يبرز الخصائص الحسية لكل نوع بن
+                {{$tt(blog.text).slice(0, 120) + "..." }}
             </p>
-            <Link href="#">
+            <Link :href="'blog/'+blog.id">
                 <div class="text-primary flex items-end mt-2 font-bold">
                     {{ $t("read_more") }}
                     <i class="fas fa-arrow-left mx-2"></i>

@@ -1,27 +1,31 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
-const faqs = ref([
-    {
-        question: "كيف يمكنني إنشاء حساب؟",
-        answer: "يمكنك إنشاء حساب بسهولة من خلال صفحة التسجيل وإدخال بياناتك.",
-        open: true,
+const props = defineProps({
+    fqs: {
+        type: Array,
+        required: true,
     },
-    {
-        question: "هل الخدمة مجانية؟",
-        answer: "نعم، يوجد خطة مجانية بالإضافة إلى خطط مدفوعة بمميزات إضافية.",
-        open: false,
+});
+
+// state محلي قابل للتعديل
+const faqs = ref([]);
+
+// نسخ البيانات من props وإضافة open
+watch(
+    () => props.fqs,
+    (newFaqs) => {
+        faqs.value = newFaqs.map((faq, index) => ({
+            ...faq,
+            open: index === 0, // أول عنصر مفتوح (يمكن تغييره)
+        }));
     },
-    {
-        question: "كيف أتواصل مع الدعم الفني؟",
-        answer: "يمكنك التواصل معنا عبر صفحة اتصل بنا أو البريد الإلكتروني.",
-        open: false,
-    },
-]);
+    { immediate: true }
+);
 
 const toggle = (index) => {
     faqs.value.forEach((faq, i) => {
-        faq.open = i === index ? !faq.open : false; // واحد فقط مفتوح
+        faq.open = i === index ? !faq.open : false;
     });
 };
 </script>
@@ -37,7 +41,7 @@ const toggle = (index) => {
                 @click="toggle(index)"
                 class="w-full flex justify-between items-center p-5 text-right font-medium bg-background_two transition"
             >
-                <span class="text-main font-bold">{{ faq.question }}</span>
+                <span class="text-main font-bold">{{ $tt(faq.name) }}</span>
 
                 <img
                     src="/images/polygon.svg"
@@ -61,7 +65,7 @@ const toggle = (index) => {
                     v-if="faq.open"
                     class="px-5 py-5 text-main text-start leading-relaxed"
                 >
-                    {{ faq.answer }}
+                    {{ $tt(faq.text) }}
                 </div>
             </transition>
         </div>

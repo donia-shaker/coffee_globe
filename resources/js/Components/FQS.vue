@@ -1,6 +1,10 @@
 <script setup>
 import Button from "./Button.vue";
 import FQsData from "./FQsData.vue";
+
+defineProps({
+    fqs: Object,
+});
 </script>
 
 <template>
@@ -12,9 +16,9 @@ import FQsData from "./FQsData.vue";
             >
                 {{ $t("latest_news") }}
             </h2>
-            <FQsData/>
+            <FQsData :fqs="fqs"/>
 
-            <a href="/#contact" class="flex justify-center mt-10">
+            <a href="/fqs" class="flex justify-center mt-10">
                 <Button type="primary" text="">
                     {{ $t("explore") }}
                     <i class="fas fa-arrow-left mx-2"></i>
