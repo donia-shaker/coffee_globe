@@ -7,7 +7,7 @@ return [
 
     'serverPath' => base_path('server_storage/media'),
 
-    'useStorage' => env('MEDIA_uSE_STORAGE', false),
+    'useStorage' => env('MEDIA_USE_STORAGE', false),
 
     'useServerStorage' => env('MEDIA_USE_SERVER_STORAGE', true),
 
