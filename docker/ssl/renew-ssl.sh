@@ -4,7 +4,7 @@ set -e
 
 DOMAIN="${SSL_DOMAIN:-coffeeglobe.sa}"
 NGINX_CONTAINER="coffee_globe_nginx"
-SSL_DIR="/etc/letsencrypt/live/${DOMAIN}"
+SSL_DIR="/etc/letsencrypt/live/coffeeglobe.sa"
 
 if ! docker ps | grep -q "${NGINX_CONTAINER}"; then
     echo "Nginx container is not running"

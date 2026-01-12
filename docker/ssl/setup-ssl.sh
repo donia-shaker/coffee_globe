@@ -32,8 +32,8 @@ if [ -f "docker/nginx/ssl/fullchain.pem" ] && [ -f "docker/nginx/ssl/privkey.pem
                 if [ $DAYS_UNTIL_EXPIRY -lt 30 ]; then
                     echo "Certificate expires in $DAYS_UNTIL_EXPIRY days. Renewing..."
                     docker exec $NGINX_CONTAINER certbot renew --quiet --no-self-upgrade
-                    docker cp $NGINX_CONTAINER:/etc/letsencrypt/live/$DOMAIN/fullchain.pem docker/nginx/ssl/fullchain.pem 2>/dev/null || true
-                    docker cp $NGINX_CONTAINER:/etc/letsencrypt/live/$DOMAIN/privkey.pem docker/nginx/ssl/privkey.pem 2>/dev/null || true
+                    docker cp $NGINX_CONTAINER:/etc/letsencrypt/live/coffeeglobe.sa/fullchain.pem docker/nginx/ssl/fullchain.pem 2>/dev/null || true
+                    docker cp $NGINX_CONTAINER:/etc/letsencrypt/live/coffeeglobe.sa/privkey.pem docker/nginx/ssl/privkey.pem 2>/dev/null || true
                     docker exec $NGINX_CONTAINER nginx -s reload 2>/dev/null || true
                     echo "SSL certificate renewed successfully"
                 else
@@ -53,12 +53,14 @@ else
         --agree-tos \
         --no-eff-email \
         --force-renewal \
-        -d $DOMAIN \
-        -d www.$DOMAIN 2>&1
+        -d coffeeglobe.sa \
+        -d www.coffeeglobe.sa \
+        -d coffeeglobe.com.sa \
+        -d www.coffeeglobe.com.sa 2>&1
     
     if [ $? -eq 0 ]; then
-        docker cp $NGINX_CONTAINER:/etc/letsencrypt/live/$DOMAIN/fullchain.pem docker/nginx/ssl/fullchain.pem 2>/dev/null || true
-        docker cp $NGINX_CONTAINER:/etc/letsencrypt/live/$DOMAIN/privkey.pem docker/nginx/ssl/privkey.pem 2>/dev/null || true
+        docker cp $NGINX_CONTAINER:/etc/letsencrypt/live/coffeeglobe.sa/fullchain.pem docker/nginx/ssl/fullchain.pem 2>/dev/null || true
+        docker cp $NGINX_CONTAINER:/etc/letsencrypt/live/coffeeglobe.sa/privkey.pem docker/nginx/ssl/privkey.pem 2>/dev/null || true
         docker exec $NGINX_CONTAINER nginx -s reload 2>/dev/null || true
         echo "SSL certificates obtained and configured successfully"
         echo "Automatic renewal is configured via cron job inside nginx container (runs daily at 3 AM)"
