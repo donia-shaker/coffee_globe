@@ -17,15 +17,13 @@ if [ "$(id -u)" = "0" ]; then
     exec gosu www-data "$0" "$@"
 fi
 
-
-php artisan migrate --force
-
-php artisan db:seed --force
-
+# Create storage link if it doesn't exist
 php artisan storage:link || true
 
+# Cache configuration (optional, can be run manually)
 php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
 
+# Start PHP-FPM
 exec php-fpm

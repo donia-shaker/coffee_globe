@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libssl-dev \
     libmagickwand-dev \
+    libfcgi-bin \
     git \
     unzip \
     curl \
@@ -67,8 +68,10 @@ COPY docker/php/php.ini /usr/local/etc/php/conf.d/custom.ini
 COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/custom.conf
 COPY docker/entrypoint.sh /docker-entrypoint.sh
+COPY docker/php/php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
 
-RUN chmod +x /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh \
+    && chmod +x /usr/local/bin/php-fpm-healthcheck
 
 EXPOSE 9000
 

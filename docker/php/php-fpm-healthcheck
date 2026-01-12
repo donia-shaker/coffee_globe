@@ -1,0 +1,11 @@
+#!/bin/sh
+# PHP-FPM health check script
+# Uses cgi-fcgi to check PHP-FPM ping endpoint
+
+response=$(SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000 2>/dev/null)
+
+if echo "$response" | grep -q "pong"; then
+    exit 0
+else
+    exit 1
+fi
