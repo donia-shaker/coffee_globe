@@ -14,7 +14,7 @@ if [ "$(id -u)" = "0" ]; then
         /var/www/html/server_storage \
         /var/log/php \
         /var/cache/nginx 2>/dev/null || true
-    exec su-exec www-data "$0" "$@"
+    exec gosu www-data "$0" "$@"
 fi
 
 echo "Waiting for MySQL to be ready..."
