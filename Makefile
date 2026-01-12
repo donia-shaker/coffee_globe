@@ -120,10 +120,12 @@ ssl-setup:
 	@./docker/ssl/setup-ssl.sh
 
 ssl-renew:
-	@docker exec $(NGINX_CONTAINER) certbot renew
-	@docker cp $(NGINX_CONTAINER):/etc/letsencrypt/live/$(DOMAIN)/fullchain.pem docker/nginx/ssl/fullchain.pem
-	@docker cp $(NGINX_CONTAINER):/etc/letsencrypt/live/$(DOMAIN)/privkey.pem docker/nginx/ssl/privkey.pem
-	@docker exec $(NGINX_CONTAINER) nginx -s reload
+	@chmod +x docker/ssl/renew-ssl.sh
+	@./docker/ssl/renew-ssl.sh
+
+ssl-check:
+	@echo "Checking SSL certificate status..."
+	@docker exec $(NGINX_CONTAINER) certbot certificates || echo "No certificates found"
 
 backup:
 	@mkdir -p backups

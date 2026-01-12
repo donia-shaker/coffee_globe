@@ -1,11 +1,18 @@
 #!/bin/bash
 
+set -e
+
 DOMAIN="${SSL_DOMAIN:-coffeeglobe.sa}"
 EMAIL="${SSL_EMAIL:-admin@coffeeglobe.sa}"
 NGINX_CONTAINER="coffee_globe_nginx"
 
 if [ ! -d "docker/nginx/ssl" ]; then
     mkdir -p docker/nginx/ssl
+fi
+
+if ! docker ps | grep -q "${NGINX_CONTAINER}"; then
+    echo "Nginx container is not running. Please start containers first: make up"
+    exit 1
 fi
 
 if [ -f "docker/nginx/ssl/fullchain.pem" ] && [ -f "docker/nginx/ssl/privkey.pem" ]; then
@@ -31,6 +38,7 @@ if [ -f "docker/nginx/ssl/fullchain.pem" ] && [ -f "docker/nginx/ssl/privkey.pem
                     echo "SSL certificate renewed successfully"
                 else
                     echo "Certificate is valid for $DAYS_UNTIL_EXPIRY more days"
+                    echo "Automatic renewal is configured via cron job inside nginx container"
                 fi
             fi
         fi
@@ -53,6 +61,7 @@ else
         docker cp $NGINX_CONTAINER:/etc/letsencrypt/live/$DOMAIN/privkey.pem docker/nginx/ssl/privkey.pem 2>/dev/null || true
         docker exec $NGINX_CONTAINER nginx -s reload 2>/dev/null || true
         echo "SSL certificates obtained and configured successfully"
+        echo "Automatic renewal is configured via cron job inside nginx container (runs daily at 3 AM)"
     else
         echo "Failed to obtain SSL certificates. Please check domain DNS settings."
         exit 1

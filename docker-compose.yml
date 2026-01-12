@@ -19,6 +19,9 @@ services:
       - ./public:/var/www/html/public:ro
       - ./server_storage:/var/www/html/server_storage:ro
       - ./server_storage/media:/var/www/html/server_storage/media:ro
+      - letsencrypt:/etc/letsencrypt:rw
+      - letsencrypt-archive:/var/lib/letsencrypt:rw
+      - ./docker/ssl/certbot-renewal.sh:/etc/letsencrypt/renewal-hooks/deploy/certbot-renewal.sh:ro
     depends_on:
       php:
         condition: service_healthy
@@ -121,6 +124,10 @@ volumes:
   mysql_logs:
     driver: local
   redis_logs:
+    driver: local
+  letsencrypt:
+    driver: local
+  letsencrypt-archive:
     driver: local
 
 networks:
