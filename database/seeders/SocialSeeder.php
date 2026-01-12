@@ -13,28 +13,36 @@ class SocialSeeder extends Seeder
      */
     public function run(): void
     {
-        SocialMedia::create([
-            'name' =>  ' واتساب',
-            'url' => '#',
-            'icon' => 'fab fa-whatsapp'
-        ]);
+        if (!SocialMedia::where('icon', 'fab fa-whatsapp')->exists()) {
+            SocialMedia::create([
+                'name' =>  ' واتساب',
+                'url' => '#',
+                'icon' => 'fab fa-whatsapp'
+            ]);
+        }
 
-        SocialMedia::create([
-            'name' => ' youtube',
-            'url' => '#',
-            'icon' => 'fab fa-youtube'
-        ]);
+        if (!SocialMedia::where('icon', 'fab fa-youtube')->exists()) {
+            SocialMedia::create([
+                'name' => ' youtube',
+                'url' => '#',
+                'icon' => 'fab fa-youtube'
+            ]);
+        }
 
-        SocialMedia::create([
-            'name' => ' facebook',
-            'url' => '#',
-            'icon' => 'fab fa-facebook-f'
-        ]);
+        if (!SocialMedia::where('icon', 'fab fa-facebook-f')->exists()) {
+            SocialMedia::create([
+                'name' => ' facebook',
+                'url' => '#',
+                'icon' => 'fab fa-facebook-f'
+            ]);
+        }
 
-         SocialMedia::create([
-            'name' =>  'instagram',
-            'url' => '#',
-            'icon' => 'fab fa-instagram'
-        ]);
+        if (!SocialMedia::where('icon', 'fab fa-instagram')->exists()) {
+            SocialMedia::create([
+                'name' =>  'instagram',
+                'url' => '#',
+                'icon' => 'fab fa-instagram'
+            ]);
+        }
     }
 }

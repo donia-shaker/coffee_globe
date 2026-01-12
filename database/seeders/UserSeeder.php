@@ -14,13 +14,14 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => 'super_admin@gmail.com',
-            'phone' => '7777777777',
-            'password' => Hash::make('123123'),
-        ]);
-        $user->assignRole('super_admin');
-
+        if (!User::where('email', 'super_admin@gmail.com')->exists()) {
+            $user = User::factory()->create([
+                'name' => 'Super Admin',
+                'email' => 'super_admin@gmail.com',
+                'phone' => '7777777777',
+                'password' => Hash::make('123123'),
+            ]);
+            $user->assignRole('super_admin');
+        }
     }
 }

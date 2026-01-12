@@ -8,25 +8,26 @@ use Illuminate\Database\Seeder;
 
 class LangSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        Lang::create([
-            'name' => [
-                'en' => 'English',
-                'ar' => 'الإنجليزية'
-            ],
-            'code' => 'en'
-        ]);
-        Lang::create([
-            'name' => [
-                'en' => 'Arabic',
-                'ar' => 'العربية'
-            ],
-            'code' => 'ar'
-        ]);
+        if (!Lang::where('code', 'en')->exists()) {
+            Lang::create([
+                'name' => [
+                    'en' => 'English',
+                    'ar' => 'الإنجليزية'
+                ],
+                'code' => 'en'
+            ]);
+        }
         
+        if (!Lang::where('code', 'ar')->exists()) {
+            Lang::create([
+                'name' => [
+                    'en' => 'Arabic',
+                    'ar' => 'العربية'
+                ],
+                'code' => 'ar'
+            ]);
+        }
     }
 }
