@@ -65,7 +65,8 @@ make ssl-setup
 
 ### إدارة SSL
 - `make ssl-setup` - إعداد شهادات SSL
-- `make ssl-renew` - تجديد شهادات SSL
+- `make ssl-renew` - تجديد شهادات SSL يدوياً
+- `make ssl-check` - فحص حالة شهادات SSL
 
 ### النسخ الاحتياطي والاستعادة
 - `make backup` - نسخ احتياطي لقاعدة البيانات والملفات
@@ -120,13 +121,42 @@ make ssl-setup
 
 ## شهادات SSL
 
-شهادات SSL يتم إدارتها عبر certbot وتخزن في `docker/nginx/ssl/`. سكربت الإعداد:
+شهادات SSL يتم إدارتها عبر certbot وتخزن في `docker/nginx/ssl/`. 
+
+### الإعداد الأولي
+سكربت الإعداد (`make ssl-setup`):
 - يتحقق من وجود الشهادات
 - يتحقق من انتهاء الصلاحية (يجدد إذا كانت أقل من 30 يوم)
 - يحصل على شهادات جديدة إذا لزم الأمر
 - يعدل nginx تلقائياً
 
-ملفات الشهادات يتم ربطها من المضيف إلى الحاوية للاستمرارية.
+### التجديد التلقائي
+التجديد التلقائي للشهادات يتم عبر:
+1. **Cron Job**: يعمل يومياً الساعة 3 صباحاً داخل حاوية Nginx
+   - يفحص الشهادات تلقائياً
+   - يجددها عند الحاجة (قبل 30 يوم من انتهاء الصلاحية)
+   - السجلات في `/var/log/cron/certbot-renew.log`
+
+2. **Renewal Hooks**: بعد كل تجديد تلقائي:
+   - يتم نسخ الشهادات المحدثة إلى `docker/nginx/ssl/`
+   - يتم إعادة تحميل Nginx تلقائياً
+   - يتم تسجيل العملية في السجلات
+
+### التجديد اليدوي
+يمكنك تجديد الشهادات يدوياً:
+```bash
+make ssl-renew
+```
+
+أو فحص حالة الشهادات:
+```bash
+make ssl-check
+```
+
+### التخزين
+- ملفات الشهادات يتم ربطها من المضيف إلى الحاوية للاستمرارية
+- شهادات Let's Encrypt محفوظة في Docker volumes (`letsencrypt` و `letsencrypt-archive`)
+- النسخ المحدثة تُحفظ في `docker/nginx/ssl/` على الخادم المضيف
 
 ## تحسينات الأداء
 
@@ -181,11 +211,29 @@ make logs
 # أو خدمة محددة
 docker logs coffee_globe_php
 docker logs coffee_globe_nginx
+# سجلات تجديد SSL
+docker exec coffee_globe_nginx cat /var/log/cron/certbot-renew.log
 ```
 
 ### التحقق من الحالة
 ```bash
 make status
+```
+
+### فحص شهادات SSL
+```bash
+make ssl-check
+# أو يدوياً
+docker exec coffee_globe_nginx certbot certificates
+```
+
+### مشاكل تجديد SSL
+إذا لم يتم تجديد الشهادات تلقائياً:
+```bash
+# فحص سجلات cron
+docker exec coffee_globe_nginx cat /var/log/cron/certbot-renew.log
+# تجديد يدوي
+make ssl-renew
 ```
 
 ### إعادة بناء كل شيء
