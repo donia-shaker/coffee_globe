@@ -161,3 +161,17 @@ rebuild:
 clean:
 	$(COMPOSE) down -v
 	docker system prune -f
+
+clean-mysql:
+	@echo "Stopping MySQL container..."
+	@$(COMPOSE) stop mysql || true
+	@echo "Removing MySQL volume..."
+	@docker volume rm coffee_globe_mysql_data 2>/dev/null || echo "Volume does not exist or already removed"
+	@echo "MySQL volume removed. Run 'make up' to recreate with fresh database."
+
+reset-mysql: clean-mysql
+	@echo "Starting MySQL with fresh database..."
+	@$(COMPOSE) up -d mysql
+	@echo "Waiting for MySQL to initialize..."
+	@sleep 15
+	@echo "MySQL initialized. Run 'make up' to start all services."
