@@ -1,194 +1,370 @@
-# Docker Production Setup - Coffee Globe
+# Coffee Globe - دليل الإعداد والتشغيل
 
-## Requirements
-- Docker 29.1.4+
-- Docker Compose v5.0.1+
-- Make (optional)
+## نظرة عامة
 
-## Quick Start
+Coffee Globe هو تطبيق Laravel مبني باستخدام Inertia.js و Vue.js. هذا الدليل يشرح كيفية إعداد وتشغيل التطبيق في بيئة الإنتاج باستخدام Docker.
 
-1. Configure environment variables in `.env`:
+## المتطلبات الأساسية
+
+قبل البدء، تأكد من تثبيت:
+- Docker 29.1.4 أو أحدث
+- Docker Compose v5.0.1 أو أحدث
+- Make (اختياري لكن موصى به)
+
+للتحقق من الإصدارات:
 ```bash
+docker --version
+docker compose version
+```
+
+## البدء السريع
+
+### الخطوة 1: إعداد ملف البيئة
+
+انسخ ملف `.env.example` إلى `.env`:
+```bash
+cp .env.example .env
+```
+
+عدل ملف `.env` وأضف القيم المطلوبة:
+```bash
+APP_NAME="Coffee Globe"
+APP_ENV=production
+APP_KEY=
+APP_DEBUG=false
+APP_URL=https://coffeeglobe.sa
+
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
 DB_DATABASE=coffee_globe
-DB_USERNAME=coffee_globe
-DB_PASSWORD=your_password
-DB_ROOT_PASSWORD=root_password
-
-APP_URL=https://coffeeglobe.sa
-APP_ENV=production
-APP_DEBUG=false
+DB_USERNAME=coffee_globe_user
+DB_PASSWORD=your_strong_password
+DB_ROOT_PASSWORD=your_root_password
 
 REDIS_HOST=redis
 REDIS_PORT=6379
 ```
 
-2. Build and start containers:
+### الخطوة 2: توليد مفتاح التطبيق
+
+```bash
+make shell-php
+php artisan key:generate
+exit
+```
+
+أو بدون Make:
+```bash
+docker compose exec php php artisan key:generate
+```
+
+### الخطوة 3: بناء وتشغيل الحاويات
+
 ```bash
 make build
 make up
 ```
 
-3. Setup SSL certificates:
+هذا الأمر سيقوم بـ:
+- بناء صور Docker لجميع الخدمات
+- تشغيل الحاويات في الخلفية
+- انتظار جاهزية الخدمات
+- تشغيل المجريشين تلقائياً
+- تحسين التطبيق للإنتاج
+
+### الخطوة 4: إعداد شهادات SSL
+
 ```bash
 make ssl-setup
 ```
 
-## Available Make Commands
+هذا الأمر يحتاج إلى:
+- أن يكون النطاق يشير إلى الخادم
+- فتح المنفذ 80 و 443
 
-### Basic Commands
-- `make build` - Build Docker images
-- `make up` - Start all containers
-- `make down` - Stop all containers
-- `make start` - Start stopped containers
-- `make stop` - Stop running containers
-- `make restart` - Restart all containers
-- `make ps` - Show container status
-- `make status` - Show detailed container status
-- `make logs` - Show logs from all containers
+## شرح الأوامر بالتفصيل
 
-### Shell Access
-- `make shell-php` - Open shell in PHP container
-- `make shell-nginx` - Open shell in Nginx container
-- `make shell-mysql` - Open shell in MySQL container
-- `make shell-redis` - Open shell in Redis container
+### أوامر البناء والتشغيل
 
-### Composer & Artisan
-- `make composer-install` - Install PHP dependencies
-- `make composer-update` - Update PHP dependencies
-- `make artisan-migrate` - Run database migrations
-- `make artisan-seed` - Run database seeders
-- `make artisan-cache` - Clear all caches
-- `make artisan-optimize` - Optimize Laravel for production
+#### `make build`
+يبني صور Docker من الصفر بدون استخدام الـ cache. استخدمه عند:
+- تغيير Dockerfile
+- تحديث التبعيات
+- تغيير إعدادات الحاويات
 
-### SSL Management
-- `make ssl-setup` - Setup SSL certificates
-- `make ssl-renew` - Renew SSL certificates
+#### `make up`
+يشغل جميع الحاويات ويقوم بـ:
+- انتظار 10 ثواني لبدء الخدمات
+- تشغيل المجريشين تلقائياً
+- تحسين التطبيق (config cache, route cache, view cache)
 
-### Backup & Restore
-- `make backup` - Backup database and files
-- `make restore DB_FILE=backups/database_YYYYMMDD_HHMMSS.sql STORAGE_FILE=backups/storage_YYYYMMDD_HHMMSS.tar.gz` - Restore from backup
+#### `make down`
+يوقف جميع الحاويات ويحذف الشبكات. لا يحذف البيانات المخزنة في volumes.
 
-### Maintenance
-- `make pull` - Pull latest images
-- `make rebuild` - Rebuild and restart containers
-- `make clean` - Remove containers and volumes
+#### `make start`
+يشغل الحاويات المتوقفة فقط. استخدمه بعد `make stop`.
 
-## File Storage
+#### `make stop`
+يوقف الحاويات بدون حذفها. البيانات تبقى محفوظة.
 
-Media files are stored in `server_storage/media` on the host server, not inside containers. This ensures:
-- Files persist across container restarts
-- Easy file management and backup
-- Direct server access to files
+#### `make restart`
+يعيد تشغيل جميع الحاويات. مفيد بعد تغيير إعدادات.
 
-All storage directories have proper permissions (775) set automatically:
-- `storage/` - Laravel storage
-- `server_storage/media/` - Media files
-- `bootstrap/cache/` - Cache files
-- Logs in volumes for easy access
+### أوامر المراقبة
 
-## Bind Mounts Configuration
+#### `make ps`
+يعرض قائمة سريعة بجميع الحاويات وحالتها.
 
-### Nginx Volumes
-- Application code: Read-only
-- Storage: Read-only (serves files)
-- Server storage: Read-only (serves media)
-- Logs: Read-write (for log files)
-- SSL certificates: Read-only
+#### `make status`
+يعرض تقرير مفصل يشمل:
+- حالة جميع الحاويات
+- حالة PHP-FPM
+- حالة Nginx
+- حالة MySQL
+- حالة Redis
 
-### PHP Volumes
-- Application code: Read-write
-- Storage directories: Read-write (for uploads, cache, logs)
-- Server storage: Read-write (for media uploads)
-- Configuration files: Read-only
-- Logs volume: Read-write
+#### `make logs`
+يعرض سجلات جميع الحاويات بشكل مباشر. للخروج اضغط Ctrl+C.
 
-### Database & Redis
-- Data volumes: Persistent storage
-- Log volumes: For log files
+### أوامر الوصول
 
-## Database Migrations
+#### `make shell-php`
+يفتح shell داخل حاوية PHP. استخدمه لـ:
+- تشغيل أوامر artisan
+- تثبيت packages جديدة
+- فحص الملفات
+- تصحيح الأخطاء
 
-Migrations run automatically on container startup. The entrypoint script:
-- Waits for MySQL to be ready
-- Runs migrations
-- Runs seeders (with duplicate checking)
-- Creates storage symlink
-- Caches configuration
+#### `make shell-nginx`
+يفتح shell داخل حاوية Nginx. مفيد لفحص إعدادات nginx.
 
-## SSL Certificates
+#### `make shell-mysql`
+يفتح shell داخل حاوية MySQL. استخدمه للوصول المباشر لقاعدة البيانات:
+```bash
+mysql -u coffee_globe_user -p coffee_globe
+```
 
-SSL certificates are managed via certbot and stored in `docker/nginx/ssl/`. The setup script:
-- Checks for existing certificates
-- Validates expiration (renews if < 30 days)
-- Obtains new certificates if needed
-- Automatically configures nginx
+#### `make shell-redis`
+يفتح shell داخل حاوية Redis. للوصول إلى Redis CLI:
+```bash
+redis-cli
+```
 
-Certificate files are mounted from host to container for persistence.
+### أوامر Composer
 
-## Performance Optimizations
+#### `make composer-install`
+يثبت جميع تبعيات PHP المطلوبة للإنتاج بدون dev dependencies.
 
-### Nginx
-- FastCGI caching enabled
-- Gzip compression
-- File caching
-- Optimized buffer sizes
-- HTTP/2 support
+#### `make composer-update`
+يحدث جميع تبعيات PHP إلى أحدث إصدار متوافق.
 
-### PHP-FPM
-- Dynamic process management (10-50 workers)
-- OPcache enabled
-- Increased memory limits
-- Optimized timeouts
+### أوامر Artisan
+
+#### `make artisan-migrate`
+يشغل جميع المجريشين الجديدة. يتم تشغيلها تلقائياً عند `make up` لكن يمكنك تشغيلها يدوياً.
+
+#### `make artisan-seed`
+يشغل جميع seeders. Seeders تتحقق من البيانات الموجودة قبل الإضافة.
+
+#### `make artisan-cache`
+يمسح جميع أنواع الـ cache:
+- config cache
+- route cache
+- view cache
+- application cache
+
+#### `make artisan-optimize`
+يحسن أداء التطبيق عبر:
+- تخزين config في cache
+- تخزين routes في cache
+- تخزين views في cache
+
+### أوامر SSL
+
+#### `make ssl-setup`
+يقوم بـ:
+- التحقق من وجود شهادات SSL
+- التحقق من انتهاء الصلاحية
+- الحصول على شهادات جديدة إذا لزم الأمر
+- إعادة تحميل nginx
+
+#### `make ssl-renew`
+يجدد شهادات SSL الموجودة. استخدمه يدوياً أو ضعه في cron job.
+
+### أوامر النسخ الاحتياطي
+
+#### `make backup`
+ينشئ نسخة احتياطية من:
+- قاعدة البيانات (جميع قواعد البيانات)
+- ملفات التخزين (storage و server_storage)
+
+النسخ الاحتياطية تُحفظ في مجلد `backups/` مع timestamp.
+
+#### `make restore`
+يستعيد من النسخ الاحتياطي:
+```bash
+make restore DB_FILE=backups/database_20240101_120000.sql STORAGE_FILE=backups/storage_20240101_120000.tar.gz
+```
+
+### أوامر الصيانة
+
+#### `make pull`
+يسحب أحدث صور Docker من Docker Hub. استخدمه قبل `make rebuild`.
+
+#### `make rebuild`
+يقوم بـ:
+- إيقاف الحاويات
+- إعادة بناء الصور من الصفر
+- تشغيل الحاويات
+- تشغيل المجريشين
+- تحسين التطبيق
+
+#### `make clean`
+يحذف جميع الحاويات والمجلدات والشبكات. احذر: هذا يحذف جميع البيانات.
+
+## هيكل المشروع
+
+```
+coffee_globe/
+├── app/                    # كود التطبيق
+├── config/                 # ملفات التكوين
+├── database/               # المجريشين والـ seeders
+├── docker/                  # ملفات Docker
+│   ├── nginx/              # إعدادات Nginx
+│   │   ├── conf.d/         # ملفات التكوين
+│   │   │   └── coffeeglobe.sa.conf
+│   │   └── nginx.conf      # الإعدادات الرئيسية
+│   ├── php/                # إعدادات PHP
+│   │   ├── php.ini
+│   │   ├── php-fpm.conf
+│   │   └── opcache.ini
+│   ├── mysql/              # إعدادات MySQL
+│   ├── ssl/                # سكربتات SSL
+│   └── entrypoint.sh       # سكربت بدء التشغيل
+├── public/                 # الملفات العامة
+├── resources/              # الموارد (views, js, css)
+├── routes/                 # ملفات المسارات
+├── server_storage/         # تخزين الملفات على الخادم
+│   └── media/             # ملفات الوسائط
+├── storage/                # تخزين Laravel
+├── Dockerfile              # صورة PHP
+├── docker-compose.yml      # تكوين Docker Compose
+└── Makefile                # أوامر Make
+```
+
+## إعدادات الحاويات
 
 ### MySQL
-- Optimized buffer pool
-- Query cache enabled
-- Connection pooling
+- اسم الخدمة: `mysql`
+- المنفذ: `3306`
+- البيانات: محفوظة في volume `mysql_data`
+- السجلات: في volume `mysql_logs`
 
-## Production Deployment
+### Redis
+- اسم الخدمة: `redis`
+- المنفذ: `6379`
+- البيانات: محفوظة في volume `redis_data`
+- السجلات: في volume `redis_logs`
 
-1. Ensure domain DNS points to server
-2. Set environment variables in `.env`
-3. Run `make build && make up`
-4. Run `make ssl-setup`
-5. Verify application at https://coffeeglobe.sa
-6. Monitor with `make status`
+### PHP
+- اسم الخدمة: `php`
+- يعمل على PHP-FPM
+- متصل بـ MySQL و Redis
+- جميع مجلدات التخزين قابلة للكتابة
 
-## Nginx Configuration
+### Nginx
+- اسم الخدمة: `nginx`
+- المنافذ: `80` و `443`
+- يخدم الملفات الثابتة
+- يمرر طلبات PHP إلى حاوية PHP
 
-The nginx configuration file is named `coffeeglobe.sa.conf` for easy identification and modification. It includes:
-- HTTP and HTTPS server blocks
-- FastCGI caching
-- Security headers
-- Optimized static file serving
-- Media and storage aliases
+## إدارة الملفات
 
-## Troubleshooting
+### رفع الملفات
+الملفات المرفوعة تُحفظ في `server_storage/media/` على الخادم المضيف. هذا يعني:
+- الملفات لا تُحذف عند إعادة تشغيل الحاويات
+- يمكنك الوصول للملفات مباشرة من الخادم
+- سهولة النسخ الاحتياطي
 
-### Permission Issues
-All permissions are set automatically in the Dockerfile and entrypoint script. If you encounter issues:
+### الصلاحيات
+جميع الصلاحيات يتم تعيينها تلقائياً:
+- `storage/`: 775
+- `bootstrap/cache/`: 775
+- `server_storage/`: 775
+
+## استكشاف الأخطاء
+
+### الحاويات لا تبدأ
+```bash
+make logs
+```
+افحص السجلات لمعرفة المشكلة.
+
+### مشاكل قاعدة البيانات
+```bash
+make shell-mysql
+mysql -u root -p
+```
+
+### مشاكل Redis
+```bash
+make shell-redis
+redis-cli ping
+```
+
+### مشاكل الصلاحيات
 ```bash
 make shell-php
 chmod -R 775 storage bootstrap/cache server_storage
+chown -R www-data:www-data storage bootstrap/cache server_storage
 ```
 
-### View Logs
+### إعادة بناء كاملة
 ```bash
-make logs
-# Or specific service
-docker logs coffee_globe_php
-docker logs coffee_globe_nginx
+make clean
+make build
+make up
 ```
 
-### Check Status
+## النشر للإنتاج
+
+### قبل النشر
+1. تأكد من أن DNS يشير إلى الخادم
+2. عدل جميع كلمات المرور في `.env`
+3. توليد `APP_KEY`
+4. إعداد SMTP للبريد الإلكتروني
+5. إعداد SSL
+
+### خطوات النشر
 ```bash
+git pull origin main
+make pull
+make rebuild
+make ssl-setup
 make status
 ```
 
-### Rebuild Everything
+### المراقبة
 ```bash
-make rebuild
+make status    # حالة الخدمات
+make logs      # السجلات
+```
+
+## الأمان
+
+- جميع كلمات المرور يجب أن تكون قوية (32+ حرف)
+- `APP_DEBUG=false` في الإنتاج
+- `SESSION_SECURE_COOKIE=true` للإنتاج
+- `SESSION_ENCRYPT=true` للإنتاج
+- استخدم HTTPS فقط في الإنتاج
+- راجع كلمات المرور كل 90 يوم
+
+## الدعم
+
+للمساعدة أو الإبلاغ عن مشاكل، راجع السجلات:
+```bash
+make logs
+docker logs coffee_globe_php
+docker logs coffee_globe_nginx
 ```
