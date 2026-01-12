@@ -56,6 +56,12 @@ services:
       - php_logs:/var/log/php:rw
     environment:
       - PHP_OPCACHE_ENABLE=1
+      - DB_HOST=${DB_HOST:-mysql}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_DATABASE=${DB_DATABASE:-coffee_globe}
+      - DB_USERNAME=${DB_USERNAME:-coffee_globe_user}
+      - DB_PASSWORD=${DB_PASSWORD:-password}
+      - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-root_password}
     depends_on:
       mysql:
         condition: service_healthy
