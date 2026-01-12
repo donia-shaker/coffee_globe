@@ -25,6 +25,16 @@ REDIS_HOST=redis
 REDIS_PORT=6379
 ```
 
+**ملاحظة مهمة**: إذا كانت كلمة المرور تحتوي على رمز `$`، ضعها بين علامات اقتباس:
+```bash
+DB_PASSWORD="K8#mP9\$vL2@nQ5&wR7!xT4*yU6^zA1"
+```
+أو استخدم `$$` بدلاً من `$`:
+```bash
+DB_PASSWORD=K8#mP9$$vL2@nQ5&wR7!xT4*yU6^zA1
+```
+هذا يمنع Docker Compose من تفسير `$` كمتغير بيئة وإظهار تحذيرات `WARN`.
+
 2. بناء وتشغيل الحاويات:
 ```bash
 make build
