@@ -16,14 +16,10 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libcurl4-openssl-dev \
     libssl-dev \
-    libpq-dev \
     libmagickwand-dev \
-    default-mysql-client \
     git \
     unzip \
     curl \
-    wget \
-    gnupg \
     ca-certificates \
     gosu \
     && rm -rf /var/lib/apt/lists/*
@@ -40,7 +36,6 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     opcache \
     pdo \
     pdo_mysql \
-    pdo_pgsql \
     soap \
     sockets
 
@@ -68,20 +63,12 @@ RUN mkdir -p /var/www/html \
 
 WORKDIR /var/www/html
 
-COPY --chown=www-data:www-data . /var/www/html
-
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist || true
-
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/custom.ini
 COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/custom.conf
 COPY docker/entrypoint.sh /docker-entrypoint.sh
 
-RUN chmod +x /docker-entrypoint.sh \
-    && chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage \
-    && chmod -R 775 /var/www/html/bootstrap/cache \
-    && chmod -R 775 /var/www/html/server_storage
+RUN chmod +x /docker-entrypoint.sh
 
 EXPOSE 9000
 
