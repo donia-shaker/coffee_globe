@@ -74,9 +74,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-di
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/custom.ini
 COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/custom.conf
-COPY docker/entrypoint.sh /var/www/html/docker/entrypoint.sh
+COPY docker/entrypoint.sh /docker-entrypoint.sh
 
-RUN chmod +x /var/www/html/docker/entrypoint.sh \
+RUN chmod +x /docker-entrypoint.sh \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage \
     && chmod -R 775 /var/www/html/bootstrap/cache \
@@ -84,4 +84,4 @@ RUN chmod +x /var/www/html/docker/entrypoint.sh \
 
 EXPOSE 9000
 
-ENTRYPOINT ["/var/www/html/docker/entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]

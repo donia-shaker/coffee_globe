@@ -63,7 +63,7 @@ services:
         condition: service_healthy
     networks:
       - coffee_globe_network
-    entrypoint: ["/var/www/html/docker/entrypoint.sh"]
+    entrypoint: ["/docker-entrypoint.sh"]
     healthcheck:
       test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
       interval: 30s
