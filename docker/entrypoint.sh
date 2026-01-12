@@ -26,7 +26,8 @@ MAX_ATTEMPTS=60
 ATTEMPT=0
 
 # Wait for MySQL to be ready using mysql client with SELECT 1 (more reliable than mysqladmin ping)
-until mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" -e "SELECT 1" >/dev/null 2>&1 || mysql -h "$DB_HOST" -u root -p"$DB_ROOT_PASS" -e "SELECT 1" >/dev/null 2>&1; do
+# Using --password= instead of -p to avoid issues with special characters
+until mysql -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" -e "SELECT 1" >/dev/null 2>&1 || mysql -h "$DB_HOST" -u root --password="$DB_ROOT_PASS" -e "SELECT 1" >/dev/null 2>&1; do
     ATTEMPT=$((ATTEMPT + 1))
     if [ $ATTEMPT -ge $MAX_ATTEMPTS ]; then
         echo "MySQL connection failed after $MAX_ATTEMPTS attempts. Exiting..."
