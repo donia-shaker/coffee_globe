@@ -94,7 +94,7 @@ services:
     networks:
       - coffee_globe_network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD:-root_password}"]
+      test: ["CMD-SHELL", "mysql -h localhost -u root -p${MYSQL_ROOT_PASSWORD:-root_password} -e 'SELECT 1' >/dev/null 2>&1"]
       interval: 10s
       timeout: 5s
       retries: 5
