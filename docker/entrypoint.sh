@@ -17,27 +17,6 @@ if [ "$(id -u)" = "0" ]; then
     exec gosu www-data "$0" "$@"
 fi
 
-echo "Waiting for MySQL to be ready..."
-DB_HOST="${DB_HOST:-mysql}"
-DB_USER="${DB_USERNAME:-coffee_globe_user}"
-DB_PASS="${DB_PASSWORD:-password}"
-DB_ROOT_PASS="${DB_ROOT_PASSWORD:-root_password}"
-MAX_ATTEMPTS=60
-ATTEMPT=0
-
-# Wait for MySQL to be ready using mysql client with SELECT 1 (more reliable than mysqladmin ping)
-# Using --password= instead of -p to avoid issues with special characters
-until mysql -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" -e "SELECT 1" >/dev/null 2>&1 || mysql -h "$DB_HOST" -u root --password="$DB_ROOT_PASS" -e "SELECT 1" >/dev/null 2>&1; do
-    ATTEMPT=$((ATTEMPT + 1))
-    if [ $ATTEMPT -ge $MAX_ATTEMPTS ]; then
-        echo "MySQL connection failed after $MAX_ATTEMPTS attempts. Exiting..."
-        exit 1
-    fi
-    echo "MySQL is unavailable - sleeping (attempt $ATTEMPT/$MAX_ATTEMPTS)"
-    sleep 2
-done
-
-echo "MySQL is ready!"
 
 php artisan migrate --force
 
