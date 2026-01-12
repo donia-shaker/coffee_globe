@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libpq-dev \
     libmagickwand-dev \
+    default-mysql-client \
     git \
     unzip \
     curl \

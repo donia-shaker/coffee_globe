@@ -18,7 +18,7 @@ if [ "$(id -u)" = "0" ]; then
 fi
 
 echo "Waiting for MySQL to be ready..."
-until php artisan db:monitor > /dev/null 2>&1; do
+until mysqladmin ping -h mysql -u ${DB_USERNAME:-coffee_globe_user} -p${DB_PASSWORD:-password} --silent 2>/dev/null || mysqladmin ping -h mysql -u root -p${DB_ROOT_PASSWORD:-root_password} --silent 2>/dev/null; do
     echo "MySQL is unavailable - sleeping"
     sleep 2
 done
