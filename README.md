@@ -59,8 +59,12 @@ docker exec coffee_globe_php chown -R www-data:www-data storage bootstrap/cache
 For production deployment, use the automated script:
 
 ```bash
+# Method 1: Direct script execution
 chmod +x SERVER_DEPLOY.sh
 ./SERVER_DEPLOY.sh
+
+# Method 2: Using Make command
+make deploy
 ```
 
 This script will:
@@ -91,6 +95,11 @@ make artisan-optimize # Optimize application
 make ssl-init        # Initialize SSL certificates (first time)
 make ssl-setup       # Setup/renew SSL certificates
 make ssl-check       # Check SSL certificate status
+
+# Deployment
+make deploy          # Run complete deployment script
+make verify          # Verify system status
+make diagnose        # Run diagnostic script
 
 # Utilities
 make shell-php       # Enter PHP container
@@ -173,7 +182,7 @@ Key environment variables (see `ENV_TEMPLATE.txt` for complete list):
 ```env
 APP_NAME="Coffee Globe"
 APP_ENV=production
-APP_KEY=                    # Auto-generated
+APP_KEY=base64:u5UAvjCVYTpEVNcTBwFbUgCE4JFyko7FbY9tviT5EXg=
 APP_DEBUG=false
 APP_URL=https://coffeeglobe.sa
 
@@ -334,8 +343,8 @@ git clone https://github.com/donia-shaker/coffee_globe.git /opt/coffee_globe
 cd /opt/coffee_globe
 
 # 2. Run deployment script
-chmod +x SERVER_DEPLOY.sh
-./SERVER_DEPLOY.sh
+make deploy
+# OR: chmod +x SERVER_DEPLOY.sh && ./SERVER_DEPLOY.sh
 
 # 3. Setup SSL (after DNS is configured)
 make ssl-init

@@ -1,4 +1,4 @@
-.PHONY: help build up down restart logs shell-php shell-nginx shell-mysql composer-install composer-update artisan-migrate artisan-seed artisan-cache artisan-optimize ssl-setup ssl-renew clean backup restore ps status stop start pull rebuild diagnose
+.PHONY: help build up down restart logs shell-php shell-nginx shell-mysql composer-install composer-update artisan-migrate artisan-seed artisan-cache artisan-optimize ssl-setup ssl-renew clean backup restore ps status stop start pull rebuild diagnose deploy
 
 COMPOSE=docker compose
 PHP_CONTAINER=coffee_globe_php
@@ -39,6 +39,11 @@ help:
 	@echo "  make clean              - Remove containers and volumes"
 	@echo "  make diagnose           - Run system diagnostic script"
 	@echo "  make verify             - Verify complete system status"
+	@echo "  make deploy             - Run complete deployment script"
+
+deploy:
+	@chmod +x SERVER_DEPLOY.sh
+	@./SERVER_DEPLOY.sh
 
 build:
 	$(COMPOSE) build --no-cache
