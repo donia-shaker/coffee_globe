@@ -28,6 +28,8 @@ help:
 	@echo "  make artisan-seed       - Run database seeders"
 	@echo "  make artisan-cache      - Clear all caches"
 	@echo "  make artisan-optimize   - Optimize Laravel for production"
+	@echo "  make ssl-fix            - Fix SSL issue and setup certificates (recommended)"
+	@echo "  make ssl-create-temp    - Create temporary self-signed certificates"
 	@echo "  make ssl-setup          - Setup SSL certificates"
 	@echo "  make ssl-renew          - Renew SSL certificates"
 	@echo "  make ssl-enable-stapling - Enable SSL stapling (after certificates are obtained)"
@@ -36,7 +38,10 @@ help:
 	@echo "  make pull               - Pull latest images"
 	@echo "  make rebuild            - Rebuild and restart containers"
 	@echo "  make clean              - Remove containers and volumes"
-	@echo "  make diagnose            - Run system diagnostic script"
+	@echo "  make diagnose           - Run system diagnostic script"
+	@echo "  make db-test            - Test database connection"
+	@echo "  make db-fix             - Fix database connection issues"
+	@echo "  make check-env          - Check .env configuration"
 
 build:
 	$(COMPOSE) build --no-cache
@@ -118,6 +123,16 @@ artisan-optimize:
 	$(COMPOSE) exec php php artisan route:cache
 	$(COMPOSE) exec php php artisan view:cache
 
+ssl-fix:
+	@echo "Fixing SSL certificate issue..."
+	@chmod +x fix-ssl-issue.sh
+	@./fix-ssl-issue.sh
+
+ssl-create-temp:
+	@echo "Creating temporary self-signed certificates..."
+	@chmod +x docker/ssl/create-temp-ssl.sh
+	@./docker/ssl/create-temp-ssl.sh
+
 ssl-setup:
 	@chmod +x docker/ssl/setup-ssl.sh
 	@./docker/ssl/setup-ssl.sh
@@ -195,3 +210,15 @@ reset-mysql: clean-mysql
 diagnose:
 	@chmod +x docker/diagnose.sh
 	@./docker/diagnose.sh
+
+db-test:
+	@chmod +x docker/test-db-connection.sh
+	@./docker/test-db-connection.sh
+
+db-fix:
+	@chmod +x fix-db-connection.sh
+	@./fix-db-connection.sh
+
+check-env:
+	@chmod +x check-env.sh
+	@./check-env.sh
