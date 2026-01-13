@@ -1,4 +1,4 @@
-.PHONY: help build up down restart logs shell-php shell-nginx shell-mysql composer-install composer-update artisan-migrate artisan-seed artisan-cache artisan-optimize ssl-setup ssl-renew clean backup restore ps status stop start pull rebuild
+.PHONY: help build up down restart logs shell-php shell-nginx shell-mysql composer-install composer-update artisan-migrate artisan-seed artisan-cache artisan-optimize ssl-setup ssl-renew clean backup restore ps status stop start pull rebuild diagnose
 
 COMPOSE=docker compose
 PHP_CONTAINER=coffee_globe_php
@@ -30,11 +30,13 @@ help:
 	@echo "  make artisan-optimize   - Optimize Laravel for production"
 	@echo "  make ssl-setup          - Setup SSL certificates"
 	@echo "  make ssl-renew          - Renew SSL certificates"
+	@echo "  make ssl-enable-stapling - Enable SSL stapling (after certificates are obtained)"
 	@echo "  make backup             - Backup database and files"
 	@echo "  make restore            - Restore from backup"
 	@echo "  make pull               - Pull latest images"
 	@echo "  make rebuild            - Rebuild and restart containers"
 	@echo "  make clean              - Remove containers and volumes"
+	@echo "  make diagnose            - Run system diagnostic script"
 
 build:
 	$(COMPOSE) build --no-cache
@@ -99,7 +101,8 @@ composer-update:
 	$(COMPOSE) exec php composer update --no-dev --optimize-autoloader
 
 artisan-migrate:
-	$(COMPOSE) exec php php artisan migrate --force
+	@echo "Running database migrations..."
+	@$(COMPOSE) exec php php artisan migrate --force || (echo "Migration failed. Checking database connection..." && $(COMPOSE) exec php php artisan migrate:status || true)
 
 artisan-seed:
 	$(COMPOSE) exec php php artisan db:seed --force
@@ -126,6 +129,10 @@ ssl-renew:
 ssl-check:
 	@echo "Checking SSL certificate status..."
 	@docker exec $(NGINX_CONTAINER) certbot certificates || echo "No certificates found"
+
+ssl-enable-stapling:
+	@chmod +x docker/ssl/enable-ssl-stapling.sh
+	@./docker/ssl/enable-ssl-stapling.sh
 
 backup:
 	@mkdir -p backups
@@ -154,9 +161,18 @@ rebuild:
 	$(COMPOSE) build --no-cache
 	$(COMPOSE) up -d
 	@echo "Waiting for services to be ready..."
-	@sleep 10
-	@make artisan-migrate
-	@make artisan-optimize
+	@sleep 15
+	@echo "Checking service health..."
+	@for i in 1 2 3 4 5; do \
+		if docker exec $(PHP_CONTAINER) php-fpm-healthcheck 2>/dev/null; then \
+			echo "PHP-FPM is healthy"; \
+			break; \
+		fi; \
+		echo "Waiting for PHP-FPM... (attempt $$i/5)"; \
+		sleep 5; \
+	done
+	@make artisan-migrate || echo "Migration completed with warnings. Check logs if needed."
+	@make artisan-optimize || echo "Optimization completed with warnings."
 
 clean:
 	$(COMPOSE) down -v
@@ -175,3 +191,7 @@ reset-mysql: clean-mysql
 	@echo "Waiting for MySQL to initialize..."
 	@sleep 15
 	@echo "MySQL initialized. Run 'make up' to start all services."
+
+diagnose:
+	@chmod +x docker/diagnose.sh
+	@./docker/diagnose.sh

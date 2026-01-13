@@ -129,10 +129,47 @@ fi
 if [ ! -f "${CERT_FILE}" ] || [ ! -f "${KEY_FILE}" ]; then
     echo "Obtaining new Let's Encrypt certificates..."
     
-    # Check if nginx is accessible
-    if ! docker exec "${NGINX_CONTAINER}" nginx -t &> /dev/null; then
-        echo "Error: Nginx configuration is invalid. Please check nginx logs."
+    # Check if nginx container is running
+    if ! docker ps | grep -q "${NGINX_CONTAINER}"; then
+        echo "Error: Nginx container is not running. Please start containers first: make up"
         exit 1
+    fi
+    
+    # Check if nginx is running (process check)
+    if ! docker exec "${NGINX_CONTAINER}" pgrep nginx &> /dev/null; then
+        echo "Warning: Nginx process is not running. Starting nginx..."
+        docker exec "${NGINX_CONTAINER}" nginx -g 'daemon off;' &
+        sleep 5
+    fi
+    
+    # Test nginx configuration before proceeding
+    echo "Testing nginx configuration before certificate setup..."
+    if ! docker exec "${NGINX_CONTAINER}" nginx -t 2>&1; then
+        echo "Error: Nginx configuration is invalid. Please check nginx logs."
+        echo "Showing nginx configuration test output:"
+        docker exec "${NGINX_CONTAINER}" nginx -t 2>&1 || true
+        echo ""
+        echo "Showing recent nginx error logs:"
+        docker logs "${NGINX_CONTAINER}" --tail 50 2>&1 | grep -i error || docker logs "${NGINX_CONTAINER}" --tail 20 2>&1
+        exit 1
+    fi
+    echo "Nginx configuration is valid."
+    
+    # Test nginx configuration before obtaining certificates
+    echo "Testing nginx configuration..."
+    if ! docker exec "${NGINX_CONTAINER}" nginx -t 2>&1; then
+        echo "Error: Nginx configuration is invalid. Please check nginx logs."
+        echo "Attempting to show nginx error details..."
+        docker exec "${NGINX_CONTAINER}" nginx -t 2>&1 || true
+        docker logs "${NGINX_CONTAINER}" --tail 50 2>&1 || true
+        exit 1
+    fi
+    
+    # Ensure nginx is running
+    if ! docker exec "${NGINX_CONTAINER}" pgrep nginx &> /dev/null; then
+        echo "Starting nginx..."
+        docker exec "${NGINX_CONTAINER}" nginx -g 'daemon off;' &
+        sleep 5
     fi
     
     # Obtain certificates
@@ -167,6 +204,13 @@ if [ ! -f "${CERT_FILE}" ] || [ ! -f "${KEY_FILE}" ]; then
             # Reload nginx to use new certificates
             docker exec "${NGINX_CONTAINER}" nginx -s reload
             echo "Nginx reloaded successfully with new SSL certificates"
+            
+            # Enable SSL stapling after successful reload
+            echo "Enabling SSL stapling..."
+            if [ -f "docker/ssl/enable-ssl-stapling.sh" ]; then
+                chmod +x docker/ssl/enable-ssl-stapling.sh
+                ./docker/ssl/enable-ssl-stapling.sh || echo "Warning: Could not enable SSL stapling automatically. Run 'make ssl-enable-stapling' manually."
+            fi
         else
             echo "Error: Nginx configuration test failed after certificate installation"
             exit 1
@@ -179,6 +223,7 @@ if [ ! -f "${CERT_FILE}" ] || [ ! -f "${KEY_FILE}" ]; then
         echo "  1. Domain DNS settings point to this server"
         echo "  2. Port 80 is accessible from the internet"
         echo "  3. Nginx is running and serving /.well-known/acme-challenge/"
+        echo "  4. Check certbot logs: docker logs ${NGINX_CONTAINER}"
         exit 1
     fi
 fi
