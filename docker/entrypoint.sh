@@ -30,6 +30,13 @@ if [ "$(id -u)" = "0" ]; then
     find /var/www/html/storage -type d -exec chmod 775 {} \; 2>/dev/null || true
     find /var/www/html/storage -type f -exec chmod 664 {} \; 2>/dev/null || true
     
+    if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
+        echo "Installing Composer dependencies..."
+        gosu www-data composer install --no-dev --optimize-autoloader --no-interaction 2>&1 || echo "Composer install completed with warnings"
+    else
+        echo "Vendor directory exists, skipping composer install"
+    fi
+    
     echo "Waiting for MySQL to be ready..."
     MAX_RETRIES=30
     RETRY_COUNT=0

@@ -39,6 +39,7 @@ help:
 	@echo "  make clean              - Remove containers and volumes"
 	@echo "  make diagnose           - Run system diagnostic script"
 	@echo "  make verify             - Verify complete system status"
+	@echo "  make check-deps         - Check PHP and Composer dependencies"
 	@echo "  make deploy             - Run complete deployment script"
 
 deploy:
@@ -210,3 +211,7 @@ diagnose:
 verify:
 	@chmod +x VERIFY.sh
 	@./VERIFY.sh
+
+check-deps:
+	@chmod +x docker/check-dependencies.sh
+	@docker exec $(PHP_CONTAINER) bash /var/www/html/docker/check-dependencies.sh

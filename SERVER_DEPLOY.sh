@@ -102,7 +102,15 @@ docker compose up -d
 
 sleep 25
 
-docker exec coffee_globe_php composer install --no-dev --optimize-autoloader
+echo "Installing Composer dependencies..."
+docker exec coffee_globe_php composer install --no-dev --optimize-autoloader --no-interaction 2>&1 || {
+    echo "WARNING: Composer install had issues, retrying..."
+    docker exec coffee_globe_php composer clear-cache
+    docker exec coffee_globe_php composer install --no-dev --optimize-autoloader --no-interaction
+}
+
+echo "Checking dependencies..."
+docker exec coffee_globe_php bash docker/check-dependencies.sh || echo "Some dependencies may be missing"
 
 docker exec coffee_globe_php php artisan key:generate --force
 
