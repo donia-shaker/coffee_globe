@@ -42,7 +42,11 @@ sleep 20
 echo ""
 
 echo "Step 6: Fixing database..."
-DB_ROOT_PASSWORD="${DB_ROOT_PASSWORD:-root_password}"
+if [ -f .env ]; then
+    export $(grep -v '^#' .env | xargs)
+fi
+
+DB_ROOT_PASSWORD=$(docker exec coffee_globe_mysql printenv MYSQL_ROOT_PASSWORD 2>/dev/null || echo "root_password")
 DB_DATABASE="${DB_DATABASE:-coffee_globe}"
 DB_USERNAME="${DB_USERNAME:-coffee_globe_user}"
 DB_PASSWORD="${DB_PASSWORD:-password}"
