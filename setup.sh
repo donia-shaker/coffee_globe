@@ -37,8 +37,8 @@ docker exec coffee_globe_nginx certbot certonly \
     -d coffeeglobe.com.sa \
     -d www.coffeeglobe.com.sa
 
-docker cp coffee_globe_nginx:/etc/letsencrypt/live/coffeeglobe.sa/fullchain.pem docker/nginx/ssl/
-docker cp coffee_globe_nginx:/etc/letsencrypt/live/coffeeglobe.sa/privkey.pem docker/nginx/ssl/
+docker exec coffee_globe_nginx cat /etc/letsencrypt/live/coffeeglobe.sa/fullchain.pem > docker/nginx/ssl/fullchain.pem
+docker exec coffee_globe_nginx cat /etc/letsencrypt/live/coffeeglobe.sa/privkey.pem > docker/nginx/ssl/privkey.pem
 
 chmod 644 docker/nginx/ssl/fullchain.pem
 chmod 600 docker/nginx/ssl/privkey.pem

@@ -39,8 +39,8 @@ docker exec "$NGINX_CONTAINER" certbot certonly \
     -d "coffeeglobe.com.sa" \
     -d "www.coffeeglobe.com.sa"
 
-docker cp "$NGINX_CONTAINER:/etc/letsencrypt/live/$DOMAIN/fullchain.pem" "$SSL_DIR/"
-docker cp "$NGINX_CONTAINER:/etc/letsencrypt/live/$DOMAIN/privkey.pem" "$SSL_DIR/"
+docker exec "$NGINX_CONTAINER" cat "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" > "$SSL_DIR/fullchain.pem"
+docker exec "$NGINX_CONTAINER" cat "/etc/letsencrypt/live/$DOMAIN/privkey.pem" > "$SSL_DIR/privkey.pem"
 
 chmod 644 "$SSL_DIR/fullchain.pem"
 chmod 600 "$SSL_DIR/privkey.pem"
