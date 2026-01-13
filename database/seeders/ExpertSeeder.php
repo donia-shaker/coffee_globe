@@ -38,7 +38,7 @@ class ExpertSeeder extends Seeder
                 ],
                 'text' => [
                     'ar' => 'نستخدم أدوات تحليل دقيقة ومنحنيات تحميص (Roast Profiles) ونظام اختبار دوري (Cupping) في كل مرة، وذلك لضمان أن النكهة والجودة التي تحبها اليوم هي نفسها التي ستجدها كل يوم، هذا الالتزام هو سر ثبات مذاق Coffee Globe.',
-                    'en' => 'We use precise analysis tools, roast profiles, and a regular cupping system each time to ensure that the flavor and quality you love today are the same you will find every day. This commitment is the secret behind Coffee Globe's consistent taste.'
+                    'en' => 'We use precise analysis tools, roast profiles, and a regular cupping system each time to ensure that the flavor and quality you love today are the same you will find every day. This commitment is the secret behind Coffee Globe\'s consistent taste.'
                 ]
             ],
             [
