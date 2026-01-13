@@ -1,422 +1,403 @@
-# Coffee Globe - دليل الإعداد والتشغيل
+# Coffee Globe - Laravel Application
 
-## نظرة عامة
+A professional Laravel application for Coffee Globe business with Docker deployment, SSL certificates, and complete production setup.
 
-Coffee Globe هو تطبيق Laravel مبني باستخدام Inertia.js و Vue.js. هذا الدليل يشرح كيفية إعداد وتشغيل التطبيق في بيئة الإنتاج باستخدام Docker.
+## 🚀 Quick Start
 
-## المتطلبات الأساسية
+### Prerequisites
 
-قبل البدء، تأكد من تثبيت:
-- Docker 29.1.4 أو أحدث
-- Docker Compose v5.0.1 أو أحدث
-- Make (اختياري لكن موصى به)
+- Docker & Docker Compose
+- Git
+- Make (optional, for using Makefile commands)
 
-للتحقق من الإصدارات:
+### 1. Clone Repository
+
 ```bash
-docker --version
-docker compose version
+git clone https://github.com/donia-shaker/coffee_globe.git
+cd coffee_globe
 ```
 
-## البدء السريع
+### 2. Environment Setup
 
-### الخطوة 1: إعداد ملف البيئة
-
-انسخ ملف `.env.example` إلى `.env`:
 ```bash
-cp .env.example .env
+# Copy environment template
+cp ENV_TEMPLATE.txt .env
+
+# Generate application key
+docker compose up -d php
+docker exec coffee_globe_php php artisan key:generate --force
 ```
 
-عدل ملف `.env` وأضف القيم المطلوبة:
+### 3. Start Application
+
 ```bash
+# Start all services
+docker compose up -d
+
+# Wait for services to be ready (about 20 seconds)
+sleep 20
+
+# Run migrations and seeders
+docker exec coffee_globe_php composer install --no-dev --optimize-autoloader
+docker exec coffee_globe_php php artisan migrate:fresh --force
+docker exec coffee_globe_php php artisan db:seed --force
+docker exec coffee_globe_php php artisan storage:link
+docker exec coffee_globe_php php artisan optimize
+
+# Set proper permissions
+docker exec coffee_globe_php chmod -R 775 storage bootstrap/cache
+docker exec coffee_globe_php chown -R www-data:www-data storage bootstrap/cache
+```
+
+### 4. Access Application
+
+- **HTTP**: http://localhost
+- **HTTPS** (after SSL setup): https://your-domain.com
+
+## 📦 Quick Deploy Script
+
+For production deployment, use the automated script:
+
+```bash
+chmod +x SERVER_DEPLOY.sh
+./SERVER_DEPLOY.sh
+```
+
+This script will:
+- Create `.env` file with correct configuration
+- Build and start all containers
+- Install dependencies
+- Run migrations and seeders
+- Set up permissions
+- Optimize the application
+
+## 🔧 Available Make Commands
+
+```bash
+# Container Management
+make up              # Start all containers
+make down            # Stop all containers
+make restart         # Restart all containers
+make ps              # Show container status
+make logs            # Show container logs
+
+# Database Operations
+make artisan-migrate # Run migrations
+make artisan-seed    # Run seeders
+make artisan-cache   # Clear caches
+make artisan-optimize # Optimize application
+
+# SSL Certificate Management
+make ssl-init        # Initialize SSL certificates (first time)
+make ssl-setup       # Setup/renew SSL certificates
+make ssl-check       # Check SSL certificate status
+
+# Utilities
+make shell-php       # Enter PHP container
+make shell-nginx     # Enter Nginx container
+make shell-mysql     # Enter MySQL container
+make composer-install # Install PHP dependencies
+```
+
+## 🏗️ Architecture
+
+### Docker Services
+
+- **nginx**: Web server with Let's Encrypt SSL support
+- **php**: PHP 8.2 with Laravel application
+- **mysql**: MySQL 8.4 database
+- **redis**: Redis cache and session storage
+
+### Port Mapping
+
+- `80`: HTTP
+- `443`: HTTPS
+- `3306`: MySQL (exposed for development)
+- `6379`: Redis (exposed for development)
+
+## 🔐 SSL Certificate Setup
+
+### Automatic SSL (Recommended)
+
+For production with a valid domain:
+
+```bash
+# First time setup
+make ssl-init
+
+# Manual renewal (auto-renews via cron daily at 3 AM)
+make ssl-renew
+```
+
+### SSL Configuration
+
+Update `.env` with your domain:
+
+```env
+SSL_DOMAIN=your-domain.com
+SSL_EMAIL=admin@your-domain.com
+APP_URL=https://your-domain.com
+```
+
+## 🗄️ Database Configuration
+
+### Default Credentials
+
+```env
+DB_DATABASE=coffee_globe
+DB_USERNAME=coffee_globe_user
+DB_PASSWORD=K8#mP9vL2@nQ5&wR7!xT4*yU6^zA1bN3#jK7
+DB_ROOT_PASSWORD=Q3#bN8jM5@kP2&wX9!vL7*yR4^tS6hM9
+```
+
+### Database Operations
+
+```bash
+# Fresh migration
+docker exec coffee_globe_php php artisan migrate:fresh --force
+
+# Seed database
+docker exec coffee_globe_php php artisan db:seed --force
+
+# Check migration status
+docker exec coffee_globe_php php artisan migrate:status
+
+# Database connection test
+docker exec coffee_globe_mysql mysql -u coffee_globe_user -pK8#mP9vL2@nQ5&wR7!xT4*yU6^zA1bN3#jK7 coffee_globe -e "SELECT 1"
+```
+
+## 📝 Environment Variables
+
+Key environment variables (see `ENV_TEMPLATE.txt` for complete list):
+
+```env
 APP_NAME="Coffee Globe"
 APP_ENV=production
-APP_KEY=
+APP_KEY=                    # Auto-generated
 APP_DEBUG=false
 APP_URL=https://coffeeglobe.sa
 
 DB_CONNECTION=mysql
 DB_HOST=mysql
-DB_PORT=3306
 DB_DATABASE=coffee_globe
-DB_USERNAME=coffee_globe_user
-DB_PASSWORD=your_strong_password
-DB_ROOT_PASSWORD=your_root_password
 
-REDIS_HOST=redis
-REDIS_PORT=6379
+CACHE_STORE=file            # Use 'redis' for production
+SESSION_DRIVER=file         # Use 'redis' for production
+QUEUE_CONNECTION=database
 ```
 
-**ملاحظة مهمة**: إذا كانت كلمة المرور تحتوي على رمز `$`، ضعها بين علامات اقتباس:
-```bash
-DB_PASSWORD="K8#mP9\$vL2@nQ5&wR7!xT4*yU6^zA1"
-```
-أو استخدم `$$` بدلاً من `$`:
-```bash
-DB_PASSWORD=K8#mP9$$vL2@nQ5&wR7!xT4*yU6^zA1
-```
-هذا يمنع Docker Compose من تفسير `$` كمتغير بيئة.
+## 🔨 Development
 
-### الخطوة 2: توليد مفتاح التطبيق
+### Install Dependencies
 
 ```bash
-make shell-php
-php artisan key:generate
-exit
+# PHP dependencies
+docker exec coffee_globe_php composer install
+
+# NPM dependencies (if using Vite)
+docker exec coffee_globe_php npm install
+docker exec coffee_globe_php npm run build
 ```
 
-أو بدون Make:
-```bash
-docker compose exec php php artisan key:generate
-```
-
-### الخطوة 3: بناء وتشغيل الحاويات
+### Laravel Commands
 
 ```bash
-make build
-make up
+# Run artisan commands
+docker exec coffee_globe_php php artisan [command]
+
+# Examples:
+docker exec coffee_globe_php php artisan tinker
+docker exec coffee_globe_php php artisan route:list
+docker exec coffee_globe_php php artisan config:clear
 ```
 
-هذا الأمر سيقوم بـ:
-- بناء صور Docker لجميع الخدمات
-- تشغيل الحاويات في الخلفية
-- انتظار جاهزية الخدمات
-- تشغيل المجريشين تلقائياً
-- تحسين التطبيق للإنتاج
-
-### الخطوة 4: إعداد شهادات SSL
+### Container Access
 
 ```bash
-make ssl-setup
+# PHP container
+docker exec -it coffee_globe_php bash
+
+# Nginx container
+docker exec -it coffee_globe_nginx sh
+
+# MySQL container
+docker exec -it coffee_globe_mysql bash
 ```
 
-هذا الأمر يحتاج إلى:
-- أن يكون النطاق يشير إلى الخادم
-- فتح المنفذ 80 و 443
+## 🐛 Troubleshooting
 
-## شرح الأوامر بالتفصيل
+### Check Container Status
 
-### أوامر البناء والتشغيل
-
-#### `make build`
-يبني صور Docker من الصفر بدون استخدام الـ cache. استخدمه عند:
-- تغيير Dockerfile
-- تحديث التبعيات
-- تغيير إعدادات الحاويات
-
-#### `make up`
-يشغل جميع الحاويات ويقوم بـ:
-- انتظار 10 ثواني لبدء الخدمات
-- تشغيل المجريشين تلقائياً
-- تحسين التطبيق (config cache, route cache, view cache)
-
-#### `make down`
-يوقف جميع الحاويات ويحذف الشبكات. لا يحذف البيانات المخزنة في volumes.
-
-#### `make start`
-يشغل الحاويات المتوقفة فقط. استخدمه بعد `make stop`.
-
-#### `make stop`
-يوقف الحاويات بدون حذفها. البيانات تبقى محفوظة.
-
-#### `make restart`
-يعيد تشغيل جميع الحاويات. مفيد بعد تغيير إعدادات.
-
-### أوامر المراقبة
-
-#### `make ps`
-يعرض قائمة سريعة بجميع الحاويات وحالتها.
-
-#### `make status`
-يعرض تقرير مفصل يشمل:
-- حالة جميع الحاويات
-- حالة PHP-FPM
-- حالة Nginx
-- حالة MySQL
-- حالة Redis
-
-#### `make logs`
-يعرض سجلات جميع الحاويات بشكل مباشر. للخروج اضغط Ctrl+C.
-
-### أوامر الوصول
-
-#### `make shell-php`
-يفتح shell داخل حاوية PHP. استخدمه لـ:
-- تشغيل أوامر artisan
-- تثبيت packages جديدة
-- فحص الملفات
-- تصحيح الأخطاء
-
-#### `make shell-nginx`
-يفتح shell داخل حاوية Nginx. مفيد لفحص إعدادات nginx.
-
-#### `make shell-mysql`
-يفتح shell داخل حاوية MySQL. استخدمه للوصول المباشر لقاعدة البيانات:
 ```bash
-mysql -u coffee_globe_user -p coffee_globe
+docker compose ps
+docker logs coffee_globe_php --tail 50
+docker logs coffee_globe_nginx --tail 50
 ```
 
-#### `make shell-redis`
-يفتح shell داخل حاوية Redis. للوصول إلى Redis CLI:
+### Permission Issues
+
 ```bash
-redis-cli
+docker exec coffee_globe_php chmod -R 775 storage bootstrap/cache
+docker exec coffee_globe_php chown -R www-data:www-data storage bootstrap/cache
 ```
 
-### أوامر Composer
+### SSL Certificate Issues
 
-#### `make composer-install`
-يثبت جميع تبعيات PHP المطلوبة للإنتاج بدون dev dependencies.
-
-#### `make composer-update`
-يحدث جميع تبعيات PHP إلى أحدث إصدار متوافق.
-
-### أوامر Artisan
-
-#### `make artisan-migrate`
-يشغل جميع المجريشين الجديدة. يتم تشغيلها تلقائياً عند `make up` لكن يمكنك تشغيلها يدوياً.
-
-#### `make artisan-seed`
-يشغل جميع seeders. Seeders تتحقق من البيانات الموجودة قبل الإضافة.
-
-#### `make artisan-cache`
-يمسح جميع أنواع الـ cache:
-- config cache
-- route cache
-- view cache
-- application cache
-
-#### `make artisan-optimize`
-يحسن أداء التطبيق عبر:
-- تخزين config في cache
-- تخزين routes في cache
-- تخزين views في cache
-
-### أوامر SSL
-
-#### `make ssl-setup`
-يقوم بـ:
-- التحقق من وجود شهادات SSL
-- التحقق من انتهاء الصلاحية
-- الحصول على شهادات جديدة إذا لزم الأمر
-- إعادة تحميل nginx
-
-#### `make ssl-renew`
-يجدد شهادات SSL الموجودة يدوياً. عادة لا حاجة لاستخدامه لأن التجديد يتم تلقائياً.
-
-#### `make ssl-check`
-يفحص حالة شهادات SSL ويعرض معلومات عن انتهاء الصلاحية.
-
-### التجديد التلقائي للشهادات SSL
-
-التطبيق مجهز بنظام تجديد تلقائي للشهادات SSL:
-
-1. **Cron Job تلقائي**: يعمل يومياً الساعة 3 صباحاً داخل حاوية Nginx
-   - يفحص الشهادات تلقائياً
-   - يجددها عند الحاجة (قبل 30 يوم من انتهاء الصلاحية)
-   - لا حاجة لأي تدخل يدوي
-
-2. **Renewal Hooks**: بعد كل تجديد:
-   - يتم نسخ الشهادات المحدثة تلقائياً
-   - يتم إعادة تحميل Nginx تلقائياً
-   - يتم تسجيل العملية في السجلات
-
-3. **التخزين المستمر**: 
-   - شهادات Let's Encrypt محفوظة في Docker volumes
-   - النسخ المحدثة تُحفظ في `docker/nginx/ssl/` على الخادم
-   - الملفات محمية بصلاحيات مناسبة
-
-**ملاحظة**: لا حاجة لإعداد cron job على الخادم المضيف، كل شيء يعمل داخل الحاوية تلقائياً.
-
-### أوامر النسخ الاحتياطي
-
-#### `make backup`
-ينشئ نسخة احتياطية من:
-- قاعدة البيانات (جميع قواعد البيانات)
-- ملفات التخزين (storage و server_storage)
-
-النسخ الاحتياطية تُحفظ في مجلد `backups/` مع timestamp.
-
-#### `make restore`
-يستعيد من النسخ الاحتياطي:
 ```bash
-make restore DB_FILE=backups/database_20240101_120000.sql STORAGE_FILE=backups/storage_20240101_120000.tar.gz
+# Check certificate
+docker exec coffee_globe_nginx certbot certificates
+
+# View nginx logs
+docker logs coffee_globe_nginx --tail 100 | grep error
+
+# Test nginx config
+docker exec coffee_globe_nginx nginx -t
 ```
 
-### أوامر الصيانة
+### Database Connection Issues
 
-#### `make pull`
-يسحب أحدث صور Docker من Docker Hub. استخدمه قبل `make rebuild`.
+```bash
+# Check database
+docker exec coffee_globe_mysql mysql -u root -pQ3#bN8jM5@kP2&wX9!vL7*yR4^tS6hM9 -e "SHOW DATABASES;"
 
-#### `make rebuild`
-يقوم بـ:
-- إيقاف الحاويات
-- إعادة بناء الصور من الصفر
-- تشغيل الحاويات
-- تشغيل المجريشين
-- تحسين التطبيق
+# Check Laravel database connection
+docker exec coffee_globe_php php artisan db:show
+```
 
-#### `make clean`
-يحذف جميع الحاويات والمجلدات والشبكات. احذر: هذا يحذف جميع البيانات.
+### Clear All Caches
 
-## هيكل المشروع
+```bash
+docker exec coffee_globe_php php artisan config:clear
+docker exec coffee_globe_php php artisan cache:clear
+docker exec coffee_globe_php php artisan route:clear
+docker exec coffee_globe_php php artisan view:clear
+```
+
+### Rebuild Containers
+
+```bash
+# Complete rebuild
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+```
+
+## 📁 Project Structure
 
 ```
 coffee_globe/
-├── app/                    # كود التطبيق
-├── config/                 # ملفات التكوين
-├── database/               # المجريشين والـ seeders
-├── docker/                  # ملفات Docker
-│   ├── nginx/              # إعدادات Nginx
-│   │   ├── conf.d/         # ملفات التكوين
-│   │   │   └── coffeeglobe.sa.conf
-│   │   └── nginx.conf      # الإعدادات الرئيسية
-│   ├── php/                # إعدادات PHP
-│   │   ├── php.ini
-│   │   ├── php-fpm.conf
-│   │   └── opcache.ini
-│   ├── mysql/              # إعدادات MySQL
-│   ├── ssl/                # سكربتات SSL
-│   └── entrypoint.sh       # سكربت بدء التشغيل
-├── public/                 # الملفات العامة
-├── resources/              # الموارد (views, js, css)
-├── routes/                 # ملفات المسارات
-├── server_storage/         # تخزين الملفات على الخادم
-│   └── media/             # ملفات الوسائط
-├── storage/                # تخزين Laravel
-├── Dockerfile              # صورة PHP
-├── docker-compose.yml      # تكوين Docker Compose
-└── Makefile                # أوامر Make
+├── app/                    # Laravel application
+├── bootstrap/              # Laravel bootstrap
+├── config/                 # Configuration files
+├── database/
+│   ├── factories/         # Model factories
+│   ├── migrations/        # Database migrations
+│   └── seeders/           # Database seeders
+├── docker/
+│   ├── nginx/             # Nginx configuration
+│   ├── php/               # PHP configuration
+│   ├── mysql/             # MySQL configuration
+│   └── ssl/               # SSL scripts
+├── public/                 # Public files
+├── resources/              # Views, assets
+├── routes/                 # Application routes
+├── storage/                # Storage files
+├── docker-compose.yml      # Docker services
+├── Dockerfile              # PHP container
+├── Makefile               # Make commands
+├── ENV_TEMPLATE.txt       # Environment template
+└── SERVER_DEPLOY.sh       # Deployment script
 ```
 
-## إعدادات الحاويات
+## 🔒 Security Notes
 
-### MySQL
-- اسم الخدمة: `mysql`
-- المنفذ: `3306`
-- البيانات: محفوظة في volume `mysql_data`
-- السجلات: في volume `mysql_logs`
+1. **Change Default Passwords**: Update all passwords in `.env` before production
+2. **APP_KEY**: Auto-generated on first `php artisan key:generate`
+3. **SSL Certificates**: Auto-renew via cron (3 AM daily)
+4. **File Permissions**: Set via entrypoint script automatically
+5. **Database Access**: MySQL port exposed only for development
 
-### Redis
-- اسم الخدمة: `redis`
-- المنفذ: `6379`
-- البيانات: محفوظة في volume `redis_data`
-- السجلات: في volume `redis_logs`
+## 🚀 Production Deployment
 
-### PHP
-- اسم الخدمة: `php`
-- يعمل على PHP-FPM
-- متصل بـ MySQL و Redis
-- جميع مجلدات التخزين قابلة للكتابة
+### Server Requirements
 
-### Nginx
-- اسم الخدمة: `nginx`
-- المنافذ: `80` و `443`
-- يخدم الملفات الثابتة
-- يمرر طلبات PHP إلى حاوية PHP
+- Ubuntu 20.04+ / CentOS 8+
+- Docker & Docker Compose installed
+- Domain pointing to server IP
+- Ports 80, 443 open in firewall
 
-## إدارة الملفات
+### Deployment Steps
 
-### رفع الملفات
-الملفات المرفوعة تُحفظ في `server_storage/media/` على الخادم المضيف. هذا يعني:
-- الملفات لا تُحذف عند إعادة تشغيل الحاويات
-- يمكنك الوصول للملفات مباشرة من الخادم
-- سهولة النسخ الاحتياطي
-
-### الصلاحيات
-جميع الصلاحيات يتم تعيينها تلقائياً:
-- `storage/`: 775
-- `bootstrap/cache/`: 775
-- `server_storage/`: 775
-
-## استكشاف الأخطاء
-
-### الحاويات لا تبدأ
 ```bash
-make logs
-```
-افحص السجلات لمعرفة المشكلة.
+# 1. Clone repository
+git clone https://github.com/donia-shaker/coffee_globe.git /opt/coffee_globe
+cd /opt/coffee_globe
 
-### مشاكل قاعدة البيانات
+# 2. Run deployment script
+chmod +x SERVER_DEPLOY.sh
+./SERVER_DEPLOY.sh
+
+# 3. Setup SSL (after DNS is configured)
+make ssl-init
+
+# 4. Verify deployment
+curl -I https://your-domain.com
+docker compose ps
+```
+
+### DNS Configuration
+
+Point your domain to the server:
+
+```
+A     @              YOUR_SERVER_IP
+A     www            YOUR_SERVER_IP
+```
+
+## 📊 Monitoring
+
+### Check Application Status
+
 ```bash
-make shell-mysql
-mysql -u root -p
+# Container health
+docker compose ps
+
+# Application logs
+docker logs coffee_globe_php -f
+
+# Nginx access logs
+docker exec coffee_globe_nginx tail -f /var/log/nginx/access.log
+
+# Nginx error logs
+docker exec coffee_globe_nginx tail -f /var/log/nginx/error.log
 ```
 
-### مشاكل Redis
+## 🔄 Updates
+
 ```bash
-make shell-redis
-redis-cli ping
+# Pull latest changes
+git pull
+
+# Rebuild and restart
+docker compose down
+docker compose up -d --build
+
+# Run migrations (if any)
+docker exec coffee_globe_php php artisan migrate --force
+
+# Clear and rebuild caches
+docker exec coffee_globe_php php artisan optimize
 ```
 
-### مشاكل الصلاحيات
-```bash
-make shell-php
-chmod -R 775 storage bootstrap/cache server_storage
-chown -R www-data:www-data storage bootstrap/cache server_storage
-```
+## 📞 Support
 
-### إعادة بناء كاملة
-```bash
-make clean
-make build
-make up
-```
+- **Repository**: https://github.com/donia-shaker/coffee_globe
+- **Issues**: https://github.com/donia-shaker/coffee_globe/issues
 
-## النشر للإنتاج
+## 📜 License
 
-### قبل النشر
-1. تأكد من أن DNS يشير إلى الخادم
-2. عدل جميع كلمات المرور في `.env`
-3. توليد `APP_KEY`
-4. إعداد SMTP للبريد الإلكتروني
-5. إعداد SSL
+This project is proprietary software. All rights reserved.
 
-### خطوات النشر
-```bash
-git pull origin main
-make pull
-make rebuild
-make ssl-setup
-make status
-```
+---
 
-### المراقبة
-```bash
-make status    # حالة الخدمات
-make logs      # السجلات
-```
-
-## الأمان
-
-- جميع كلمات المرور يجب أن تكون قوية (32+ حرف)
-- `APP_DEBUG=false` في الإنتاج
-- `SESSION_SECURE_COOKIE=true` للإنتاج
-- `SESSION_ENCRYPT=true` للإنتاج
-- استخدم HTTPS فقط في الإنتاج
-- راجع كلمات المرور كل 90 يوم
-
-### معالجة رمز $ في كلمات المرور
-
-إذا كانت كلمة المرور تحتوي على رمز `$` ورأيت تحذيرات مثل `WARN[0000] The "vL2" variable is not set`، فهذا يعني أن Docker Compose يحاول تفسير `$` كمتغير بيئة.
-
-**الحل**: ضع كلمة المرور بين علامات اقتباس:
-```bash
-DB_PASSWORD="K8#mP9\$vL2@nQ5&wR7!xT4*yU6^zA1"
-REDIS_PASSWORD="H7#dF2\$gK9@mP5&nQ8!wR3*yT6^vX1"
-MAIL_PASSWORD="SG.Xk9#mP2\$vL8@nQ5&wR7!xT4*yU6^zA1"
-```
-
-أو استخدم `$$` للهروب:
-```bash
-DB_PASSWORD=K8#mP9$$vL2@nQ5&wR7!xT4*yU6^zA1
-```
-
-هذه التحذيرات لا تمنع البناء لكن يجب إصلاحها لتجنب مشاكل محتملة.
-
-## الدعم
-
-للمساعدة أو الإبلاغ عن مشاكل، راجع السجلات:
-```bash
-make logs
-docker logs coffee_globe_php
-docker logs coffee_globe_nginx
-```
+**Built with ❤️ by Coffee Globe Team**
