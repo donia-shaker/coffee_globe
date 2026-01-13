@@ -16,7 +16,7 @@ services:
       - ./docker/nginx/logs:/var/log/nginx:rw
       - ./storage:/var/www/html/storage:ro
       - ./storage/app/public:/var/www/html/storage/app/public:ro
-      - ./public:/var/www/html/public:ro
+      - ./public:/var/www/html/public:rw
       - ./server_storage:/var/www/html/server_storage:ro
       - ./server_storage/media:/var/www/html/server_storage/media:ro
       - letsencrypt:/etc/letsencrypt:rw

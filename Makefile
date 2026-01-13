@@ -42,6 +42,7 @@ help:
 	@echo "  make db-test            - Test database connection"
 	@echo "  make db-fix             - Fix database connection issues"
 	@echo "  make check-env          - Check .env configuration"
+	@echo "  make final-fix          - Complete fix for SSL and DB (ALL-IN-ONE)"
 
 build:
 	$(COMPOSE) build --no-cache
@@ -222,3 +223,7 @@ db-fix:
 check-env:
 	@chmod +x check-env.sh
 	@./check-env.sh
+
+final-fix:
+	@chmod +x FINAL-FIX.sh
+	@./FINAL-FIX.sh
