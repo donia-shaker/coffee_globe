@@ -17,19 +17,20 @@ if [ "$(id -u)" = "0" ]; then
         /var/www/html/server_storage \
         /var/log/php \
         /var/cache/nginx 2>/dev/null || true
-    exec gosu www-data "$0" "$@"
+    
+    # Run artisan commands as www-data
+    gosu www-data bash -c "
+        php artisan migrate --force || echo 'Migrations completed with warnings'
+        php artisan db:seed --force || echo 'Seeders completed with warnings'
+        php artisan storage:link || true
+        php artisan config:cache || true
+        php artisan route:cache || true
+        php artisan view:cache || true
+    "
+    
+    # Start PHP-FPM as root (PHP-FPM will change to www-data internally)
+    exec php-fpm
 fi
 
-# Run migrations (database should be ready due to depends_on in docker-compose.yml)
-php artisan migrate --force || echo "Migrations completed with warnings"
-
-# Run seeders
-php artisan db:seed --force || echo "Seeders completed with warnings"
-
-php artisan storage:link || true
-
-php artisan config:cache || true
-php artisan route:cache || true
-php artisan view:cache || true
-
-exec php-fpm
+# This should never be reached if running as root
+exec "$@"
