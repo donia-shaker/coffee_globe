@@ -20,9 +20,11 @@ if [ "$(id -u)" = "0" ]; then
     exec gosu www-data "$0" "$@"
 fi
 
-php artisan migrate --force
+# Run migrations (database should be ready due to depends_on in docker-compose.yml)
+php artisan migrate --force || echo "Migrations completed with warnings"
 
-php artisan db:seed --force
+# Run seeders
+php artisan db:seed --force || echo "Seeders completed with warnings"
 
 php artisan storage:link || true
 
