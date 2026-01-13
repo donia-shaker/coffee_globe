@@ -11,8 +11,8 @@ mkdir -p "${SSL_TARGET_DIR}" 2>/dev/null || true
 
 # Copy renewed certificates to mounted volume
 if [ -f "${LETSENCRYPT_SOURCE}/fullchain.pem" ] && [ -f "${LETSENCRYPT_SOURCE}/privkey.pem" ]; then
-    cp "${LETSENCRYPT_SOURCE}/fullchain.pem" "${SSL_TARGET_DIR}/fullchain.pem" 2>/dev/null || true
-    cp "${LETSENCRYPT_SOURCE}/privkey.pem" "${SSL_TARGET_DIR}/privkey.pem" 2>/dev/null || true
+    cat "${LETSENCRYPT_SOURCE}/fullchain.pem" > "${SSL_TARGET_DIR}/fullchain.pem" 2>/dev/null || true
+    cat "${LETSENCRYPT_SOURCE}/privkey.pem" > "${SSL_TARGET_DIR}/privkey.pem" 2>/dev/null || true
     chmod 644 "${SSL_TARGET_DIR}/fullchain.pem" 2>/dev/null || true
     chmod 600 "${SSL_TARGET_DIR}/privkey.pem" 2>/dev/null || true
     

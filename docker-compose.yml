@@ -84,9 +84,9 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:-coffee_globe}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_password}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-Q3#bN8jM5@kP2&wX9!vL7*yR4^tS6hM9}
       MYSQL_USER: ${DB_USERNAME:-coffee_globe_user}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-password}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-K8#mP9vL2@nQ5&wR7!xT4*yU6^zA1bN3#jK7}
     volumes:
       - mysql_data:/var/lib/mysql:rw
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/custom.cnf:ro

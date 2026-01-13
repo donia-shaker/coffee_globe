@@ -30,8 +30,8 @@ if docker exec "${NGINX_CONTAINER}" certbot renew --quiet --no-self-upgrade --dr
             
             # Copy renewed certificates to host
             if docker exec "${NGINX_CONTAINER}" test -f "${LETSENCRYPT_PATH}/fullchain.pem"; then
-                docker cp "${NGINX_CONTAINER}:${LETSENCRYPT_PATH}/fullchain.pem" "${CERT_FILE}"
-                docker cp "${NGINX_CONTAINER}:${LETSENCRYPT_PATH}/privkey.pem" "${KEY_FILE}"
+                docker exec "${NGINX_CONTAINER}" cat "${LETSENCRYPT_PATH}/fullchain.pem" > "${CERT_FILE}"
+                docker exec "${NGINX_CONTAINER}" cat "${LETSENCRYPT_PATH}/privkey.pem" > "${KEY_FILE}"
                 chmod 644 "${CERT_FILE}" 2>/dev/null || true
                 chmod 600 "${KEY_FILE}" 2>/dev/null || true
                 echo "Certificates copied to ${SSL_DIR}"
@@ -61,8 +61,8 @@ else
     if docker exec "${NGINX_CONTAINER}" certbot renew --quiet --no-self-upgrade --no-random-sleep-on-renew; then
         # Copy certificates if renewal succeeded
         if docker exec "${NGINX_CONTAINER}" test -f "${LETSENCRYPT_PATH}/fullchain.pem"; then
-            docker cp "${NGINX_CONTAINER}:${LETSENCRYPT_PATH}/fullchain.pem" "${CERT_FILE}" 2>/dev/null || true
-            docker cp "${NGINX_CONTAINER}:${LETSENCRYPT_PATH}/privkey.pem" "${KEY_FILE}" 2>/dev/null || true
+            docker exec "${NGINX_CONTAINER}" cat "${LETSENCRYPT_PATH}/fullchain.pem" > "${CERT_FILE}" 2>/dev/null || true
+            docker exec "${NGINX_CONTAINER}" cat "${LETSENCRYPT_PATH}/privkey.pem" > "${KEY_FILE}" 2>/dev/null || true
             chmod 644 "${CERT_FILE}" 2>/dev/null || true
             chmod 600 "${KEY_FILE}" 2>/dev/null || true
         fi
