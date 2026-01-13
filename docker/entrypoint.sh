@@ -17,6 +17,7 @@ if [ "$(id -u)" = "0" ]; then
         /var/www/html/storage \
         /var/www/html/bootstrap/cache \
         /var/www/html/server_storage \
+        /var/www/html/public/images \
         /var/log/php \
         /var/cache/nginx 2>/dev/null || true
     
@@ -35,6 +36,17 @@ if [ "$(id -u)" = "0" ]; then
         gosu www-data composer install --no-dev --optimize-autoloader --no-interaction 2>&1 || echo "Composer install completed with warnings"
     else
         echo "Vendor directory exists, skipping composer install"
+    fi
+    
+    # Check and generate APP_KEY if missing or empty
+    if [ -f ".env" ]; then
+        APP_KEY_VALUE=$(grep "^APP_KEY=" .env 2>/dev/null | cut -d '=' -f2- | tr -d ' ' || echo "")
+        if [ -z "$APP_KEY_VALUE" ] || [ "$APP_KEY_VALUE" = "" ] || ! echo "$APP_KEY_VALUE" | grep -q "base64:"; then
+            echo "APP_KEY is missing or invalid, generating new one..."
+            gosu www-data php artisan key:generate --force 2>&1 || echo "APP_KEY generation completed with warnings"
+        else
+            echo "APP_KEY already exists and is valid"
+        fi
     fi
     
     echo "Waiting for MySQL to be ready..."
@@ -57,6 +69,9 @@ if [ "$(id -u)" = "0" ]; then
             php artisan migrate --force 2>&1 || echo 'Migrations completed with warnings'
             php artisan db:seed --force 2>&1 || echo 'Seeders completed with warnings'
             php artisan storage:link 2>&1 || true
+            # Create missing image directories and placeholder files
+            mkdir -p public/images 2>/dev/null || true
+            touch public/images/features_1.svg public/images/features_2.svg 2>/dev/null || true
             php artisan config:cache 2>&1 || true
             php artisan route:cache 2>&1 || true
             php artisan view:cache 2>&1 || true

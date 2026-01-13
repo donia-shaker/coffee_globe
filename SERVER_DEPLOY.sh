@@ -127,6 +127,11 @@ docker exec coffee_globe_php php artisan db:seed --force
 
 docker exec coffee_globe_php php artisan storage:link
 
+# Create missing image directories and placeholder files
+docker exec coffee_globe_php mkdir -p public/images 2>/dev/null || true
+docker exec coffee_globe_php touch public/images/features_1.svg public/images/features_2.svg 2>/dev/null || true
+docker exec coffee_globe_php chown -R www-data:www-data public/images 2>/dev/null || true
+
 docker exec coffee_globe_php php artisan optimize
 
 echo ""
