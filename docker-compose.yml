@@ -16,9 +16,10 @@ services:
       - ./docker/nginx/logs:/var/log/nginx:rw
       - ./storage:/var/www/html/storage:ro
       - ./storage/app/public:/var/www/html/storage/app/public:ro
-      - ./public:/var/www/html/public:rw
+      - ./public:/var/www/html/public:ro
       - ./server_storage:/var/www/html/server_storage:ro
       - ./server_storage/media:/var/www/html/server_storage/media:ro
+      - certbot_webroot:/var/www/certbot:rw
       - letsencrypt:/etc/letsencrypt:rw
       - letsencrypt-archive:/var/lib/letsencrypt:rw
       - ./docker/ssl/certbot-renewal.sh:/etc/letsencrypt/renewal-hooks/deploy/certbot-renewal.sh:ro
@@ -129,6 +130,8 @@ volumes:
   mysql_logs:
     driver: local
   redis_logs:
+    driver: local
+  certbot_webroot:
     driver: local
   letsencrypt:
     driver: local

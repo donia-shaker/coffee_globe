@@ -176,7 +176,7 @@ if [ ! -f "${CERT_FILE}" ] || [ ! -f "${KEY_FILE}" ]; then
     echo "Requesting SSL certificates for domains: ${DOMAIN}, www.${DOMAIN}"
     if docker exec "${NGINX_CONTAINER}" certbot certonly \
         --webroot \
-        --webroot-path=/var/www/html/public \
+        --webroot-path=/var/www/certbot \
         --email "${EMAIL}" \
         --agree-tos \
         --no-eff-email \
