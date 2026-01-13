@@ -4,49 +4,75 @@ set -e
 
 DOMAIN="${SSL_DOMAIN:-coffeeglobe.sa}"
 NGINX_CONTAINER="coffee_globe_nginx"
-SSL_DIR="/etc/letsencrypt/live/coffeeglobe.sa"
+SSL_DIR="docker/nginx/ssl"
+CERT_FILE="${SSL_DIR}/fullchain.pem"
+KEY_FILE="${SSL_DIR}/privkey.pem"
+LETSENCRYPT_PATH="/etc/letsencrypt/live/${DOMAIN}"
 
 if ! docker ps | grep -q "${NGINX_CONTAINER}"; then
-    echo "Nginx container is not running"
+    echo "Error: Nginx container is not running. Please start containers first: make up"
     exit 1
 fi
 
 echo "Checking SSL certificate renewal..."
 
-docker exec ${NGINX_CONTAINER} certbot renew --quiet --no-self-upgrade --dry-run > /dev/null 2>&1
-
-if [ $? -eq 0 ]; then
-    RENEWAL_NEEDED=$(docker exec ${NGINX_CONTAINER} certbot renew --dry-run 2>&1 | grep -c "would be renewed" || true)
+# Test renewal with dry-run
+if docker exec "${NGINX_CONTAINER}" certbot renew --quiet --no-self-upgrade --dry-run &> /dev/null; then
+    # Check if renewal is needed
+    RENEWAL_OUTPUT=$(docker exec "${NGINX_CONTAINER}" certbot renew --dry-run 2>&1 || true)
     
-    if [ "${RENEWAL_NEEDED}" -gt 0 ]; then
-        echo "Renewing SSL certificates..."
+    if echo "${RENEWAL_OUTPUT}" | grep -q "would be renewed"; then
+        echo "Certificate renewal is needed. Renewing..."
         
-        docker exec ${NGINX_CONTAINER} certbot renew --quiet --no-self-upgrade
-        
-        if [ $? -eq 0 ]; then
-            docker cp ${NGINX_CONTAINER}:${SSL_DIR}/fullchain.pem docker/nginx/ssl/fullchain.pem
-            docker cp ${NGINX_CONTAINER}:${SSL_DIR}/privkey.pem docker/nginx/ssl/privkey.pem
+        # Perform actual renewal
+        if docker exec "${NGINX_CONTAINER}" certbot renew --quiet --no-self-upgrade --no-random-sleep-on-renew; then
+            echo "Certificates renewed successfully"
             
-            if [ -f "docker/nginx/ssl/fullchain.pem" ] && [ -f "docker/nginx/ssl/privkey.pem" ]; then
-                docker exec ${NGINX_CONTAINER} nginx -s reload
+            # Copy renewed certificates to host
+            if docker exec "${NGINX_CONTAINER}" test -f "${LETSENCRYPT_PATH}/fullchain.pem"; then
+                docker cp "${NGINX_CONTAINER}:${LETSENCRYPT_PATH}/fullchain.pem" "${CERT_FILE}"
+                docker cp "${NGINX_CONTAINER}:${LETSENCRYPT_PATH}/privkey.pem" "${KEY_FILE}"
+                chmod 644 "${CERT_FILE}" 2>/dev/null || true
+                chmod 600 "${KEY_FILE}" 2>/dev/null || true
+                echo "Certificates copied to ${SSL_DIR}"
+            else
+                echo "Warning: Renewed certificates not found at expected path"
+            fi
+            
+            # Test nginx configuration and reload
+            if docker exec "${NGINX_CONTAINER}" nginx -t; then
+                docker exec "${NGINX_CONTAINER}" nginx -s reload
                 echo "SSL certificates renewed and nginx reloaded successfully"
             else
-                echo "Failed to copy renewed certificates"
+                echo "Error: Nginx configuration test failed after renewal"
                 exit 1
             fi
         else
-            echo "Failed to renew certificates"
+            echo "Error: Failed to renew certificates"
             exit 1
         fi
     else
-        echo "No renewal needed"
+        echo "No renewal needed. Certificates are up to date."
     fi
 else
-    docker exec ${NGINX_CONTAINER} certbot renew --quiet --no-self-upgrade
+    echo "Warning: Dry-run failed. Attempting renewal anyway..."
     
-    if [ $? -eq 0 ]; then
-        docker cp ${NGINX_CONTAINER}:${SSL_DIR}/fullchain.pem docker/nginx/ssl/fullchain.pem 2>/dev/null || true
-        docker cp ${NGINX_CONTAINER}:${SSL_DIR}/privkey.pem docker/nginx/ssl/privkey.pem 2>/dev/null || true
-        docker exec ${NGINX_CONTAINER} nginx -s reload 2>/dev/null || true
+    # Attempt renewal
+    if docker exec "${NGINX_CONTAINER}" certbot renew --quiet --no-self-upgrade --no-random-sleep-on-renew; then
+        # Copy certificates if renewal succeeded
+        if docker exec "${NGINX_CONTAINER}" test -f "${LETSENCRYPT_PATH}/fullchain.pem"; then
+            docker cp "${NGINX_CONTAINER}:${LETSENCRYPT_PATH}/fullchain.pem" "${CERT_FILE}" 2>/dev/null || true
+            docker cp "${NGINX_CONTAINER}:${LETSENCRYPT_PATH}/privkey.pem" "${KEY_FILE}" 2>/dev/null || true
+            chmod 644 "${CERT_FILE}" 2>/dev/null || true
+            chmod 600 "${KEY_FILE}" 2>/dev/null || true
+        fi
+        
+        # Reload nginx if configuration is valid
+        if docker exec "${NGINX_CONTAINER}" nginx -t &> /dev/null; then
+            docker exec "${NGINX_CONTAINER}" nginx -s reload 2>/dev/null || true
+        fi
+    else
+        echo "Error: Certificate renewal failed"
+        exit 1
     fi
 fi
