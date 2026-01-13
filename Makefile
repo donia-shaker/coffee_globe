@@ -38,6 +38,7 @@ help:
 	@echo "  make rebuild            - Rebuild and restart containers"
 	@echo "  make clean              - Remove containers and volumes"
 	@echo "  make diagnose           - Run system diagnostic script"
+	@echo "  make verify             - Verify complete system status"
 
 build:
 	$(COMPOSE) build --no-cache
@@ -200,3 +201,7 @@ reset-mysql: clean-mysql
 diagnose:
 	@chmod +x docker/diagnose.sh
 	@./docker/diagnose.sh
+
+verify:
+	@chmod +x VERIFY.sh
+	@./VERIFY.sh
