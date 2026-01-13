@@ -38,7 +38,7 @@ class ServiceCompanySeeder extends Seeder
                 ],
                 'text' => [
                     'ar' => 'تصميم خلطات حبوب خاصة بعلامة العميل التجارية مع سرية تامة',
-                    'en' => 'Designing custom coffee bean blends for the client's brand with complete confidentiality'
+                    'en' => 'Designing custom coffee bean blends for the client\'s brand with complete confidentiality'
                 ]
             ],
             [
