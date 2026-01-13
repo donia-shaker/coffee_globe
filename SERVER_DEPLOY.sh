@@ -85,25 +85,39 @@ SSL_EMAIL=admin@coffeeglobe.sa
 VITE_APP_NAME="${APP_NAME}"
 ENVEOF
 
-docker compose build --no-cache nginx
+mkdir -p docker/nginx/ssl
+
+if [ ! -f docker/nginx/ssl/fullchain.pem ]; then
+    openssl req -x509 -nodes -newkey rsa:2048 -days 1 \
+        -keyout docker/nginx/ssl/privkey.pem \
+        -out docker/nginx/ssl/fullchain.pem \
+        -subj "/CN=coffeeglobe.sa" 2>/dev/null
+    chmod 644 docker/nginx/ssl/fullchain.pem
+    chmod 600 docker/nginx/ssl/privkey.pem
+fi
+
+docker compose build --no-cache
 
 docker compose up -d
 
-sleep 20
+sleep 25
 
 docker exec coffee_globe_php composer install --no-dev --optimize-autoloader
 
 docker exec coffee_globe_php php artisan key:generate --force
+
+docker exec coffee_globe_php chmod -R 775 storage bootstrap/cache server_storage 2>/dev/null || true
+
+docker exec coffee_globe_php chown -R www-data:www-data storage bootstrap/cache server_storage 2>/dev/null || true
+
+docker exec coffee_globe_php find storage -type d -exec chmod 775 {} \; 2>/dev/null || true
+docker exec coffee_globe_php find storage -type f -exec chmod 664 {} \; 2>/dev/null || true
 
 docker exec coffee_globe_php php artisan migrate:fresh --force
 
 docker exec coffee_globe_php php artisan db:seed --force
 
 docker exec coffee_globe_php php artisan storage:link
-
-docker exec coffee_globe_php chmod -R 775 storage bootstrap/cache
-
-docker exec coffee_globe_php chown -R www-data:www-data storage bootstrap/cache
 
 docker exec coffee_globe_php php artisan optimize
 
