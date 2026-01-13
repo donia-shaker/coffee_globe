@@ -17,7 +17,7 @@ class BlogSeeder extends Seeder
                 Blog::create([
                     'name' => [
                         'ar' => 'دليل المبتدئين لتذوق القهوة المختصة',
-                        'en' => 'Beginner's guide to tasting specialty coffee'
+                        'en' => 'Beginner\'s guide to tasting specialty coffee'
                     ],
                     'text' => [
                         'ar' => 'القهوة المختصة هي أكثر من مجرد مشروب، إنها تجربة حسية تجمع بين الجودة العالية، الخبرة، والابتكار. تتميز هذه القهوة بأنها تحصل على تقييم 80+ نقطة من قبل خبراء معتمدين، مما يضمن أن كل كوب تقدمه يحتوي على النكهة المثالية والخصائص الفريدة لمصدره.
