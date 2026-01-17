@@ -113,7 +113,10 @@ const closeModel = () => {
                     ></a>
                 </div>
             </div>
-            <div
+            <div class="">
+                <img src="/images/map.svg" alt="">
+            </div>
+            <!-- <div
                 class="flex justify-between w-full md:w-1/2 mx-auto flex-col-reverse lg:flex-row"
             >
                 <form
@@ -121,7 +124,6 @@ const closeModel = () => {
                     class="w-full flex flex-col pt-4 md:px-10"
                 >
                     <div class="fields grid gap-2">
-                        <!-- الاسم -->
                         <div>
                             <label
                                 for="name"
@@ -144,7 +146,6 @@ const closeModel = () => {
                         </div>
                         <div class="flex flex-column xl:flex-row gap-2">
 
-                        <!-- رقم الهاتف -->
                         <div class="w-full">
                             <label
                                 for="phone"
@@ -166,7 +167,6 @@ const closeModel = () => {
                             </p>
                         </div>
 
-                        <!-- العنوان -->
                         <div class="w-full">
                             <label
                                 for="address"
@@ -187,7 +187,6 @@ const closeModel = () => {
                             </p>
                         </div></div>
                     </div>
-                    <!-- الرسالة -->
                     <div class="my-4">
                         <label
                             for="message"
@@ -210,7 +209,6 @@ const closeModel = () => {
                         </p>
                     </div>
 
-                    <!-- زر الإرسال -->
                     <div class="w-[200px]">
                         <Button type="third" text="" class="w-[200px]">
                             {{ $t("send") }}
@@ -218,7 +216,7 @@ const closeModel = () => {
                         </Button>
                     </div>
                 </form>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

@@ -36,7 +36,7 @@ const filterIcons = [
 // Create Vue app and register the translation function globally
 createInertiaApp({
     // title: (title) => `${title} - ${appName}`,
-    title: (title) => `${appName} - ${title}`,
+    title: (title) => `${appName}`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.vue`,

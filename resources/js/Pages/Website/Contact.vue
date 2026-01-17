@@ -6,6 +6,7 @@ import Footer from "@/Components/Footer.vue";
 import Header from "@/Components/Header.vue";
 import HeroSlide from "@/Components/HeroSlide.vue";
 import PageTitle from "@/Components/PageTitle.vue";
+import QS from "@/Components/QS.vue";
 defineProps({
     brands: Object,
     sections: Object,
@@ -19,13 +20,8 @@ defineProps({
         :contact_us_infos="contact_us_infos"
         :social_media_infos="social_media_infos"
     ></Header>
-    <PageTitle :title="$t('contact')"></PageTitle>
-    <ContactForm :contact_us_infos="contact_us_infos"></ContactForm>
-    <Footer
-        :sections="sections"
-        :brands="brands"
-        :contact_us_infos="contact_us_infos"
-        :social_media_infos="social_media_infos"
-    ></Footer>
+    <QS></QS>
+    
+    <!-- <PageTitle :title="$t('contact')"></PageTitle> -->
     <Footer></Footer>
 </template>

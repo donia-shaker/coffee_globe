@@ -6,9 +6,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title inertia>Yemen Coffee Trading </title>
+    <title inertia>Coffee Globe </title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" href="{{ asset('images/icon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/icon.svg') }}">
     <meta property="og:title" content='Yemen Coffee Trading' />
 
     <!-- Font Awesome -->

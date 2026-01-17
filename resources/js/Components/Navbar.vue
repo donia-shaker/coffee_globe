@@ -126,8 +126,8 @@ onBeforeUnmount(() => {
                     >
                         <div class="avatar">
                             <img
-                                src="/images/icon.png"
-                                class="w-px-40 h-auto rounded-circle"
+                                src="/images/icon.svg"
+                                class="w-px-30 h-auto rounded-circle"
                             />
                         </div>
                     </a>
@@ -143,8 +143,8 @@ onBeforeUnmount(() => {
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar">
                                         <img
-                                            src="/images/icon.png"
-                                            class="w-px-40 h-auto rounded-circle"
+                                            src="/images/icon.svg"
+                                            class="w-px-3c:\Users\donia\Downloads\Mask group (2).svgmod0 h-auto rounded-circle"
                                         />
                                     </div>
                                 </div>

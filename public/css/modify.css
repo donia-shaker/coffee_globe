@@ -9,6 +9,10 @@ body {
 p, h1, h2, h3, h4, h5, h6, a, span {
     font-family: "Cairo", sans-serif !important;
 }
+.light-style body{
+    background-color: #fdf6efb0 !important;
+}
+
 
 .light-style .bg-menu-theme .menu-item.open:not(.menu-item-closing)>.menu-toggle {
     color: #E02828;
@@ -73,7 +77,11 @@ table.dataTable tfoot th {
 
 .light-style .bg-menu-theme .menu-inner>.menu-item.active>.menu-link {
     background-color: #501810!important;
-    color: black!important;
+    color: white!important;
+}
+.bg-menu-theme .menu-item.active>.menu-link, .bg-menu-theme .menu-item.open:not(.menu-item-closing)>.menu-toggle{
+    color: #501810 !important;
+    
 }
 
 .light-style .bg-menu-theme .menu-inner>.menu-item.active:before {
@@ -100,7 +108,7 @@ table.dataTable tfoot th {
 }
 
 .light-style .bg-menu-theme .menu-item.active>.menu-link:not(.menu-toggle) {
-    color: white !important;
+    color: 501810 !important;
     background-color: transparent;
     
 }

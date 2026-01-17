@@ -63,7 +63,7 @@ defineProps({
                 <!-- النص -->
 
                 <h1
-                    class="text-4xl sm:text-6xl font-bold text-main my-6 px-10 rtl:xl:pr-24 ltr:xl:pl-24 max-w-[300px]"
+                    class="text-4xl sm:text-6xl font-bold text-main my-6 px-10 rtl:xl:pr-24 ltr:xl:pl-24 max-w-[400px]"
                     style="line-height: 1.5"
                 >
                     {{ title }}

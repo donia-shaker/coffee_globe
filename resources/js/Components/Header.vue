@@ -132,7 +132,7 @@ onMounted(() => {
                             </Link>
                         </li>
                         <li>
-                            <a>
+                            <a href="/contact">
                                 <Button
                                     :type="
                                         page.url  === '/contact'
@@ -206,7 +206,7 @@ onMounted(() => {
                         <Link href="/fqs">{{ $t("fqs") }}</Link>
                     </li>
                     <li class="hover:text-primary text-main transition">
-                        <Link href="#contact">{{ $t("contact") }}</Link>
+                        <Link href="/contact">{{ $t("contact") }}</Link>
                     </li>
                     <li>
                         <div

@@ -6,7 +6,7 @@
         <div class="app-brand demo">
             <a href="" class="app-brand-link">
                 <span class="app-brand-logo demo">
-                    <img src="/images/logo.svg" width="180" alt="" />
+                    <img src="/images/logo2.svg" width="140" alt="" />
                 </span>
             </a>
             <a
@@ -122,10 +122,10 @@
                 </Link>
             </li>
             <li
-                :class="{ active: route().current() === 'fqs.index' }"
+                :class="{ active: route().current() === 'admin_fqs.index' }"
                 class="menu-item"
             >
-                <Link :href="route('fqs.index')" class="menu-link">
+                <Link :href="route('admin_fqs.index')" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                     <div>الاسئلة الشائعة</div>
                 </Link>
