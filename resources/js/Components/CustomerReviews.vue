@@ -28,6 +28,10 @@ const maxStars = 5;
                 <div class="">
                     <swiper
                         :modules="modules"
+                        :autoplay="{
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        }"
                         :slides-per-view="1"
                         :loop="true"
                         :pagination="{ clickable: true }"

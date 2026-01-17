@@ -24,13 +24,14 @@ defineProps({
 
 <template>
     <div class="bg-gradient-to-b from-background/30 to-transparent">
-
-    <Header :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Header>
-    <PageTitle :title="$t('our_solutions')"></PageTitle>
-    <PartnerService :service_companies="service_companies"></PartnerService>
-    <WhyUs :why_uss="why_uss"></WhyUs>
-    <OrderService :about_page_data="about_page_data"></OrderService>
-
-</div>  
-    <!-- <Footer :sections="sections" :brands="brands" :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Footer> -->
+        <Header
+            :contact_us_infos="contact_us_infos"
+            :social_media_infos="social_media_infos"
+        ></Header>
+        <PageTitle :title="$t('our_solutions')"></PageTitle>
+        <PartnerService :service_companies="service_companies"></PartnerService>
+        <WhyUs :why_uss="why_uss"></WhyUs>
+        <OrderService :about_page_data="about_page_data"></OrderService>
+        <Footer></Footer>
+    </div>
 </template>

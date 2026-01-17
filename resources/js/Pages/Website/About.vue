@@ -21,13 +21,15 @@ defineProps({
 
 <template>
     <div class="bg-background">
-
-    <Header :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Header>
-    <PageTitle :title="$t('about')"></PageTitle>
-    <About :about_page_data="about_page_data"></About>
-    <Values :values="values"></Values>
-    <ExpertTeam :experts="experts"></ExpertTeam>
-    <Join :about_page_data="about_page_data"></Join>
-</div>  
-    <!-- <Footer :sections="sections" :brands="brands" :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Footer> -->
+        <Header
+            :contact_us_infos="contact_us_infos"
+            :social_media_infos="social_media_infos"
+        ></Header>
+        <PageTitle :title="$t('about')"></PageTitle>
+        <About :about_page_data="about_page_data"></About>
+        <Values :values="values"></Values>
+        <ExpertTeam :experts="experts"></ExpertTeam>
+        <Join :about_page_data="about_page_data"></Join>
+        <Footer></Footer>
+    </div>
 </template>

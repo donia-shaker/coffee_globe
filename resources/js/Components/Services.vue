@@ -48,6 +48,10 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
                 <div class="w-full lg:mt-14 px-4 min-w-0 overflow-hidden">
                     <swiper
                         :modules="modules"
+                        :autoplay="{
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        }"
                         :slides-per-view="1"
                         :loop="true"
                         :speed="700"
@@ -87,7 +91,7 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
                                             service.media?.url ??
                                             '/images/service.png'
                                         "
-                                        :alt="$tt(service.name) "
+                                        :alt="$tt(service.name)"
                                         class="w-full h-auto rounded-xl object-contain"
                                         :style="{
                                             transform:

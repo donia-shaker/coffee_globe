@@ -14,7 +14,7 @@ defineProps({
                 class="text-3xl text-main sm:text-4xl font-bold mb-10"
                 style="line-height: 1.5"
             >
-                {{ $t("latest_news") }}
+                {{ $t("fqs") }}
             </h2>
             <FQsData :fqs="fqs"/>
 

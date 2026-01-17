@@ -11,67 +11,8 @@ defineProps({
     social_media_infos: Object,
 });
 const { t, locale } = useI18n();
-
 const page = usePage();
-const currentUrl = page.url;
 
-const activeTab = ref("#home"); // default
-
-const isScrollingByNav = ref(false);
-
-function scrollToSection(id: string) {
-    const section = document.getElementById(id);
-    if (!section) return;
-
-    const navbarHeight = document.querySelector("nav")?.clientHeight || 0;
-
-    isScrollingByNav.value = true;
-
-    window.scrollTo({
-        top: section.offsetTop - navbarHeight,
-        behavior: "smooth",
-    });
-
-    activeTab.value = `#${id}`;
-
-    setTimeout(() => {
-        isScrollingByNav.value = false;
-    }, 600);
-}
-
-function getCurrentSectionId(): string | null {
-    if (isScrollingByNav.value) return activeTab.value.replace("#", "");
-
-    const sections = document.querySelectorAll<HTMLElement>(
-        "#home, #about, #products, #contact"
-    );
-    const navbarHeight = document.querySelector("nav")?.clientHeight || 0;
-    const scrollPos = window.scrollY + navbarHeight + 10;
-
-    for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        const top = section.offsetTop;
-        const bottom = top + section.offsetHeight;
-
-        if (
-            scrollPos >= top ||
-            (i === sections.length - 1 &&
-                window.innerHeight + window.scrollY >=
-                    document.body.scrollHeight - 5)
-        ) {
-            return section.id;
-        }
-    }
-
-    return sections[0]?.id || null;
-}
-
-onMounted(() => {
-    window.addEventListener("scroll", () => {
-        const currentId = getCurrentSectionId();
-        if (currentId) activeTab.value = `#${currentId}`;
-    });
-});
 // تغيير اللغة
 const switchLang = (lang: string) => {
     locale.value = lang;
@@ -115,19 +56,26 @@ onMounted(() => {
                 class="flex justify-between items-start py-2 mx-auto px-4 md:mt-10 lg:mt-0 xl:px-4"
                 :class="mobileMenuOpen ? 'bg-background xl:bg-[unset]' : ''"
             >
-                <div class="mb-10 mx-10 xl:mx-20 w-[80px] mt-2 md:w-[100px] relative">
-                    <img src="/images/logo.png" alt="" class="w-full h-full object-content-fit"  />
+                <div
+                    class="mx-10 xl:mx-20 w-[80px] mt-2 md:w-[100px] relative"
+                    :class="mobileMenuOpen ? 'mb-4' : 'mb-10'"
+                >
+                    <img
+                        src="/images/logo.png"
+                        alt=""
+                        class="w-full h-full object-content-fit"
+                    />
                 </div>
                 <!-- Desktop Menu -->
                 <div class="hidden xl:block -scale-2">
                     <ul
-                        class="flex gap-3 font-bold  text-main items-end mb-2 text-sm xl:text-base ltr:text-sm"
+                        class="flex gap-3 font-bold text-main items-end mb-2 text-sm xl:text-base ltr:text-sm"
                     >
                         <li>
                             <Link href="/">
                                 <Button
                                     :type="
-                                        activeTab === '#home'
+                                        page.url === '/' || page.url === '/home'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -138,7 +86,7 @@ onMounted(() => {
                             <Link href="/about">
                                 <Button
                                     :type="
-                                        activeTab === '#about'
+                                        page.url === '/about'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -150,7 +98,7 @@ onMounted(() => {
                             <Link href="/solution">
                                 <Button
                                     :type="
-                                        activeTab === '/our_solutions'
+                                        page.url  === '/solution'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -162,7 +110,7 @@ onMounted(() => {
                             <Link href="/blogs">
                                 <Button
                                     :type="
-                                        activeTab === '#blogs'
+                                        page.url  === '/blogs'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -175,7 +123,7 @@ onMounted(() => {
                             <Link href="/fqs">
                                 <Button
                                     :type="
-                                        activeTab === '#fqs'
+                                        page.url  === '/fqs'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -184,10 +132,10 @@ onMounted(() => {
                             </Link>
                         </li>
                         <li>
-                            <a @click.prevent="scrollToSection('contact')">
+                            <a>
                                 <Button
                                     :type="
-                                        activeTab === '#contact'
+                                        page.url  === '/contact'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -241,22 +189,28 @@ onMounted(() => {
                 v-if="mobileMenuOpen"
                 class="xl:hidden bg-background px-4 py-4"
             >
-                <ul class="flex flex-col gap-4 font-bold text-gray-700 text-sm">
+                <ul class="flex flex-col gap-6 font-bold text-gray-700 text-sm">
                     <li class="hover:text-primary text-main transition">
                         <Link href="/">{{ $t("home") }}</Link>
                     </li>
                     <li class="hover:text-primary text-main transition">
-                        <Link href="#about">{{ $t("about") }}</Link>
+                        <Link href="/about">{{ $t("about") }}</Link>
                     </li>
                     <li class="hover:text-primary text-main transition">
-                        <Link href="#products">{{ $t("products") }}</Link>
+                        <Link href="/solution">{{ $t("our_solutions") }}</Link>
+                    </li>
+                    <li class="hover:text-primary text-main transition">
+                        <Link href="/blogs">{{ $t("blogs") }}</Link>
+                    </li>
+                    <li class="hover:text-primary text-main transition">
+                        <Link href="/fqs">{{ $t("fqs") }}</Link>
                     </li>
                     <li class="hover:text-primary text-main transition">
                         <Link href="#contact">{{ $t("contact") }}</Link>
                     </li>
                     <li>
                         <div
-                            class="ltr:hidden cursor-pointer text-gray-600"
+                            class="ltr:hidden cursor-pointer text-main"
                             @click="switchLang('en')"
                         >
                             <div class="font-bold">
@@ -264,7 +218,7 @@ onMounted(() => {
                             </div>
                         </div>
                         <div
-                            class="rtl:hidden cursor-pointer text-gray-600"
+                            class="rtl:hidden cursor-pointer text-main"
                             @click="switchLang('ar')"
                         >
                             <div class="font-bold">
@@ -274,7 +228,7 @@ onMounted(() => {
                     </li>
 
                     <li v-for="contact_us_info in contact_us_infos">
-                        <div class="flex items-center gap-x-1">
+                        <div class="flex items-center gap-x-1 text-main">
                             <div class="flex items-center gap-x-2">
                                 <i :class="$tt(contact_us_info.icon)"></i>
                                 <span>{{ $tt(contact_us_info.name) }}:</span>
@@ -291,6 +245,7 @@ onMounted(() => {
                                 :href="social_media_info.url"
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                class="text-main"
                             >
                                 <i :class="social_media_info.icon"></i
                             ></a>

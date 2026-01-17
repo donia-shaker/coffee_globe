@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Footer from "@/Components/Footer.vue";
 import FQsData from "@/Components/FQsData.vue";
 import Header from "@/Components/Header.vue";
 import PageTitle from "@/Components/PageTitle.vue";
@@ -11,10 +12,12 @@ defineProps({
 
 <template>
     <div class="bg-gradient-to-b from-background/30 to-transparent">
-
-    <Header :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Header>
-    <PageTitle :title="$t('fqs')"></PageTitle>
-    <FQsData  :fqs="fqs" class="py-20"></FQsData>
-
-</div>  
+        <Header
+            :contact_us_infos="contact_us_infos"
+            :social_media_infos="social_media_infos"
+        ></Header>
+        <PageTitle :title="$t('fqs')"></PageTitle>
+        <FQsData :fqs="fqs" class="py-20"></FQsData>
+        <Footer></Footer>
+    </div>
 </template>

@@ -7,6 +7,7 @@ import CustomerReviews from "@/Components/CustomerReviews.vue";
 import FQS from "@/Components/FQS.vue";
 import ContactForm from "@/Components/ContactForm.vue";
 import HomeBlogs from "@/Components/HomeBlogs.vue";
+import Footer from "@/Components/Footer.vue";
 defineProps({
     sliders: Object,
     contact_us_infos: Object,
@@ -35,11 +36,8 @@ defineProps({
             :contact_us_infos="contact_us_infos"
             :social_media_infos="social_media_infos"
         ></ContactForm>
-        <!-- <Footer
-            id="contact"
-            :contact_us_infos="contact_us_infos"
-            :social_media_infos="social_media_infos"
-        ></Footer> -->
+        <Footer
+        ></Footer>
     </div>
 </template>
 

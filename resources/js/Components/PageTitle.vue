@@ -58,7 +58,7 @@ defineProps({
                 </div>
             </div>
             <div
-                class="relative z-10 flex flex-col xl:flex-row justify-between items-center h-full"
+                class="relative z-10 flex flex-col xl:flex-row justify-center lg:justify-between items-center h-full"
             >
                 <!-- النص -->
 

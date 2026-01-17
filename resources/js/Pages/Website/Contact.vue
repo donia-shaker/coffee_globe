@@ -15,8 +15,17 @@ defineProps({
 </script>
 
 <template>
-    <Header :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Header>
+    <Header
+        :contact_us_infos="contact_us_infos"
+        :social_media_infos="social_media_infos"
+    ></Header>
     <PageTitle :title="$t('contact')"></PageTitle>
     <ContactForm :contact_us_infos="contact_us_infos"></ContactForm>
-    <Footer :sections="sections" :brands="brands" :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Footer>
+    <Footer
+        :sections="sections"
+        :brands="brands"
+        :contact_us_infos="contact_us_infos"
+        :social_media_infos="social_media_infos"
+    ></Footer>
+    <Footer></Footer>
 </template>

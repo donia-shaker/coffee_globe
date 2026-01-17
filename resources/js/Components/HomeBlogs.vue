@@ -27,6 +27,10 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
                 <div class="">
                     <swiper
                         :modules="modules"
+                        :autoplay="{
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        }"
                         :slides-per-view="1"
                         :loop="true"
                         :speed="700"
@@ -49,9 +53,8 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
                             :key="blog"
                             class=""
                         >
-                            <BlogCard :blog="blog"/>
-                        </swiper-slide></swiper
-                    >
+                            <BlogCard :blog="blog" /> </swiper-slide
+                    ></swiper>
                 </div>
             </div>
         </div>

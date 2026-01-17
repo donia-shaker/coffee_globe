@@ -23,11 +23,12 @@ defineProps({
 
 <template>
     <div class="bg-gradient-to-b from-background/30 to-transparent">
-
-    <Header :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Header>
-    <PageTitle :title="$t('blogs')"></PageTitle>
-    <Blogs :blogs="blogs"></Blogs>
-
-</div>  
-    <!-- <Footer :sections="sections" :brands="brands" :contact_us_infos="contact_us_infos"  :social_media_infos="social_media_infos"></Footer> -->
+        <Header
+            :contact_us_infos="contact_us_infos"
+            :social_media_infos="social_media_infos"
+        ></Header>
+        <PageTitle :title="$t('blogs')"></PageTitle>
+        <Blogs :blogs="blogs"></Blogs>
+        <Footer></Footer>
+    </div>
 </template>
