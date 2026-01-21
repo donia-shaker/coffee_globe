@@ -15,8 +15,9 @@ const blog = props.blog;
 
 const initialForm = {
     image: "",
-    imagePreview: blog.text?.url || "",
+    imagePreview: blog.media?.url || "",
     is_active: blog.is_active ? "1" : "0",
+    date: blog.date ? "1" : "0",
     _method: "put",
 };
 
@@ -58,6 +59,21 @@ const submit = () => {
                                 "
                                 :message="form.errors[`name_${lang.code}`]"
                             />
+                            <Input
+                                v-model="form.date"
+                                type="date"
+                                label="  التاريخ"
+                                :message="form.errors.date"
+                            ></Input>
+
+                            <FileInput
+                                v-model="form.image"
+                                fieldName="image"
+                                label="الصورة"
+                                previewId="imagePreview"
+                                :src="form.imagePreview"
+                                :message="form.errors.image"
+                            />
 
                             <Textarea
                                 v-for="lang in langs"
@@ -68,15 +84,6 @@ const submit = () => {
                                     (val) => (form[`text_${lang.code}`] = val)
                                 "
                                 :message="form.errors[`text_${lang.code}`]"
-                            />
-
-                            <FileInput
-                                v-model="form.image"
-                                fieldName="image"
-                                label="الصورة"
-                                previewId="imagePreview"
-                                :src="form.imagePreview"
-                                :message="form.errors.image"
                             />
                             <Active
                                 v-model="form.is_active"

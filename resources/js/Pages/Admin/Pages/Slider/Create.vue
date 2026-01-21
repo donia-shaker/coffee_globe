@@ -13,21 +13,23 @@ let props = defineProps({
 const formFields = props.langs.reduce(
     (acc, lang) => {
         acc[`title_${lang.code}`] = "";
-        acc[`text_one_${lang.code}`] = "";
-        acc[`text_two_${lang.code}`] = "";
+        acc[`text_${lang.code}`] = "";
         return acc;
     },
     {
         image: null,
         is_active: "1",
-    }
+    },
 );
 
 const form = useForm(formFields);
 
 const submit = () => {
     form.post(route("sliders.store"), {
-        onFinish: () => form.reset("image"), // Only reset the image field
+        forceFormData: true,
+        onSuccess: () => {
+            form.reset("image"); // مسح الصورة فقط بعد الإرسال
+        },
     });
 };
 </script>
@@ -56,25 +58,12 @@ const submit = () => {
                             <Textarea
                                 v-for="lang in langs"
                                 :key="lang.code"
-                                :label="` النص الاول ${lang.code}`"
-                                :model-value="form[`text_one_${lang.code}`]"
+                                :label="` النص  ${lang.code}`"
+                                :model-value="form[`text_${lang.code}`]"
                                 @update:model-value="
-                                    (val) =>
-                                        (form[`text_one_${lang.code}`] = val)
+                                    (val) => (form[`text_${lang.code}`] = val)
                                 "
-                                :message="form.errors[`text_one_${lang.code}`]"
-                            />
-
-                            <Textarea
-                                v-for="lang in langs"
-                                :key="lang.code"
-                                :label="` النص الثاني ${lang.code}`"
-                                :model-value="form[`text_two_${lang.code}`]"
-                                @update:model-value="
-                                    (val) =>
-                                        (form[`text_two_${lang.code}`] = val)
-                                "
-                                :message="form.errors[`text_two_${lang.code}`]"
+                                :message="form.errors[`text_${lang.code}`]"
                             />
 
                             <FileInput

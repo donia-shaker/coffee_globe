@@ -37,7 +37,7 @@ const { sortColumn, sortDirection } = useSortTable("fqs", {
             :tableLink="route('admin_fqs.index')"
         >
             <template v-slot:header>
-                <h4 class="fw-bold py-2 mb-3 fs-2"> الأسئلة الشائعة </h4>
+                <h4 class="fw-bold py-2 mb-3 fs-2">الأسئلة الشائعة</h4>
             </template>
 
             <template v-slot:thead>
@@ -59,15 +59,24 @@ const { sortColumn, sortDirection } = useSortTable("fqs", {
             <template v-slot:tbody>
                 <tr v-for="fq in fqs.data" :key="fq.id">
                     <td>{{ fq.id }}</td>
-                    <td>{{ fq.name['ar'] }}</td>
-
-                    <td>{{ fq.name['en'] }}</td>
+                    <td v-for="lang in langs" :key="lang.code">
+                        {{ fq.name[lang.code] }}
+                    </td>
 
                     <td>
                         <TableStatus :active="fq.is_active" />
                     </td>
                     <td>
-                        <ActiveAction :active="fq.is_active" @click="openModal(route('fqs.active', fq.id), 'danger', fq.id)"/>
+                        <ActiveAction
+                            :active="fq.is_active"
+                            @click="
+                                openModal(
+                                    route('fqs.active', fq.id),
+                                    'danger',
+                                    fq.id,
+                                )
+                            "
+                        />
                         <Link :href="route('fqs.edit', fq.id)">
                             <EditAction />
                         </Link>
@@ -75,9 +84,7 @@ const { sortColumn, sortDirection } = useSortTable("fqs", {
                 </tr>
             </template>
         </DataTableData>
-        
     </DashboardLayout>
-
 </template>
 
 <style scoped>

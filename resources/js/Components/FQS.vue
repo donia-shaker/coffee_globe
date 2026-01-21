@@ -20,8 +20,8 @@ defineProps({
 
             <a href="/fqs" class="flex justify-center mt-10">
                 <Button type="primary" text="">
-                    {{ $t("explore") }}
-                    <i class="fas fa-arrow-left mx-2"></i>
+                    {{ $t("show_more") }}
+                    <i class="fas fa-arrow-left mx-2  ltr:scale-x-[-1]"></i>
                 </Button>
             </a>
         </div>

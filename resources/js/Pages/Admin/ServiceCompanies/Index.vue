@@ -59,9 +59,9 @@ const { sortColumn, sortDirection } = useSortTable("service_companies", {
             <template v-slot:tbody>
                 <tr v-for="service_company in service_companies.data" :key="service_company.id">
                     <td>{{ service_company.id }}</td>
-                    <td>{{ service_company.name['ar'] }}</td>
-
-                    <td>{{ service_company.name['en'] }}</td>
+                    <td v-for="lang in langs" :key="lang.code">
+                        {{ service_company.name[lang.code] }}
+                    </td>
 
                     <td>
                         <TableStatus :active="service_company.is_active" />

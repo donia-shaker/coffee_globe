@@ -70,9 +70,9 @@ const { sortColumn, sortDirection } = useSortTable("experts", {
                         />
                         <p v-else>لايوجد صورة</p>
                     </td>
-                    <td>{{ expert.name["ar"] }}</td>
-
-                    <td>{{ expert.name["en"] }}</td>
+                    <td v-for="lang in langs" :key="lang.code">
+                        {{ expert.name[lang.code] }}
+                    </td>
 
                     <td>
                         <TableStatus :active="expert.is_active" />
@@ -84,7 +84,7 @@ const { sortColumn, sortDirection } = useSortTable("experts", {
                                 openModal(
                                     route('experts.active', expert.id),
                                     'danger',
-                                    expert.id
+                                    expert.id,
                                 )
                             "
                         />

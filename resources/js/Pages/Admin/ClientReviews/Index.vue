@@ -37,7 +37,7 @@ const { sortColumn, sortDirection } = useSortTable("client_reviews", {
             :tableLink="route('client_reviews.index')"
         >
             <template v-slot:header>
-                <h4 class="fw-bold py-2 mb-3 fs-2">آراء العملاء </h4>
+                <h4 class="fw-bold py-2 mb-3 fs-2">آراء العملاء</h4>
             </template>
 
             <template v-slot:thead>
@@ -58,7 +58,10 @@ const { sortColumn, sortDirection } = useSortTable("client_reviews", {
             </template>
 
             <template v-slot:tbody>
-                <tr v-for="client_review in client_reviews.data" :key="client_review.id">
+                <tr
+                    v-for="client_review in client_reviews.data"
+                    :key="client_review.id"
+                >
                     <td>{{ client_review.id }}</td>
                     <td>
                         <img
@@ -70,25 +73,43 @@ const { sortColumn, sortDirection } = useSortTable("client_reviews", {
                         />
                         <p v-else>لايوجد صورة</p>
                     </td>
-                    <td>{{ client_review.name['ar'] }}</td>
+                    <td v-for="lang in langs" :key="lang.code">
+                        {{ client_review.name[lang.code] }}
+                    </td>
 
-                    <td>{{ client_review.name['en'] }}</td>
+                    <td>{{ client_review.name["ar"] }}</td>
+
+                    <td>{{ client_review.name["en"] }}</td>
 
                     <td>
                         <TableStatus :active="client_review.is_active" />
                     </td>
                     <td>
-                        <ActiveAction :active="client_review.is_active" @click="openModal(route('client_reviews.active', client_review.id), 'danger', client_review.id)"/>
-                        <Link :href="route('client_reviews.edit', client_review.id)">
+                        <ActiveAction
+                            :active="client_review.is_active"
+                            @click="
+                                openModal(
+                                    route(
+                                        'client_reviews.active',
+                                        client_review.id,
+                                    ),
+                                    'danger',
+                                    client_review.id,
+                                )
+                            "
+                        />
+                        <Link
+                            :href="
+                                route('client_reviews.edit', client_review.id)
+                            "
+                        >
                             <EditAction />
                         </Link>
                     </td>
                 </tr>
             </template>
         </DataTableData>
-        
     </DashboardLayout>
-
 </template>
 
 <style scoped>

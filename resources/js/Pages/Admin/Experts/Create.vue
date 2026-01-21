@@ -26,7 +26,10 @@ const form = useForm(formFields);
 
 const submit = () => {
     form.post(route("experts.store"), {
-        onFinish: () => form.reset("image"), // Only reset the image field
+        forceFormData: true,
+        onSuccess: () => {
+            form.reset("image"); // مسح الصورة فقط بعد الإرسال
+        },
     });
 };
 </script>

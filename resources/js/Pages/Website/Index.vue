@@ -36,8 +36,7 @@ defineProps({
             :contact_us_infos="contact_us_infos"
             :social_media_infos="social_media_infos"
         ></ContactForm>
-        <Footer
-        ></Footer>
+        <Footer></Footer>
     </div>
 </template>
 

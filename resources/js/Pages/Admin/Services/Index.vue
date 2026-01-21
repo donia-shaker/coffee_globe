@@ -32,12 +32,12 @@ const { sortColumn, sortDirection } = useSortTable("services", {
         <DataTableData
             :paginationData="services"
             tableName="services"
-            tableAction="أضافة  خدمة"
+            tableAction="أضافة  لمنهجيتنا"
             :tableActionLink="route('services.create')"
             :tableLink="route('services.index')"
         >
             <template v-slot:header>
-                <h4 class="fw-bold py-2 mb-3 fs-2">الخدمات </h4>
+                <h4 class="fw-bold py-2 mb-3 fs-2">منهجيتنا </h4>
             </template>
 
             <template v-slot:thead>
@@ -70,9 +70,10 @@ const { sortColumn, sortDirection } = useSortTable("services", {
                         />
                         <p v-else>لايوجد صورة</p>
                     </td>
-                    <td>{{ service.name['ar'] }}</td>
-
-                    <td>{{ service.name['en'] }}</td>
+                    
+                    <td v-for="lang in langs" :key="lang.code">
+                        {{ service.name[lang.code] }}
+                    </td>
 
                     <td>
                         <TableStatus :active="service.is_active" />

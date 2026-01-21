@@ -70,9 +70,10 @@ const { sortColumn, sortDirection } = useSortTable("why_uss", {
                         />
                         <p v-else>لايوجد صورة</p>
                     </td>
-                    <td>{{ why_us.name['ar'] }}</td>
-
-                    <td>{{ why_us.name['en'] }}</td>
+                    
+                    <td v-for="lang in langs" :key="lang.code">
+                        {{ why_us.name[lang.code] }}
+                    </td>
 
                     <td>
                         <TableStatus :active="why_us.is_active" />

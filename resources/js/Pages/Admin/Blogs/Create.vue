@@ -19,6 +19,7 @@ const formFields = props.langs.reduce(
     {
         image: null,
         is_active: "1",
+        date: null,
     },
 );
 
@@ -26,7 +27,10 @@ const form = useForm(formFields);
 
 const submit = () => {
     form.post(route("blogs.store"), {
-        onFinish: () => form.reset("image"), // Only reset the image field
+        forceFormData: true,
+        onSuccess: () => {
+            form.reset("image"); // مسح الصورة فقط بعد الإرسال
+        },
     });
 };
 </script>
@@ -52,6 +56,20 @@ const submit = () => {
                                 "
                                 :message="form.errors[`name_${lang.code}`]"
                             />
+                            <Input
+                                v-model="form.date"
+                                type="date"
+                                label="  التاريخ"
+                                :message="form.errors.date"
+                            ></Input>
+                            <FileInput
+                                v-model="form.image"
+                                fieldName="image"
+                                label="الصورة  "
+                                previewId="imagePreview"
+                                :src="form.imagePreview"
+                                :message="form.errors.image"
+                            />
                             <Textarea
                                 v-for="lang in langs"
                                 :key="lang.code"
@@ -61,15 +79,6 @@ const submit = () => {
                                     (val) => (form[`text_${lang.code}`] = val)
                                 "
                                 :message="form.errors[`text_${lang.code}`]"
-                            />
-
-                            <FileInput
-                                v-model="form.image"
-                                fieldName="image"
-                                label="الصورة  "
-                                previewId="imagePreview"
-                                :src="form.imagePreview"
-                                :message="form.errors.image"
                             />
 
                             <Active

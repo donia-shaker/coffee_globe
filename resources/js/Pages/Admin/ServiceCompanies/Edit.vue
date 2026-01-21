@@ -38,7 +38,7 @@ const submit = () => {
 <template>
     <DashboardLayout>
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-2 mb-3 fs-2">تعديل خبرائنا</h4>
+            <h4 class="fw-bold py-2 mb-3 fs-2">تعديل  خدمة شركائنا </h4>
 
             <div class="card mb-4">
                 <div class="card-body row">

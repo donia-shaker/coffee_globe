@@ -23,7 +23,7 @@ const initialForm = {
 // تعبئة أسماء اللغات
 props.langs.forEach((lang) => {
     initialForm[`title_${lang.code}`] = slider.title?.[lang.code] || "";
-    initialForm[`text_one_${lang.code}`] = slider.text_one?.[lang.code] || "";
+    initialForm[`text_${lang.code}`] = slider.text?.[lang.code] || "";
     initialForm[`text_two_${lang.code}`] = slider.text_two?.[lang.code] || "";
 });
 
@@ -64,24 +64,12 @@ const submit = () => {
                                 v-for="lang in langs"
                                 :key="lang.code"
                                 :label="` النص الاول ${lang.code}`"
-                                :model-value="form[`text_one_${lang.code}`]"
+                                :model-value="form[`text_${lang.code}`]"
                                 @update:model-value="
                                     (val) =>
-                                        (form[`text_one_${lang.code}`] = val)
+                                        (form[`text_${lang.code}`] = val)
                                 "
-                                :message="form.errors[`text_one_${lang.code}`]"
-                            />
-
-                            <Textarea
-                                v-for="lang in langs"
-                                :key="lang.code"
-                                :label="` النص الثاني ${lang.code}`"
-                                :model-value="form[`text_two_${lang.code}`]"
-                                @update:model-value="
-                                    (val) =>
-                                        (form[`text_two_${lang.code}`] = val)
-                                "
-                                :message="form.errors[`text_two_${lang.code}`]"
+                                :message="form.errors[`text_${lang.code}`]"
                             />
 
                             <FileInput

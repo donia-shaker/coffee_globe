@@ -26,7 +26,10 @@ const form = useForm(formFields);
 
 const submit = () => {
     form.post(route("why_uss.store"), {
-        onFinish: () => form.reset("image"), // Only reset the image field
+        forceFormData: true,
+        onSuccess: () => {
+            form.reset("image"); // مسح الصورة فقط بعد الإرسال
+        },
     });
 };
 </script>
@@ -46,8 +49,8 @@ const submit = () => {
                                 v-for="lang in langs"
                                 :key="lang.code"
                                 :label="` الاسم ${lang.code}`"
-                                :model-why_us="form[`name_${lang.code}`]"
-                                @update:model-why_us="
+                                :model-value="form[`name_${lang.code}`]"
+                                @update:model-value="
                                     (val) => (form[`name_${lang.code}`] = val)
                                 "
                                 :message="form.errors[`name_${lang.code}`]"

@@ -39,7 +39,7 @@ onMounted(() => {
         document.documentElement.setAttribute("dir", savedDir);
         document.documentElement.setAttribute(
             "lang",
-            savedDir == "ltr" ? "en" : "ar"
+            savedDir == "ltr" ? "en" : "ar",
         );
     } else {
         document.documentElement.setAttribute("dir", "rtl");
@@ -50,14 +50,14 @@ onMounted(() => {
 
 <template>
     <!-- الـ Navbar -->
-    <div class="absolute w-full my-2 mt-6 md:mt-10 z-50">
+    <div class="absolute w-full my-2 mt-6 md:mt-8 2xl:mt-10 z-50">
         <div class="container">
             <nav
                 class="flex justify-between items-start py-2 mx-auto px-4 md:mt-10 lg:mt-0 xl:px-4"
                 :class="mobileMenuOpen ? 'bg-background xl:bg-[unset]' : ''"
             >
                 <div
-                    class="mx-10 xl:mx-20 w-[80px] mt-2 md:w-[100px] relative"
+                    class="mx-10 xl:mx-20 w-[80px] mt-2 w-[300px] 2xl:w-[100px] relative"
                     :class="mobileMenuOpen ? 'mb-4' : 'mb-10'"
                 >
                     <img
@@ -67,13 +67,14 @@ onMounted(() => {
                     />
                 </div>
                 <!-- Desktop Menu -->
-                <div class="hidden xl:block -scale-2">
+                <div class="hidden xl:block">
                     <ul
                         class="flex gap-3 font-bold text-main items-end mb-2 text-sm xl:text-base ltr:text-sm"
                     >
                         <li>
                             <Link href="/">
                                 <Button
+                                    :isNav="true"
                                     :type="
                                         page.url === '/' || page.url === '/home'
                                             ? 'primary'
@@ -85,8 +86,9 @@ onMounted(() => {
                         <li>
                             <Link href="/about">
                                 <Button
+                                    :isNav="true"
                                     :type="
-                                        page.url === '/about'
+                                        page.url === '/about' || page.url === '/about#expert_team'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -97,8 +99,9 @@ onMounted(() => {
                         <li>
                             <Link href="/solution">
                                 <Button
+                                    :isNav="true"
                                     :type="
-                                        page.url  === '/solution'
+                                        page.url === '/solution'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -109,8 +112,9 @@ onMounted(() => {
                         <li>
                             <Link href="/blogs">
                                 <Button
+                                    :isNav="true"
                                     :type="
-                                        page.url  === '/blogs'
+                                        page.url === '/blogs'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -122,8 +126,9 @@ onMounted(() => {
                         <li>
                             <Link href="/fqs">
                                 <Button
+                                    :isNav="true"
                                     :type="
-                                        page.url  === '/fqs'
+                                        page.url === '/fqs'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -132,10 +137,11 @@ onMounted(() => {
                             </Link>
                         </li>
                         <li>
-                            <a href="/contact">
+                            <a href="/#contact">
                                 <Button
+                                    :isNav="true"
                                     :type="
-                                        page.url  === '/contact'
+                                        page.url === '/#contact'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -149,7 +155,11 @@ onMounted(() => {
                                     class="hidden xl:flex ltr:hidden cursor-pointer font-bold items-center justify-end gap-1 text-main hover:text-primary"
                                     @click="switchLang('en')"
                                 >
-                                    <Button :type="'secondary'" text="">
+                                    <Button
+                                        :isNav="true"
+                                        :type="'secondary'"
+                                        text=""
+                                    >
                                         <i class="fas fa-globe px-1"></i>
                                         <span>EN</span>
                                     </Button>
@@ -159,7 +169,11 @@ onMounted(() => {
                                     class="hidden xl:flex rtl:hidden cursor-pointer font-bold items-center justify-end gap-1 text-main hover:text-primary"
                                     @click="switchLang('ar')"
                                 >
-                                    <Button :type="'secondary'" text="">
+                                    <Button
+                                        :isNav="true"
+                                        :type="'secondary'"
+                                        text=""
+                                    >
                                         <i class="fas fa-globe px-1"></i>
                                         <span>AR</span>
                                     </Button>
@@ -172,6 +186,7 @@ onMounted(() => {
                 <!-- زر الموبايل -->
                 <div class="xl:hidden">
                     <button
+                        :isnav="true"
                         @click="mobileMenuOpen = !mobileMenuOpen"
                         class="text-2xl text-gray-700"
                     >
@@ -206,7 +221,7 @@ onMounted(() => {
                         <Link href="/fqs">{{ $t("fqs") }}</Link>
                     </li>
                     <li class="hover:text-primary text-main transition">
-                        <Link href="/contact">{{ $t("contact") }}</Link>
+                        <Link href="/#contact">{{ $t("contact") }}</Link>
                     </li>
                     <li>
                         <div

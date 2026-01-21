@@ -15,14 +15,6 @@ use Inertia\Inertia;
 
 class ContactController extends Controller
 {
-    public function index()
-    {
-        return Inertia::render('Website/Contact', [
-            'contact_us_infos' => ContactUs::where('is_active', 1)->get(),
-            'social_media_infos' => SocialMedia::where('is_active', 1)->get(),
-
-        ]);
-    }
 
     public function send(ContactUsMessageRequest $request)
     {
@@ -31,7 +23,6 @@ class ContactController extends Controller
         try {
             $email_data = [
                 'name' => $request->name,
-                'email' => $request->email,
                 'phone' => $request->phone,
                 'address' => $request->address,
                 'messages' => $request->message,

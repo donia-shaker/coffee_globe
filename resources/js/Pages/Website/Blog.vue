@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="bg-gradient-to-b from-background/30 to-transparent">
+    <div class="bg-background">
         <Header
             :contact_us_infos="contact_us_infos"
             :social_media_infos="social_media_infos"

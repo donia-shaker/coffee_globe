@@ -16,10 +16,10 @@ import Button from "./Button.vue";
             ></div>
 
             <!-- مساحة لترك النص بعد الصورة -->
-            <div class="pt-64 lg:pt-[80px] px-6 lg:px-20 py-[80px]">
+            <div class="pt-64 lg:pt-[80px] px-6 lg:px-20 py-[50px]">
                 <!-- الصورة في الشاشات الكبيرة -->
                 <div
-                    class="hidden lg:block absolute -top-10 h-[150%] w-1/2 bg-no-repeat bg-cover rtl:left-0 ltr:right-0"
+                    class="hidden lg:block absolute -top-28 2xl:-top-20 h-[150%] w-1/2 bg-no-repeat bg-cover rtl:left-0 ltr:right-0"
                     :style="{
                         backgroundImage: `url('/images/CTA1.svg')`,
                         backgroundPosition: 'center',
@@ -29,9 +29,9 @@ import Button from "./Button.vue";
                 ></div>
 
                 <div
-                    class="max-w-[750px] relative z-10 text-center mx-auto lg:text-start lg:mx-0"
+                    class="max-w-[700px] relative z-10 text-center mx-auto lg:text-start lg:mx-0"
                 >
-                    <h4 class="text-3xl lg:text-5xl text-white font-bold">
+                    <h4 class="text-3xl lg:text-6xl text-white font-bold" style="line-height: 1.4;">
                         {{ $t("cta_title") }}
                     </h4>
 
@@ -39,10 +39,10 @@ import Button from "./Button.vue";
                         {{ $t("cta_text") }}
                     </p>
 
-                    <a href="/#contact" class=" flex justify-center">
+                    <a href="/test" class=" flex justify-center">
                         <Button type="secondary" text="">
-                            {{ $t("explore") }}
-                            <i class="fas fa-arrow-left mx-2"></i>
+                            {{ $t("start_taste_test") }}
+                            <i class="fas fa-arrow-left mx-2  ltr:scale-x-[-1]"></i>
                         </Button>
                         </a
                     >

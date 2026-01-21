@@ -68,21 +68,18 @@ class SliderController extends Controller
         try {
 
             $title = [];
-            $text_one = [];
-            $text_two = [];
+            $text = [];
             
             $langs = getLangs();
 
             foreach ($langs as $locale) {
                 $title[$locale->code] = $request->input("title_{$locale->code}");
-                $text_one[$locale->code] = $request->input("text_one_{$locale->code}");
-                $text_two[$locale->code] = $request->input("text_two_{$locale->code}");
+                $text[$locale->code] = $request->input("text_{$locale->code}");
             }
 
             $slider = Slider::create([
                 'title' => $title,
-                'text_one' => $text_one,
-                'text_two' => $text_two,
+                'text' => $text,
                 'is_active' => $request->is_active,
             ]);
 
@@ -110,21 +107,18 @@ class SliderController extends Controller
             $slider = Slider::find($id);
 
             $title = [];
-            $text_one = [];
-            $text_two = [];
+            $text = [];
 
             $langs = getLangs();
 
             foreach ($langs as $locale) {
                 $title[$locale->code] = $request->input("title_{$locale->code}");
-                $text_one[$locale->code] = $request->input("text_one_{$locale->code}");
-                $text_two[$locale->code] = $request->input("text_two_{$locale->code}");
+                $text[$locale->code] = $request->input("text_{$locale->code}");
             }
 
             $slider->update([
                 'title' => $title,
-                'text_one' => $text_one,
-                'text_two' => $text_two,
+                'text' => $text,
                 'is_active' => $request->is_active,
             ]);
 

@@ -16,6 +16,7 @@ const initialForm = {
     image: "",
     icon: contact_us_info.icon,
     is_active: contact_us_info.is_active ? "1" : "0",
+    url: contact_us_info.url ? "1" : "0",
     _method: "put",
 };
 
@@ -65,6 +66,11 @@ const submit = () => {
                                 "
                                 :message="form.errors[`value_${lang.code}`]"
                             />
+                            <Input
+                                v-model="form.url"
+                                label="  الرابط"
+                                :message="form.errors.url"
+                            ></Input>
 
                             <SelectField
                                 v-model="form.icon"

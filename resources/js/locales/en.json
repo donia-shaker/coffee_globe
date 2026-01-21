@@ -79,6 +79,7 @@
             "subject": "الموضوع",
             "message": "الرسالة"
         },
+        "message": "Message",
         "accepted": "يجب قبول {attribute}.",
         "active_url": "{attribute} لا يُمثّل رابطًا صحيحًا.",
         "after": "يجب على {attribute} أن يكون تاريخًا لاحقًا للتاريخ {date}.",
@@ -251,11 +252,22 @@
     "category": "Category",
     "section": "Section",
     "name": "Name",
-    "message": "Message ",
+    "our_story": "Our Story ",
     "main_center": " Main Center",
     "our_branches": "Our branches in the Kingdom of Saudi Arabia",
     "roasting_level": "Roasting Level",
     "grinding_level": "Grinding Level",
     "coffee_globe": "Coffee Globe",
-    "our_coffee_description": "We offer a diverse selection of carefully roasted Yemeni coffee beans, crafted to suit different tastes and various coffee brewing methods."
+    "our_integrated_methodology": "Our Integrated Methodology",
+    "our_coffee_description": "We offer a diverse selection of carefully roasted Yemeni coffee beans, crafted to suit different tastes and various coffee brewing methods.",
+    "services_quality_statement": "We provide our services through specialized platforms to ensure the highest levels of quality and sustainability in both type and taste at every stage.",
+    "start_taste_test": "Start the taste test now",
+    "show_more": "Show more",
+    "join_our_journey": "Join our journey",
+    "coffee_service_statement": "Whether you are looking for exceptional coffee to enjoy or a trusted business partner, we are here to serve you",
+    "request_quote_or_sample": "Request a quote or a sample analysis",
+    "contact_for_green_coffee": "If you are a roaster or importer looking for premium green coffee with documented technical specifications, we invite you to contact our experts directly",
+    "start_partnership_now": "Start partnership",
+    "visit_store": "Visit the store",
+    "call_us": "Contact Us"
 }

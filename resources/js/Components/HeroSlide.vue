@@ -91,7 +91,7 @@ const props = defineProps({
                         </div>
                     </div>
                     <div
-                        class="relative z-10 flex flex-col xl:flex-row justify-between items-center h-full"
+                        class="relative z-10 flex flex-col xl:flex-row justify-between items-center h-full lg:h-[90%] 2xl:h-full"
                     >
                         <!-- النص -->
                         <div
@@ -102,21 +102,24 @@ const props = defineProps({
                                     <img src="/images/logo.png" alt="" class="w-[80px]  md:w-[100px]" />
                                 </div> -->
                                 <h1
-                                    class="text-2xl sm:text-4xl font-bold mb-6"
+                                    class="text-2xl text-main sm:text-3xl 2xl:text-4xl font-bold mb-6"
                                     style="line-height: 1.5"
                                 >
                                     {{ $tt(slider.title) }}
                                 </h1>
                                 <p
-                                    class="text-primary paragraph text-md xl:text-2xl font-bold mb-8 leading-[1.7]"
+                                    class="text-secondary paragraph text-md sm:text-xl 2xl:text-2xl font-bold mb-8 leading-[1.7]"
                                 >
                                     {{ $tt(slider.text) }}
                                 </p>
                                 <div class="flex justify-end">
-                                    <Button type="primary" text="">
-                                        {{ $t("explore") }}
-                                        <i class="fas fa-arrow-left mx-2"></i>
-                                    </Button>
+                                    <Link href="/about#expert_team">
+                                        <Button type="primary" text="">
+                                            {{ $t("explore") }}
+                                            <i
+                                                class="fas fa-arrow-left mx-2 ltr:scale-x-[-1]"
+                                            ></i> </Button
+                                    ></Link>
                                 </div>
                             </div>
                         </div>

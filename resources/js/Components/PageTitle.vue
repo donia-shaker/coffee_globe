@@ -15,7 +15,7 @@ defineProps({
             <div class="relative xl:hidden w-full">
                 <div class="absolute w-full mt-6 xl:mt-0">
                     <img
-                        src="/images/mask_3.svg"
+                        src="/images/mask_4.svg"
                         alt=""
                         class="w-full h-auto object-contain rounded-3xl"
                         :style="{
@@ -30,7 +30,7 @@ defineProps({
             <div class="relative hidden xl:block w-full h-auto">
                 <div class="absolute w-full mt-6 xl:mt-0">
                     <img
-                        src="/images/layout_3.png"
+                        src="/images/layout_4.svg"
                         alt=""
                         class="w-full h-auto object-contain"
                         :style="{
@@ -58,12 +58,12 @@ defineProps({
                 </div>
             </div>
             <div
-                class="relative z-10 flex flex-col xl:flex-row justify-center lg:justify-between items-center h-full"
+                class="relative z-10 flex flex-col lg:flex-row justify-center lg:justify-between items-center h-full"
             >
                 <!-- النص -->
 
                 <h1
-                    class="text-4xl sm:text-6xl font-bold text-main my-6 px-10 rtl:xl:pr-24 ltr:xl:pl-24 max-w-[400px]"
+                    class="text-4xl sm:text-6xl font-bold text-background my-6 px-10 rtl:xl:pr-24 ltr:xl:pl-24 max-w-[400px]"
                     style="line-height: 1.5"
                 >
                     {{ title }}

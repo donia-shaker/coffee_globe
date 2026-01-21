@@ -28,7 +28,7 @@ defineProps({
         <PageTitle :title="$t('about')"></PageTitle>
         <About :about_page_data="about_page_data"></About>
         <Values :values="values"></Values>
-        <ExpertTeam :experts="experts"></ExpertTeam>
+        <ExpertTeam id="expert_team" :experts="experts"></ExpertTeam>
         <Join :about_page_data="about_page_data"></Join>
         <Footer></Footer>
     </div>

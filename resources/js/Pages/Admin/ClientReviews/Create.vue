@@ -27,7 +27,10 @@ const form = useForm(formFields);
 
 const submit = () => {
     form.post(route("client_reviews.store"), {
-        onFinish: () => form.reset("image"), // Only reset the image field
+        forceFormData: true,
+        onSuccess: () => {
+            form.reset("image"); // مسح الصورة فقط بعد الإرسال
+        },
     });
 };
 </script>
@@ -56,9 +59,18 @@ const submit = () => {
 
                             <Input
                                 v-model="form.rate"
+                                type="number"
                                 label="   التقييم"
                                 :message="form.errors.rate"
                             ></Input>
+                            <FileInput
+                                v-model="form.image"
+                                fieldName="image"
+                                label="الصورة  "
+                                previewId="imagePreview"
+                                :src="form.imagePreview"
+                                :message="form.errors.image"
+                            />
                             <Textarea
                                 v-for="lang in langs"
                                 :key="lang.code"
@@ -68,15 +80,6 @@ const submit = () => {
                                     (val) => (form[`text_${lang.code}`] = val)
                                 "
                                 :message="form.errors[`text_${lang.code}`]"
-                            />
-
-                            <FileInput
-                                v-model="form.image"
-                                fieldName="image"
-                                label="الصورة  "
-                                previewId="imagePreview"
-                                :src="form.imagePreview"
-                                :message="form.errors.image"
                             />
 
                             <Active

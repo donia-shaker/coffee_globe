@@ -55,7 +55,7 @@ const submit = () => {
                             ></Input>
                             <Input
                                 v-model="form.url"
-                                label="  الرايط"
+                                label="  الرابط"
                                 :message="form.errors.url"
                             ></Input>
                             

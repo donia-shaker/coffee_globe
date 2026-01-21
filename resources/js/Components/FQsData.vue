@@ -48,7 +48,7 @@ const toggle = (index) => {
                     alt=""
                     :class="[
                         'w-5 h-5 transform transition-transform duration-300 text-gray-700',
-                        faq.open ? '' : 'rotate-180',
+                        faq.open ? '' : 'rotate-[60deg]',
                     ]"
                 />
             </button>

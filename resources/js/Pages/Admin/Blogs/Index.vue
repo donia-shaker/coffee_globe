@@ -70,9 +70,9 @@ const { sortColumn, sortDirection } = useSortTable("blogs", {
                         />
                         <p v-else>لايوجد صورة</p>
                     </td>
-                    <td>{{ blog.name['ar'] }}</td>
-
-                    <td>{{ blog.name['en'] }}</td>
+                    <td v-for="lang in langs" :key="lang.code">
+                        {{ blog.name[lang.code] }}
+                    </td>
 
                     <td>
                         <TableStatus :active="blog.is_active" />

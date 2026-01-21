@@ -25,7 +25,7 @@ defineProps({
                     class="text-main bg-background rounded-3xl   p-6 w-full"
                     v-for="expert in experts"
                 >
-                    <div class="w-full h-[250px] overflow-hidden rounded-3xl">
+                    <div class="w-full h-[220px] overflow-hidden rounded-3xl">
                         <img
                             :src="expert.media?.url ?? '/images/service.png'"
                             alt=""

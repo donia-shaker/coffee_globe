@@ -42,7 +42,7 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
                             600: {
                                 slidesPerView: 2,
                             },
-                            1500: {
+                            1200: {
                                 slidesPerView: 3,
                             },
                         }"

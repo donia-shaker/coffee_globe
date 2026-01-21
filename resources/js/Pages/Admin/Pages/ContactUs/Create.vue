@@ -18,6 +18,7 @@ const formFields = props.langs.reduce(
     {
         icon: "",
         is_active: "1",
+        url: null,
     }
 );
 
@@ -62,6 +63,11 @@ const submit = () => {
                                 "
                                 :message="form.errors[`value_${lang.code}`]"
                             />
+                            <Input
+                                v-model="form.url"
+                                label="  الرابط"
+                                :message="form.errors.url"
+                            ></Input>
                             <SelectField
                                 v-model="form.icon"
                                 field_name="icon"

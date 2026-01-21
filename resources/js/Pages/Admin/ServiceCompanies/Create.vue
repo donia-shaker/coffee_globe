@@ -31,7 +31,7 @@ const submit = () => {
 <template>
     <DashboardLayout>
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-2 mb-3 fs-2">اضافة خبرائنا</h4>
+            <h4 class="fw-bold py-2 mb-3 fs-2">اضافة  خدمة شركائنا </h4>
 
             <!-- Multi Column with Form Separator -->
             <div class="card mb-4">

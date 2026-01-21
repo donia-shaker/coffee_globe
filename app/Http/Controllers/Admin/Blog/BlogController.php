@@ -77,6 +77,7 @@ class BlogController extends Controller
             $blog = Blog::create([
                 'name' => $name,
                 'text' => $text,
+                'date' => $request->date,
                 'is_active' => $request->is_active,
             ]);
 
@@ -84,9 +85,9 @@ class BlogController extends Controller
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 $this->media_controller->saveImage('blog', $blog->id, $request->file('image'));
             }
-            return to_route('blogs.index')->with('success', 'تمت الاضافة بنجاح');
+            return to_route('admin_blogs.index')->with('success', 'تمت الاضافة بنجاح');
         } catch (\Exception $e) {
-            return to_route('blogs.index')->with('error', 'Something went wrong :(');
+            return to_route('admin_blogs.index')->with('error', 'Something went wrong :(');
         }
     }
     public function edit($id)
@@ -116,6 +117,7 @@ class BlogController extends Controller
         $blog->update([
             'name' => $name,
             'text' => $text,
+            'date' => $request->date,
             'is_active' => $request->is_active,
         ]);
 
@@ -127,7 +129,7 @@ class BlogController extends Controller
             $this->media_controller->saveImage('blog', $blog->id, $request->file('image'));
         }
 
-        return redirect()->route('blogs.index')->with('success', 'تم تحديث الخدمة بنجاح!');
+        return redirect()->route('admin_blogs.index')->with('success', 'تم التحديث  بنجاح!');
     }
 
     public function active($id)

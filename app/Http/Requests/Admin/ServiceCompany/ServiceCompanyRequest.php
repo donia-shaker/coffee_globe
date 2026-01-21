@@ -11,7 +11,7 @@ class ServiceCompanyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,15 @@ class ServiceCompanyRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $langs = getLangs();
+
+        $rules = [];
+
+        foreach ($langs as $locale) {
+            $rules["name_{$locale->code}"] = ['required', 'string', 'max:255'];
+            $rules["text_{$locale->code}"] = ['required', 'string'];
+        }
+
+        return $rules;
     }
 }

@@ -127,7 +127,7 @@ class ServiceController extends Controller
             $this->media_controller->saveImage('service', $service->id, $request->file('image'));
         }
 
-        return redirect()->route('services.index')->with('success', 'تم تحديث الخدمة بنجاح!');
+        return redirect()->route('services.index')->with('success', 'تم التحديث  بنجاح!');
     }
 
     public function active($id)

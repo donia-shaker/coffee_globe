@@ -37,7 +37,7 @@ const { sortColumn, sortDirection } = useSortTable("values", {
             :tableLink="route('values.index')"
         >
             <template v-slot:header>
-                <h4 class="fw-bold py-2 mb-3 fs-2">قيمنا </h4>
+                <h4 class="fw-bold py-2 mb-3 fs-2">قيمنا</h4>
             </template>
 
             <template v-slot:thead>
@@ -70,15 +70,24 @@ const { sortColumn, sortDirection } = useSortTable("values", {
                         />
                         <p v-else>لايوجد صورة</p>
                     </td>
-                    <td>{{ value.name['ar'] }}</td>
-
-                    <td>{{ value.name['en'] }}</td>
+                    <td v-for="lang in langs" :key="lang.code">
+                        {{ value.name[lang.code] }}
+                    </td>
 
                     <td>
                         <TableStatus :active="value.is_active" />
                     </td>
                     <td>
-                        <ActiveAction :active="value.is_active" @click="openModal(route('values.active', value.id), 'danger', value.id)"/>
+                        <ActiveAction
+                            :active="value.is_active"
+                            @click="
+                                openModal(
+                                    route('values.active', value.id),
+                                    'danger',
+                                    value.id,
+                                )
+                            "
+                        />
                         <Link :href="route('values.edit', value.id)">
                             <EditAction />
                         </Link>
@@ -86,9 +95,7 @@ const { sortColumn, sortDirection } = useSortTable("values", {
                 </tr>
             </template>
         </DataTableData>
-        
     </DashboardLayout>
-
 </template>
 
 <style scoped>

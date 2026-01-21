@@ -44,7 +44,7 @@ const maxStars = 5;
                             600: {
                                 slidesPerView: 2,
                             },
-                            1500: {
+                            1200: {
                                 slidesPerView: 3,
                             },
                         }"
@@ -76,7 +76,7 @@ const maxStars = 5;
                                         />
                                     </div>
                                     <h3
-                                        class="text-3xl text-main sm:text-xl font-bold mb-1"
+                                        class="text-xl xl:text-xl text-main sm:text-xl font-bold mb-1"
                                         style="line-height: 1.5"
                                     >
                                         {{ $tt(client_review.name) }}
@@ -88,7 +88,7 @@ const maxStars = 5;
                                     <i
                                         v-for="star in client_review.rate"
                                         :key="star"
-                                        class="fas fa-star"
+                                        class="fas fa-star text-xl"
                                         :class="
                                             star > rating ? 'opacity-30' : ''
                                         "

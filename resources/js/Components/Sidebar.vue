@@ -65,8 +65,10 @@
                 class="menu-item"
             >
                 <Link :href="route('services.index')" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                    <div>الخدمات</div>
+                    <i
+                        class="menu-icon tf-icons bx bx-objects-horizontal-left"
+                    ></i>
+                    <div>منهجيتنا</div>
                 </Link>
             </li>
             <li
@@ -79,8 +81,8 @@
                     :href="route('service_companies.index')"
                     class="menu-link"
                 >
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                    <div>حدمات الشركات</div>
+                    <i class="menu-icon tf-icons bx bx-circle-three-quarter"></i>
+                    <div>خدمات الشركات</div>
                 </Link>
             </li>
             <li
@@ -88,7 +90,7 @@
                 class="menu-item"
             >
                 <Link :href="route('admin_blogs.index')" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <i class='menu-icon tf-icons bx bx-notepad' ></i>
                     <div>المدونة</div>
                 </Link>
             </li>
@@ -97,7 +99,7 @@
                 class="menu-item"
             >
                 <Link :href="route('experts.index')" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <i class="menu-icon tf-icons bx bx-group"></i>
                     <div>خبرائنا</div>
                 </Link>
             </li>
@@ -106,7 +108,7 @@
                 class="menu-item"
             >
                 <Link :href="route('values.index')" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <i class='menu-icon tf-icons bx bxl-gitlab' ></i>
                     <div>قيمنا</div>
                 </Link>
             </li>
@@ -117,7 +119,7 @@
                 class="menu-item"
             >
                 <Link :href="route('client_reviews.index')" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <i class='menu-icon tf-icons bx bx-message-rounded'></i>
                     <div>اراء العملاء</div>
                 </Link>
             </li>
@@ -126,7 +128,7 @@
                 class="menu-item"
             >
                 <Link :href="route('admin_fqs.index')" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <i class='menu-icon tf-icons bx bx-question-mark' ></i>
                     <div>الاسئلة الشائعة</div>
                 </Link>
             </li>
@@ -135,7 +137,7 @@
                 class="menu-item"
             >
                 <Link :href="route('why_uss.index')" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <i class='menu-icon tf-icons bx bx-check-square' ></i>
                     <div>لماذا نحن</div>
                 </Link>
             </li>
@@ -157,37 +159,6 @@
                             >
                             </i>
                             <div>السلايدر</div>
-                        </Link>
-                    </li>
-                    <li
-                        :class="{
-                            active: route().current() === 'main_centers.index',
-                        }"
-                    >
-                        <Link
-                            :href="route('main_centers.index')"
-                            class="menu-link"
-                        >
-                            <i
-                                class="menu-icon tf-icons bx bxs-circle"
-                                style="font-size: 10px"
-                            >
-                            </i>
-                            <div>المركز الرئيسي</div>
-                        </Link>
-                    </li>
-                    <li
-                        :class="{
-                            active: route().current() === 'branches.index',
-                        }"
-                    >
-                        <Link :href="route('branches.index')" class="menu-link">
-                            <i
-                                class="menu-icon tf-icons bx bxs-circle"
-                                style="font-size: 10px"
-                            >
-                            </i>
-                            <div>الفروع</div>
                         </Link>
                     </li>
                     <li

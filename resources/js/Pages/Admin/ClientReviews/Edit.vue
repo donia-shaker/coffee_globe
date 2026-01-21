@@ -15,9 +15,9 @@ const client_review = props.client_review;
 
 const initialForm = {
     image: "",
-    imagePreview: client_review.text?.url || "",
+    imagePreview: client_review.media?.url || "",
     is_active: client_review.is_active ? "1" : "0",
-    rate: client_review.rate ? "1" : "0",
+    rate: client_review.rate,
     _method: "put",
 };
 
@@ -33,9 +33,6 @@ const form = useForm(initialForm);
 const submit = () => {
     form.post(route("client_reviews.update", client_review.id), {
         forceFormData: true,
-        onSuccess: () => {
-            form.reset("image"); // مسح الصورة فقط بعد الإرسال
-        },
     });
 };
 </script>
@@ -62,9 +59,18 @@ const submit = () => {
 
                             <Input
                                 v-model="form.rate"
+                                type="number"
                                 label="   التقييم"
                                 :message="form.errors.rate"
                             ></Input>
+                            <FileInput
+                                v-model="form.image"
+                                fieldName="image"
+                                label="الصورة"
+                                previewId="imagePreview"
+                                :src="form.imagePreview"
+                                :message="form.errors.image"
+                            />
                             <Textarea
                                 v-for="lang in langs"
                                 :key="lang.code"
@@ -76,14 +82,6 @@ const submit = () => {
                                 :message="form.errors[`text_${lang.code}`]"
                             />
 
-                            <FileInput
-                                v-model="form.image"
-                                fieldName="image"
-                                label="الصورة"
-                                previewId="imagePreview"
-                                :src="form.imagePreview"
-                                :message="form.errors.image"
-                            />
                             <Active
                                 v-model="form.is_active"
                                 label="الحالة "

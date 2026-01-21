@@ -16,14 +16,14 @@ const formatDate = (dateString, locale = "ar") => {
 </script>
 <template>
     <div class="relative bg-bg_light dark:bg-bg_dark">
-        <div class="container py-[80px] pt-[250px]">
+        <div class="container py-[80px] xl:px-32 pt-[250px]">
             <h3
-                class="text-2xl font-bold max-w-[900px]"
+                class="text-2xl font-bold max-w-[900px] text-main"
                 style="line-height: 1.7"
             >
                 {{ $tt(blog.name) }}
             </h3>
-            <div class="date flex items-center font-bold gap-2 text-sm pt-4 pb-2">
+            <div class="date flex items-center font-bold gap-2 text-secondary text-sm pt-4 pb-2">
                 <i class="fa-regular fa-calendar"></i>
                 <!-- بالعربي -->
                 <p class="ltr:hidden mb-0">

@@ -3,16 +3,11 @@
 use App\Http\Controllers\Admin\Blog\BlogController;
 use App\Http\Controllers\Admin\ClientReview\ClientReviewController;
 use App\Http\Controllers\Admin\Expert\ExpertController;
-use App\Http\Controllers\Admin\Feature\FeatureController;
 use App\Http\Controllers\Admin\FQ\FQController;
 use App\Http\Controllers\Admin\Pages\AboutController as PagesAboutController;
-use App\Http\Controllers\Admin\Pages\BranchController;
 use App\Http\Controllers\Admin\Pages\ContactUsController;
-use App\Http\Controllers\Admin\Pages\MainCenterController;
 use App\Http\Controllers\Admin\Pages\SliderController;
 use App\Http\Controllers\Admin\Pages\SocialMediaController;
-use App\Http\Controllers\Admin\Product\CategoryController;
-use App\Http\Controllers\Admin\Product\ProductController as ProductProductController;
 use App\Http\Controllers\Admin\Service\ServiceController;
 use App\Http\Controllers\Admin\ServiceCompany\ServiceCompanyController;
 use App\Http\Controllers\Admin\User\UserController;
@@ -25,7 +20,7 @@ use App\Http\Controllers\Website\ContactController;
 use App\Http\Controllers\Website\FQsController;
 use App\Http\Controllers\Website\IndexController;
 use App\Http\Controllers\Website\SolutionController;
-use App\Models\Feature;
+use App\Http\Controllers\Website\TestController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -35,6 +30,7 @@ Route::get('/solution', [SolutionController::class, 'index']);
 Route::get('/blogs', [BlogsController::class, 'index']);
 Route::get('/blog/{id}', [BlogsController::class, 'detail']);
 Route::get('/fqs', [FQsController::class, 'index']);
+Route::get('/test', [TestController::class, 'index']);
 Route::get('/contact', [ContactController::class, 'index']);
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 

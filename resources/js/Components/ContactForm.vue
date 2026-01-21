@@ -31,7 +31,7 @@ watch(
             message_text.value = "error";
             showModel.value = true;
         }
-    }
+    },
 );
 
 defineProps({
@@ -70,38 +70,40 @@ const closeModel = () => {
             />
         </div>
     </div>
-    <div class="relative bg-bg_green text-background z-10 bg-cover bg-center bg-no-repeat overflow-hidden"
-        style="background-image: url('/images/mask_2.png')"
+    <div
+        id="contact"
+        class="relative bg-bg_green text-background z-10 bg-cover bg-center bg-no-repeat overflow-hidden"
+        style="background-image: url(&quot;/images/mask_2.png&quot;)"
     >
-        
         <div class="container flex py-[80px] flex-col md:flex-row gap-10">
             <div class="w-full md:w-1/2 max-w-[600px] lg:px-14">
-                <h2 class="text-2xl md:text-5xl font-bold  pb-4">
+                <h2 class="text-2xl md:text-5xl font-bold pb-4">
                     {{ $t("contact_us") }}
                 </h2>
-                <div
-                    class="flex flex-col gap-x-10 gap-y-4  flex-wrap mt-14"
-                >
+                <div class="flex flex-col gap-x-10 gap-y-4 flex-wrap mt-14">
                     <div
-                        class="flex items-center  font-bold text-xl md:text-2xl gap-4 pb-3"
                         v-for="contact_us_info in contact_us_infos"
                     >
-                        <div
-                            class=" rounded-md  flex items-center justify-center"
+                        <a
+                            :href="contact_us_info.url ?? '#'"
+                            class="flex items-center gap-4 pb-3 font-bold text-xl md:text-2xl"
                         >
-                            <i
-                                class="text-white"
-                                :class="contact_us_info.icon"
-                            ></i>
-                        </div>
-                        <span
-                            class=""
-                            >{{ $tt(contact_us_info.value) }}</span
-                        >
+                            <div
+                                class="rounded-md flex items-center justify-center"
+                            >
+                                <i
+                                    class="text-white"
+                                    :class="contact_us_info.icon"
+                                ></i>
+                            </div>
+                            <span class="">{{
+                                $tt(contact_us_info.value)
+                            }}</span>
+                        </a>
                     </div>
                 </div>
                 <div
-                    class="icons  justify-center md:justify-start mt-8 text-xl md:text-xl flex gap-x-6"
+                    class="icons justify-center md:justify-start mt-8 text-xl md:text-xl flex gap-x-6"
                 >
                     <a
                         v-for="social_media_info in social_media_infos"
@@ -113,10 +115,10 @@ const closeModel = () => {
                     ></a>
                 </div>
             </div>
-            <div class="">
+            <!-- <div class="">
                 <img src="/images/map.svg" alt="">
-            </div>
-            <!-- <div
+            </div> -->
+            <div
                 class="flex justify-between w-full md:w-1/2 mx-auto flex-col-reverse lg:flex-row"
             >
                 <form
@@ -127,14 +129,14 @@ const closeModel = () => {
                         <div>
                             <label
                                 for="name"
-                                class="block text-sm font-semibold  mb-1"
+                                class="block text-sm font-semibold mb-1"
                                 >{{ $t("name") }}</label
                             >
                             <input
                                 v-model="form.name"
                                 type="text"
                                 id="name"
-                                class="w-full bg-background bg-background border border-main rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-secondary"
+                                class="w-full bg-background text-main font-bold border border-main rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-secondary"
                                 required
                             />
                             <p
@@ -145,52 +147,52 @@ const closeModel = () => {
                             </p>
                         </div>
                         <div class="flex flex-column xl:flex-row gap-2">
+                            <div class="w-full">
+                                <label
+                                    for="phone"
+                                    class="block text-sm font-semibold mb-1"
+                                >
+                                    {{ $t("phone_number") }}</label
+                                >
+                                <input
+                                    v-model="form.phone"
+                                    type="tel"
+                                    id="phone"
+                                    class="w-full bg-background border text-main font-bold border-main rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-secondary"
+                                />
+                                <p
+                                    v-if="form.errors.phone"
+                                    class="text-red-500 text-sm mt-1"
+                                >
+                                    {{ form.errors.phone }}
+                                </p>
+                            </div>
 
-                        <div class="w-full">
-                            <label
-                                for="phone"
-                                class="block text-sm font-semibold  mb-1"
-                            >
-                                {{ $t("phone_number") }}</label
-                            >
-                            <input
-                                v-model="form.phone"
-                                type="tel"
-                                id="phone"
-                                class="w-full bg-background border border-main rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-secondary"
-                            />
-                            <p
-                                v-if="form.errors.phone"
-                                class="text-red-500 text-sm mt-1"
-                            >
-                                {{ form.errors.phone }}
-                            </p>
+                            <div class="w-full">
+                                <label
+                                    for="address"
+                                    class="block text-sm font-semibold mb-1"
+                                    >{{ $t("address") }}</label
+                                >
+                                <input
+                                    v-model="form.address"
+                                    type="text"
+                                    id="address"
+                                    class="w-full bg-background text-main font-bold border border-main rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-secondary"
+                                />
+                                <p
+                                    v-if="form.errors.address"
+                                    class="text-red-500 text-sm mt-1"
+                                >
+                                    {{ form.errors.address }}
+                                </p>
+                            </div>
                         </div>
-
-                        <div class="w-full">
-                            <label
-                                for="address"
-                                class="block text-sm font-semibold  mb-1"
-                                >{{ $t("address") }}</label
-                            >
-                            <input
-                                v-model="form.address"
-                                type="text"
-                                id="address"
-                                class="w-full bg-background border border-main rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-secondary"
-                            />
-                            <p
-                                v-if="form.errors.address"
-                                class="text-red-500 text-sm mt-1"
-                            >
-                                {{ form.errors.address }}
-                            </p>
-                        </div></div>
                     </div>
                     <div class="my-4">
                         <label
                             for="message"
-                            class="block text-sm font-semibold  mb-1"
+                            class="block text-sm font-semibold mb-1"
                             >{{ $t("message") }}</label
                         >
                         <textarea
@@ -198,7 +200,7 @@ const closeModel = () => {
                             id="message"
                             rows="8"
                             minlength="10"
-                            class="w-full bg-background border border-main rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-secondary"
+                            class="w-full bg-background border text-main font-bold border-main rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-secondary"
                             required
                         ></textarea>
                         <p
@@ -212,11 +214,13 @@ const closeModel = () => {
                     <div class="w-[200px]">
                         <Button type="third" text="" class="w-[200px]">
                             {{ $t("send") }}
-                            <i class="fas fa-arrow-left mx-2"></i>
+                            <i
+                                class="fas fa-arrow-left mx-2 ltr:scale-x-[-1]"
+                            ></i>
                         </Button>
                     </div>
                 </form>
-            </div> -->
+            </div>
         </div>
     </div>
 </template>

@@ -26,7 +26,10 @@ const form = useForm(formFields);
 
 const submit = () => {
     form.post(route("services.store"), {
-        onFinish: () => form.reset("image"), // Only reset the image field
+        forceFormData: true,
+        onSuccess: () => {
+            form.reset("image"); // مسح الصورة فقط بعد الإرسال
+        },
     });
 };
 </script>
@@ -34,7 +37,7 @@ const submit = () => {
 <template>
     <DashboardLayout>
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-2 mb-3 fs-2">اضافة خدمة</h4>
+            <h4 class="fw-bold py-2 mb-3 fs-2">اضافة منهجيتنا</h4>
 
             <!-- Multi Column with Form Separator -->
             <div class="card mb-4">

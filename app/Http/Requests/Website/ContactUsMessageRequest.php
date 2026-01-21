@@ -23,7 +23,6 @@ class ContactUsMessageRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'email' => ['required', 'email'],
             'address' => ['required', 'string'],
             'phone' => ['required', 'string'],
             'message' => ['required', 'min:10'],
