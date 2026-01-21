@@ -31,7 +31,7 @@ import Button from "./Button.vue";
                 <div
                     class="max-w-[700px] relative z-10 text-center mx-auto lg:text-start lg:mx-0"
                 >
-                    <h4 class="text-3xl lg:text-6xl text-white font-bold" style="line-height: 1.4;">
+                    <h4 class="text-2xl lg:text-6xl text-white font-bold" style="line-height: 1.4;">
                         {{ $t("cta_title") }}
                     </h4>
 
