@@ -58,19 +58,17 @@ const submit = () => {
                                 "
                                 :message="form.errors[`name_${lang.code}`]"
                             />
-                            
-                             <Textarea
+
+                            <Textarea
                                 v-for="lang in langs"
                                 :key="lang.code"
                                 :label="` النص ${lang.code}`"
-                                :model-why_us="form[`text${lang.code}`]"
-                                @update:model-why_us="
-                                    (val) =>
-                                        (form[`text${lang.code}`] = val)
+                                :model-value="form[`text_${lang.code}`]"
+                                @update:model-value="
+                                    (val) => (form[`text_${lang.code}`] = val)
                                 "
-                                :message="form.errors[`text${lang.code}`]"
+                                :message="form.errors[`text_${lang.code}`]"
                             />
-
 
                             <FileInput
                                 v-model="form.image"

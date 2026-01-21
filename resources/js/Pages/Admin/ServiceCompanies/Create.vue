@@ -18,21 +18,20 @@ const formFields = props.langs.reduce(
     },
     {
         is_active: "1",
-    }
+    },
 );
 
 const form = useForm(formFields);
 
 const submit = () => {
-    form.post(route("service_companies.store"), {
-    });
+    form.post(route("service_companies.store"), {});
 };
 </script>
 
 <template>
     <DashboardLayout>
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-2 mb-3 fs-2">اضافة   خبرائنا</h4>
+            <h4 class="fw-bold py-2 mb-3 fs-2">اضافة خبرائنا</h4>
 
             <!-- Multi Column with Form Separator -->
             <div class="card mb-4">
@@ -50,17 +49,16 @@ const submit = () => {
                                 "
                                 :message="form.errors[`name_${lang.code}`]"
                             />
-                            
-                             <Textarea
+
+                            <Textarea
                                 v-for="lang in langs"
                                 :key="lang.code"
                                 :label="` النص ${lang.code}`"
-                                :model-value="form[`text${lang.code}`]"
+                                :model-value="form[`text_${lang.code}`]"
                                 @update:model-value="
-                                    (val) =>
-                                        (form[`text${lang.code}`] = val)
+                                    (val) => (form[`text_${lang.code}`] = val)
                                 "
-                                :message="form.errors[`text${lang.code}`]"
+                                :message="form.errors[`text_${lang.code}`]"
                             />
 
                             <Active

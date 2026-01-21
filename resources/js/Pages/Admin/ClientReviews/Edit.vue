@@ -69,11 +69,11 @@ const submit = () => {
                                 v-for="lang in langs"
                                 :key="lang.code"
                                 :label="` النص ${lang.code}`"
-                                :model-value="form[`text${lang.code}`]"
+                                :model-value="form[`text_${lang.code}`]"
                                 @update:model-value="
-                                    (val) => (form[`text${lang.code}`] = val)
+                                    (val) => (form[`text_${lang.code}`] = val)
                                 "
-                                :message="form.errors[`text${lang.code}`]"
+                                :message="form.errors[`text_${lang.code}`]"
                             />
 
                             <FileInput

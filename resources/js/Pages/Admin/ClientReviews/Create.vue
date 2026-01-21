@@ -20,7 +20,7 @@ const formFields = props.langs.reduce(
         image: null,
         is_active: "1",
         rate: null,
-    }
+    },
 );
 
 const form = useForm(formFields);
@@ -53,22 +53,21 @@ const submit = () => {
                                 "
                                 :message="form.errors[`name_${lang.code}`]"
                             />
-                            
+
                             <Input
                                 v-model="form.rate"
                                 label="   التقييم"
                                 :message="form.errors.rate"
                             ></Input>
-                             <Textarea
+                            <Textarea
                                 v-for="lang in langs"
                                 :key="lang.code"
                                 :label="` النص ${lang.code}`"
-                                :model-value="form[`text${lang.code}`]"
+                                :model-value="form[`text_${lang.code}`]"
                                 @update:model-value="
-                                    (val) =>
-                                        (form[`text${lang.code}`] = val)
+                                    (val) => (form[`text_${lang.code}`] = val)
                                 "
-                                :message="form.errors[`text${lang.code}`]"
+                                :message="form.errors[`text_${lang.code}`]"
                             />
 
                             <FileInput
