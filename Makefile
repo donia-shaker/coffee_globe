@@ -54,6 +54,8 @@ up:
 	@echo "Waiting for services to be ready..."
 	@sleep 10
 	@make artisan-migrate
+	@echo "Clearing caches before optimization..."
+	@make artisan-cache || true
 	@make artisan-optimize
 
 down:
@@ -116,15 +118,21 @@ artisan-seed:
 	$(COMPOSE) exec php php artisan db:seed --force
 
 artisan-cache:
-	$(COMPOSE) exec php php artisan config:clear
-	$(COMPOSE) exec php php artisan route:clear
-	$(COMPOSE) exec php php artisan view:clear
-	$(COMPOSE) exec php php artisan cache:clear
+	@echo "Clearing all Laravel caches..."
+	@$(COMPOSE) exec php php artisan config:clear 2>/dev/null || true
+	@$(COMPOSE) exec php php artisan route:clear 2>/dev/null || true
+	@$(COMPOSE) exec php php artisan view:clear 2>/dev/null || true
+	@$(COMPOSE) exec php php artisan cache:clear 2>/dev/null || true
+	@$(COMPOSE) exec php php artisan optimize:clear 2>/dev/null || true
+	@echo "All caches cleared successfully"
 
 artisan-optimize:
-	$(COMPOSE) exec php php artisan config:cache
-	$(COMPOSE) exec php php artisan route:cache
-	$(COMPOSE) exec php php artisan view:cache
+	@echo "Optimizing Laravel application..."
+	@$(COMPOSE) exec php php artisan config:cache 2>/dev/null || true
+	@$(COMPOSE) exec php php artisan route:cache 2>/dev/null || true
+	@$(COMPOSE) exec php php artisan view:cache 2>/dev/null || true
+	@$(COMPOSE) exec php php artisan optimize 2>/dev/null || true
+	@echo "Optimization completed successfully"
 
 ssl-init:
 	@chmod +x docker/ssl/init-ssl.sh
@@ -184,6 +192,8 @@ rebuild:
 		sleep 5; \
 	done
 	@make artisan-migrate || echo "Migration completed with warnings. Check logs if needed."
+	@echo "Clearing caches before optimization..."
+	@make artisan-cache || true
 	@make artisan-optimize || echo "Optimization completed with warnings."
 
 clean:

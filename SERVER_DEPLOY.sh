@@ -112,26 +112,53 @@ docker exec coffee_globe_php composer install --no-dev --optimize-autoloader --n
 echo "Checking dependencies..."
 docker exec coffee_globe_php bash docker/check-dependencies.sh || echo "Some dependencies may be missing"
 
+echo "Clearing all caches before generating APP_KEY..."
+docker exec coffee_globe_php php artisan config:clear 2>/dev/null || true
+docker exec coffee_globe_php php artisan cache:clear 2>/dev/null || true
+docker exec coffee_globe_php php artisan route:clear 2>/dev/null || true
+docker exec coffee_globe_php php artisan view:clear 2>/dev/null || true
+docker exec coffee_globe_php php artisan optimize:clear 2>/dev/null || true
+
+echo "Generating APP_KEY..."
 docker exec coffee_globe_php php artisan key:generate --force
 
-docker exec coffee_globe_php chmod -R 775 storage bootstrap/cache server_storage 2>/dev/null || true
+echo "Setting permissions..."
+docker exec coffee_globe_php chmod -R 775 storage bootstrap/cache server_storage public 2>/dev/null || true
 
-docker exec coffee_globe_php chown -R www-data:www-data storage bootstrap/cache server_storage 2>/dev/null || true
+docker exec coffee_globe_php chown -R www-data:www-data storage bootstrap/cache server_storage public 2>/dev/null || true
 
 docker exec coffee_globe_php find storage -type d -exec chmod 775 {} \; 2>/dev/null || true
 docker exec coffee_globe_php find storage -type f -exec chmod 664 {} \; 2>/dev/null || true
 
+# Ensure public directory and subdirectories have correct permissions
+docker exec coffee_globe_php find public -type d -exec chmod 775 {} \; 2>/dev/null || true
+docker exec coffee_globe_php find public -type f -exec chmod 664 {} \; 2>/dev/null || true
+
+echo "Running database migrations..."
 docker exec coffee_globe_php php artisan migrate:fresh --force
 
+echo "Seeding database..."
 docker exec coffee_globe_php php artisan db:seed --force
 
+echo "Creating storage link..."
 docker exec coffee_globe_php php artisan storage:link
 
 # Create missing image directories and placeholder files
-docker exec coffee_globe_php mkdir -p public/images 2>/dev/null || true
+docker exec coffee_globe_php mkdir -p public/images public/uploads public/media 2>/dev/null || true
 docker exec coffee_globe_php touch public/images/features_1.svg public/images/features_2.svg 2>/dev/null || true
-docker exec coffee_globe_php chown -R www-data:www-data public/images 2>/dev/null || true
+docker exec coffee_globe_php chown -R www-data:www-data public/images public/uploads public/media 2>/dev/null || true
 
+echo "Clearing caches before optimization..."
+docker exec coffee_globe_php php artisan config:clear 2>/dev/null || true
+docker exec coffee_globe_php php artisan cache:clear 2>/dev/null || true
+docker exec coffee_globe_php php artisan route:clear 2>/dev/null || true
+docker exec coffee_globe_php php artisan view:clear 2>/dev/null || true
+docker exec coffee_globe_php php artisan optimize:clear 2>/dev/null || true
+
+echo "Optimizing application..."
+docker exec coffee_globe_php php artisan config:cache
+docker exec coffee_globe_php php artisan route:cache
+docker exec coffee_globe_php php artisan view:cache
 docker exec coffee_globe_php php artisan optimize
 
 echo ""

@@ -10,14 +10,22 @@ if [ "$(id -u)" = "0" ]; then
         /var/www/html/storage/logs \
         /var/www/html/bootstrap/cache \
         /var/www/html/server_storage/media \
+        /var/www/html/public/images \
+        /var/www/html/public/uploads \
+        /var/www/html/public/media \
         /var/log/php \
         /var/cache/nginx 2>/dev/null || true
+    
+    # Create public/storage only if it doesn't exist (it might be a symbolic link from storage:link)
+    if [ ! -e "/var/www/html/public/storage" ]; then
+        mkdir -p /var/www/html/public/storage 2>/dev/null || true
+    fi
     
     chown -R www-data:www-data \
         /var/www/html/storage \
         /var/www/html/bootstrap/cache \
         /var/www/html/server_storage \
-        /var/www/html/public/images \
+        /var/www/html/public \
         /var/log/php \
         /var/cache/nginx 2>/dev/null || true
     
@@ -25,11 +33,16 @@ if [ "$(id -u)" = "0" ]; then
         /var/www/html/storage \
         /var/www/html/bootstrap/cache \
         /var/www/html/server_storage \
+        /var/www/html/public \
         /var/log/php \
         /var/cache/nginx 2>/dev/null || true
     
     find /var/www/html/storage -type d -exec chmod 775 {} \; 2>/dev/null || true
     find /var/www/html/storage -type f -exec chmod 664 {} \; 2>/dev/null || true
+    
+    # Ensure public directory and subdirectories have correct permissions
+    find /var/www/html/public -type d -exec chmod 775 {} \; 2>/dev/null || true
+    find /var/www/html/public -type f -exec chmod 664 {} \; 2>/dev/null || true
     
     if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
         echo "Installing Composer dependencies..."
@@ -43,6 +56,13 @@ if [ "$(id -u)" = "0" ]; then
         APP_KEY_VALUE=$(grep "^APP_KEY=" .env 2>/dev/null | cut -d '=' -f2- | tr -d ' ' || echo "")
         if [ -z "$APP_KEY_VALUE" ] || [ "$APP_KEY_VALUE" = "" ] || ! echo "$APP_KEY_VALUE" | grep -q "base64:"; then
             echo "APP_KEY is missing or invalid, generating new one..."
+            # Clear all caches before generating new key to avoid conflicts
+            gosu www-data php artisan config:clear 2>/dev/null || true
+            gosu www-data php artisan cache:clear 2>/dev/null || true
+            gosu www-data php artisan route:clear 2>/dev/null || true
+            gosu www-data php artisan view:clear 2>/dev/null || true
+            gosu www-data php artisan optimize:clear 2>/dev/null || true
+            # Generate new APP_KEY
             gosu www-data php artisan key:generate --force 2>&1 || echo "APP_KEY generation completed with warnings"
         else
             echo "APP_KEY already exists and is valid"
@@ -72,9 +92,17 @@ if [ "$(id -u)" = "0" ]; then
             # Create missing image directories and placeholder files
             mkdir -p public/images 2>/dev/null || true
             touch public/images/features_1.svg public/images/features_2.svg 2>/dev/null || true
+            # Clear all caches before rebuilding to ensure fresh state
+            php artisan config:clear 2>&1 || true
+            php artisan cache:clear 2>&1 || true
+            php artisan route:clear 2>&1 || true
+            php artisan view:clear 2>&1 || true
+            php artisan optimize:clear 2>&1 || true
+            # Rebuild caches for optimal performance
             php artisan config:cache 2>&1 || true
             php artisan route:cache 2>&1 || true
             php artisan view:cache 2>&1 || true
+            php artisan optimize 2>&1 || true
         "
     fi
     
