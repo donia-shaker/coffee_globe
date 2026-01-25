@@ -93,7 +93,7 @@ class ClientReviewController extends Controller
     public function edit($id)
     {
         return Inertia::render('Admin/ClientReviews/Edit', [
-            'client_review' => ClientReview::find($id),
+            'client_review' => ClientReview::with('media')->find($id),
             'langs' => getLangs(),
         ]);
     }

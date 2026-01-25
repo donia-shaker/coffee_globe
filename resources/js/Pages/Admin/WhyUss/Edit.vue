@@ -15,7 +15,7 @@ const why_us = props.why_us;
 
 const initialForm = {
     image: "",
-    imagePreview: why_us.text?.url || "",
+    imagePreview: why_us.media?.url || "",
     is_active: why_us.is_active ? "1" : "0",
     _method: "put",
 };

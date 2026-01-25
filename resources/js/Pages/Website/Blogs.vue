@@ -18,6 +18,7 @@ defineProps({
     contact_us_infos: Object,
     social_media_infos: Object,
     blogs: Object,
+    page: Object,
 });
 </script>
 
@@ -27,7 +28,7 @@ defineProps({
             :contact_us_infos="contact_us_infos"
             :social_media_infos="social_media_infos"
         ></Header>
-        <PageTitle :title="$t('blogs')"></PageTitle>
+        <PageTitle :title="$tt(page.name)" :image="page.media?.url??null"></PageTitle>
         <Blogs :blogs="blogs"></Blogs>
         <Footer></Footer>
     </div>

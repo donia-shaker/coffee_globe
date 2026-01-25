@@ -92,7 +92,7 @@ class ExpertController extends Controller
     public function edit($id)
     {
         return Inertia::render('Admin/Experts/Edit', [
-            'expert' => expert::find($id),
+            'expert' => expert::with('media')->find($id),
             'langs' => getLangs(),
         ]);
     }

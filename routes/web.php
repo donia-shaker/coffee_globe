@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Expert\ExpertController;
 use App\Http\Controllers\Admin\FQ\FQController;
 use App\Http\Controllers\Admin\Pages\AboutController as PagesAboutController;
 use App\Http\Controllers\Admin\Pages\ContactUsController;
+use App\Http\Controllers\Admin\Pages\PageController;
 use App\Http\Controllers\Admin\Pages\SliderController;
 use App\Http\Controllers\Admin\Pages\SocialMediaController;
 use App\Http\Controllers\Admin\Service\ServiceController;
@@ -159,6 +160,14 @@ Route::middleware(['auth', 'role:super_admin|admin'])->group(function () {
         Route::get('/about_page_infos/edit/{id}', 'edit')->name('about_page_infos.edit');
         Route::put('/about_page_infos/update/{id}', 'update')->name('about_page_infos.update');
     });
+
+      // Admin Mange About Page
+    Route::controller(PageController::class)->group(function () {
+        Route::get('/pages', 'index')->name('pages.index');
+        Route::get('/pages/edit/{id}', 'edit')->name('pages.edit');
+        Route::put('/pages/update/{id}', 'update')->name('pages.update');
+    });
+
 
 });
 

@@ -17,7 +17,7 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
 </script>
 
 <template>
-    <div class="relative container min-h-[500px] mt-20 xl:-mt-48 2xl:-mt-32">
+    <div class="relative container min-h-[500px] mt-20 xl:-mt-60 2xl:-mt-32">
         <div class="bg-[#FBE9D9] rounded-3xl py-10 xl:bg-[unset]">
             <div class="relative hidden xl:block w-full">
                 <div class="absolute w-full mt-6 xl:mt-0">

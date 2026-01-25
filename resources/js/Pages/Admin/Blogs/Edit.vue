@@ -17,7 +17,7 @@ const initialForm = {
     image: "",
     imagePreview: blog.media?.url || "",
     is_active: blog.is_active ? "1" : "0",
-    date: blog.date ? "1" : "0",
+    date: blog.date,
     _method: "put",
 };
 

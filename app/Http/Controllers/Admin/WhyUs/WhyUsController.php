@@ -92,7 +92,7 @@ class WhyUsController extends Controller
     public function edit($id)
     {
         return Inertia::render('Admin/WhyUss/Edit', [
-            'why_us' => WhyUs::find($id),
+            'why_us' => WhyUs::with('media')->find($id),
             'langs' => getLangs(),
         ]);
     }

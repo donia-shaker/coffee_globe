@@ -77,6 +77,7 @@ class ServiceController extends Controller
             $service = Service::create([
                 'name' => $name,
                 'text' => $text,
+                'url'       => $request->url,
                 'is_active' => $request->is_active,
             ]);
 
@@ -92,7 +93,7 @@ class ServiceController extends Controller
     public function edit($id)
     {
         return Inertia::render('Admin/Services/Edit', [
-            'service' => Service::find($id),
+            'service' => Service::with('media')->find($id),
             'langs' => getLangs(),
         ]);
     }
@@ -116,6 +117,7 @@ class ServiceController extends Controller
         $service->update([
             'name' => $name,
             'text' => $text,
+            'url'       => $request->url,
             'is_active' => $request->is_active,
         ]);
 

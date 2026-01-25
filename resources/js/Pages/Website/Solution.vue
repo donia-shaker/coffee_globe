@@ -19,6 +19,7 @@ defineProps({
     about_page_data: Object,
     contact_us_infos: Object,
     social_media_infos: Object,
+    page: Object,
 });
 </script>
 
@@ -28,7 +29,7 @@ defineProps({
             :contact_us_infos="contact_us_infos"
             :social_media_infos="social_media_infos"
         ></Header>
-        <PageTitle :title="$t('our_solutions')"></PageTitle>
+        <PageTitle :title="$tt(page.name)" :image="page.media?.url??null"></PageTitle>
         <PartnerService :service_companies="service_companies"></PartnerService>
         <WhyUs :why_uss="why_uss"></WhyUs>
         <OrderService :about_page_data="about_page_data"></OrderService>

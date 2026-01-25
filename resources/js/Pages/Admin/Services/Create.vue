@@ -18,6 +18,7 @@ const formFields = props.langs.reduce(
     },
     {
         image: null,
+        url: null,
         is_active: "1",
     },
 );
@@ -55,6 +56,19 @@ const submit = () => {
                                 "
                                 :message="form.errors[`name_${lang.code}`]"
                             />
+                            <Input
+                                v-model="form.url"
+                                label="  الرابط"
+                                :message="form.errors.url"
+                            ></Input>
+                            <FileInput
+                                v-model="form.image"
+                                fieldName="image"
+                                label="الصورة  "
+                                previewId="imagePreview"
+                                :src="form.imagePreview"
+                                :message="form.errors.image"
+                            />
                             <Textarea
                                 v-for="lang in langs"
                                 :key="lang.code"
@@ -64,15 +78,6 @@ const submit = () => {
                                     (val) => (form[`text_${lang.code}`] = val)
                                 "
                                 :message="form.errors[`text_${lang.code}`]"
-                            />
-
-                            <FileInput
-                                v-model="form.image"
-                                fieldName="image"
-                                label="الصورة  "
-                                previewId="imagePreview"
-                                :src="form.imagePreview"
-                                :message="form.errors.image"
                             />
 
                             <Active

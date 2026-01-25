@@ -29,13 +29,6 @@
                     <div>لوحة التحكم</div>
                 </Link>
             </li>
-
-            <!-- <li :class="{ active: route().current() === 'users.index' }" class="menu-item">
-                <Link :href="route('users.index')" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-user"></i>
-                    <div>المستخدمين</div>
-                </Link>
-            </li> -->
             <li class="menu-item">
                 <div class="menu-link menu-toggle" @click="toggleMenu('users')">
                     <i class="menu-icon tf-icons bx bx-user"></i>
@@ -159,6 +152,20 @@
                             >
                             </i>
                             <div>السلايدر</div>
+                        </Link>
+                    </li>
+                     <li
+                        :class="{
+                            active: route().current() === 'pages.index',
+                        }"
+                    >
+                        <Link :href="route('pages.index')" class="menu-link">
+                            <i
+                                class="menu-icon tf-icons bx bxs-circle"
+                                style="font-size: 10px"
+                            >
+                            </i>
+                            <div>الصفحات</div>
                         </Link>
                     </li>
                     <li

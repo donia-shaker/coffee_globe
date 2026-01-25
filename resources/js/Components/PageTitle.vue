@@ -4,6 +4,7 @@ import { defineProps } from "vue";
 // استقبال الـ prop
 defineProps({
     title: String,
+    image: String,
 });
 </script>
 
@@ -16,7 +17,7 @@ defineProps({
                 <div class="absolute w-full mt-6 xl:mt-0">
                     <img
                         src="/images/mask_4.svg"
-                        alt=""
+                        alt="image"
                         class="w-full h-auto object-contain rounded-3xl"
                         :style="{
                             transform:
@@ -31,7 +32,7 @@ defineProps({
                 <div class="absolute w-full mt-6 xl:mt-0">
                     <img
                         src="/images/layout_4.svg"
-                        alt=""
+                        alt="image"
                         class="w-full h-auto object-contain"
                         :style="{
                             transform:
@@ -45,7 +46,7 @@ defineProps({
             <div class="relative hidden xl:block w-full h-auto">
                 <div class="absolute w-full mt-6 xl:mt-0">
                     <img
-                        src="/images/about_bg.svg"
+                        :src="image??'/images/about_bg.svg'"
                         alt=""
                         class="w-full h-auto object-contain"
                         :style="{

@@ -15,7 +15,8 @@ const service = props.service;
 
 const initialForm = {
     image: "",
-    imagePreview: service.text?.url || "",
+    imagePreview: service.media?.url || "",
+    url: service.url,
     is_active: service.is_active ? "1" : "0",
     _method: "put",
 };
@@ -58,6 +59,19 @@ const submit = () => {
                                 "
                                 :message="form.errors[`name_${lang.code}`]"
                             />
+                            <Input
+                                v-model="form.url"
+                                label="  الرابط"
+                                :message="form.errors.url"
+                            ></Input>
+                            <FileInput
+                                v-model="form.image"
+                                fieldName="image"
+                                label="الصورة"
+                                previewId="imagePreview"
+                                :src="form.imagePreview"
+                                :message="form.errors.image"
+                            />
 
                             <Textarea
                                 v-for="lang in langs"
@@ -70,14 +84,6 @@ const submit = () => {
                                 :message="form.errors[`text_${lang.code}`]"
                             />
 
-                            <FileInput
-                                v-model="form.image"
-                                fieldName="image"
-                                label="الصورة"
-                                previewId="imagePreview"
-                                :src="form.imagePreview"
-                                :message="form.errors.image"
-                            />
                             <Active
                                 v-model="form.is_active"
                                 label="الحالة "

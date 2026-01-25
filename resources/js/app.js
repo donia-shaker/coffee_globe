@@ -7,10 +7,6 @@ import { createApp, h } from "vue";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import { createI18n } from "vue-i18n";
 
-import "ant-design-vue/dist/reset.css";
-import Antd from "ant-design-vue";
-import * as allIcon from "@ant-design/icons-vue/es";
-
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 const messagesLocales = Object.fromEntries(
@@ -46,19 +42,12 @@ createInertiaApp({
         const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-            .use(Antd)
             .use(i18n);
 
         // Add translation method globally
         app.config.globalProperties.$tt = function (translations) {
             return translations[this.$i18n.locale] || translations["en"]; // Default to 'en' if translation not found
         };
-
-        Object.keys(allIcon)
-            .filter((k) => !filterIcons.includes(k))
-            .forEach((k) => {
-                app.component(allIcon[k].displayName, allIcon[k]);
-            });
 
         app.mount(el);
     },

@@ -93,7 +93,7 @@ class BlogController extends Controller
     public function edit($id)
     {
         return Inertia::render('Admin/Blogs/Edit', [
-            'blog' => Blog::find($id),
+            'blog' => Blog::with('media')->find($id),
             'langs' => getLangs(),
         ]);
     }

@@ -92,7 +92,7 @@ class ValueController extends Controller
     public function edit($id)
     {
         return Inertia::render('Admin/Values/Edit', [
-            'value' => Value::find($id),
+            'value' => Value::with('media')->find($id),
             'langs' => getLangs(),
         ]);
     }
@@ -127,7 +127,7 @@ class ValueController extends Controller
             $this->media_controller->saveImage('value', $value->id, $request->file('image'));
         }
 
-        return redirect()->route('values.index')->with('success', 'تم تحديث الخدمة بنجاح!');
+        return redirect()->route('values.index')->with('success', 'تم التحديث  بنجاح!');
     }
 
     public function active($id)

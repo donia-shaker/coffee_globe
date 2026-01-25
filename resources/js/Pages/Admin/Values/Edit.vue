@@ -15,7 +15,7 @@ const value = props.value;
 
 const initialForm = {
     image: "",
-    imagePreview: value.text?.url || "",
+    imagePreview: value.media?.url || "",
     is_active: value.is_active ? "1" : "0",
     _method: "put",
 };

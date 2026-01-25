@@ -94,7 +94,7 @@ class SliderController extends Controller
     public function edit($id)
     {
         return Inertia::render('Admin/Pages/Slider/Edit', [
-            'slider' => Slider::find($id),
+            'slider' => Slider::with('media')->find($id),
             'langs' => getLangs(),
         ]);
     }

@@ -15,7 +15,7 @@ const expert = props.expert;
 
 const initialForm = {
     image: "",
-    imagePreview: expert.text?.url || "",
+    imagePreview: expert.media?.url || "",
     is_active: expert.is_active ? "1" : "0",
     _method: "put",
 };
