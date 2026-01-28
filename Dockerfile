@@ -7,9 +7,11 @@ ENV PHP_OPCACHE_MAX_ACCELERATED_FILES=20000
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=0
 
 # Install system dependencies (grouped for better caching)
+# libwebp-dev required for GD WebP support (Intervention/MediaLibrary default_image_format)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng-dev \
     libjpeg-dev \
+    libwebp-dev \
     libfreetype6-dev \
     libzip-dev \
     libicu-dev \
@@ -42,8 +44,8 @@ RUN docker-php-ext-install -j$(nproc) intl
 # Install zip (separate layer)
 RUN docker-php-ext-install -j$(nproc) zip
 
-# Install gd (requires configuration, separate layer)
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+# Install gd with WebP support (required for Intervention Image / media library)
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) gd
 
 # Install PECL extensions (separate layer for better caching)

@@ -15,6 +15,6 @@ return [
     'storageUrl' => env('APP_URL').'/storage/app/public/media',
     'serverUrl' => env('APP_URL').'/media',
 
-    'default_image_format' => 'webp',
+    'default_image_format' => env('MEDIA_DEFAULT_IMAGE_FORMAT', 'webp'),
 
 ];
