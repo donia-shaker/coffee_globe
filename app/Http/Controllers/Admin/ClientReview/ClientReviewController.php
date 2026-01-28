@@ -122,7 +122,7 @@ class ClientReviewController extends Controller
         ]);
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            if (isset($ClientReview->media)) {
+            if ($client_review->media) {
                 Media::where('model', 'client')->where('id', $client_review->media->id)->delete();
             }
             // upload image

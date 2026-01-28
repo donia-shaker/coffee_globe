@@ -2,8 +2,10 @@
 set -e
 
 if [ "$(id -u)" = "0" ]; then
+    # All directories required for Laravel + MediaLibrary (admin image uploads, reviews, etc.)
     mkdir -p \
         /var/www/html/storage/app/public \
+        /var/www/html/storage/app/public/media \
         /var/www/html/storage/framework/cache/data \
         /var/www/html/storage/framework/sessions \
         /var/www/html/storage/framework/views \
@@ -15,12 +17,12 @@ if [ "$(id -u)" = "0" ]; then
         /var/www/html/public/media \
         /var/log/php \
         /var/cache/nginx 2>/dev/null || true
-    
+
     # Create public/storage only if it doesn't exist (it might be a symbolic link from storage:link)
     if [ ! -e "/var/www/html/public/storage" ]; then
         mkdir -p /var/www/html/public/storage 2>/dev/null || true
     fi
-    
+
     chown -R www-data:www-data \
         /var/www/html/storage \
         /var/www/html/bootstrap/cache \
@@ -28,7 +30,7 @@ if [ "$(id -u)" = "0" ]; then
         /var/www/html/public \
         /var/log/php \
         /var/cache/nginx 2>/dev/null || true
-    
+
     chmod -R 775 \
         /var/www/html/storage \
         /var/www/html/bootstrap/cache \
@@ -36,13 +38,27 @@ if [ "$(id -u)" = "0" ]; then
         /var/www/html/public \
         /var/log/php \
         /var/cache/nginx 2>/dev/null || true
-    
+
     find /var/www/html/storage -type d -exec chmod 775 {} \; 2>/dev/null || true
     find /var/www/html/storage -type f -exec chmod 664 {} \; 2>/dev/null || true
-    
+
     # Ensure public directory and subdirectories have correct permissions
     find /var/www/html/public -type d -exec chmod 775 {} \; 2>/dev/null || true
     find /var/www/html/public -type f -exec chmod 664 {} \; 2>/dev/null || true
+
+    # Media upload dirs: must be writable by PHP-FPM (www-data). On bind mounts (e.g. Windows)
+    # chown may not take effect, so we ensure 775 and then test write; if it fails, relax to 777.
+    for media_dir in /var/www/html/server_storage/media /var/www/html/storage/app/public/media /var/www/html/public/media; do
+        [ -d "$media_dir" ] || continue
+        chown www-data:www-data "$media_dir" 2>/dev/null || true
+        chmod 775 "$media_dir" 2>/dev/null || true
+        if ! gosu www-data touch "$media_dir/.write_test" 2>/dev/null; then
+            echo "Warning: www-data cannot write to $media_dir (bind mount?). Setting 777 for uploads."
+            chmod -R 777 "$media_dir" 2>/dev/null || true
+        else
+            gosu www-data rm -f "$media_dir/.write_test" 2>/dev/null || true
+        fi
+    done
     
     if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
         echo "Installing Composer dependencies..."

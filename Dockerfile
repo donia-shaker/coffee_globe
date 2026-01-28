@@ -55,14 +55,17 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
     && chmod +x /usr/local/bin/composer
 
 # Create directories and set permissions (combined for efficiency)
+# Include storage/app/public/media for MediaLibrary when MEDIA_USE_STORAGE=true
 RUN mkdir -p /var/www/html \
     /var/www/html/storage/app/public \
+    /var/www/html/storage/app/public/media \
     /var/www/html/storage/framework/cache/data \
     /var/www/html/storage/framework/sessions \
     /var/www/html/storage/framework/views \
     /var/www/html/storage/logs \
     /var/www/html/bootstrap/cache \
     /var/www/html/server_storage/media \
+    /var/www/html/public/media \
     /var/log/php \
     /var/cache/nginx \
     && chown -R www-data:www-data \
