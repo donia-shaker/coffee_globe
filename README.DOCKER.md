@@ -100,6 +100,62 @@ make ssl-setup
 - `bootstrap/cache/` - ملفات الـ cache
 - السجلات في volumes للوصول السهل
 
+## وضع التصحيح (Debug) وتشخيص الأخطاء
+
+لعرض سبب الخطأ الفعلي (مثل 500) داخل حاوية PHP:
+
+### 1. تفعيل Laravel Debug
+في ملف `.env` على المضيف:
+```bash
+APP_ENV=local
+APP_DEBUG=true
+LOG_LEVEL=debug
+```
+ثم أعد تشغيل حاوية PHP:
+```bash
+docker compose up -d php
+```
+بعدها Laravel سيعرض صفحة الاستثناء كاملة مع الـ stack trace في المتصفح عند حدوث خطأ.
+
+### 2. عرض أخطاء PHP الخام في المتصفح
+إذا كان الخطأ يحدث قبل تحميل Laravel (مثلاً خطأ في الـ extension أو الـ ini)، فعّل عرض أخطاء PHP:
+في `docker-compose.yml` في خدمة `php` تحت `volumes`، أزل التعليق عن السطر:
+```yaml
+# - ./docker/php/php-debug.ini:/usr/local/etc/php/conf.d/99-debug.ini:ro
+```
+ليصبح:
+```yaml
+- ./docker/php/php-debug.ini:/usr/local/etc/php/conf.d/99-debug.ini:ro
+```
+ثم أعد تشغيل الحاوية:
+```bash
+docker compose up -d php
+```
+
+### 3. قراءة سجلات Laravel
+السجلات مكتوبة في المجلد المربوط من المضيف:
+```bash
+# على المضيف
+type storage\logs\laravel.log
+# أو
+tail -f storage/logs/laravel.log
+```
+أو من داخل الحاوية:
+```bash
+docker compose exec php tail -f /var/www/html/storage/logs/laravel.log
+```
+
+### 4. سجل أخطاء PHP (PHP-FPM)
+يُكتب في volume `php_logs`. لعرضه:
+```bash
+docker compose exec php cat /var/log/php/error.log
+```
+
+بعد انتهاء التشخيص عطّل Debug:
+- في `.env`: `APP_DEBUG=false` و `LOG_LEVEL=error`
+- في `docker-compose.yml`: أعد تعليق سطر `99-debug.ini`
+ثم أعد تشغيل الحاوية.
+
 ## إعداد Bind Mounts
 
 ### مجلدات Nginx
