@@ -1,61 +1,48 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="light-style  layout-menu-fixed   " dir="rtl"
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}"
     data-theme="theme-default" data-template="vertical-menu-theme-default-light">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title inertia>Coffee Globe </title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#501810">
+
+    <title inertia>Coffee Globe - {{ __('coffee_trading_company') }}</title>
+
     <link rel="icon" type="image/png" href="{{ asset('images/icon.svg') }}">
-    <meta property="og:title" content='Yemen Coffee Trading' />
 
-    <!-- Font Awesome -->
+    {{-- hreflang tags with correct alternate URLs --}}
+    <link rel="alternate" hreflang="ar" href="{{ localizedUrl('ar') }}">
+    <link rel="alternate" hreflang="en" href="{{ localizedUrl('en') }}">
+    <link rel="alternate" hreflang="x-default" href="{{ localizedUrl('ar') }}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Coffee Globe">
+    <meta property="og:locale" content="{{ app()->getLocale() === 'ar' ? 'ar_SA' : 'en_US' }}">
+    <meta property="og:locale:alternate" content="ar_SA">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:image" content="{{ asset('images/bg_slide.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@coffeeglobe">
+
+    <link rel="preconnect" href="https://coffeeglobe.sa">
+    <link rel="dns-prefetch" href="https://coffeeglobe.sa">
+
+    <link rel="manifest" href="/manifest.json">
+
     <link rel="stylesheet" href="{{ asset('css/all.min.css') }}" />
-    <!-- CSS Normalized -->
     <link rel="stylesheet" href="{{ asset('css/normalized.css') }}" />
-    <!-- Fonts -->
-    {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/coref43c.css') }}"
-        class="template-customizer-core-css" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/theme-default56b8.css') }}"
-        class="template-customizer-theme-css" /> --}}
-    <link rel="stylesheet" href="{{ asset('css/cairo.css') }}">
+    <link rel="preload" as="style" href="{{ asset('css/cairo.css') }}" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/cairo.css') }}"></noscript>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <!-- Scripts -->
-    <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
 
-    {{-- <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
-    <script src="{{ asset('assets/js/config.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/helpers.js') }}" defer></script>
 
-    <script>
-        window.templateCustomizer = new TemplateCustomizer({
-            cssPath: '',
-            themesPath: '',
-            defaultShowDropdownOnHover: true, // true/false (for horizontal layout only)
-            displayCustomizer: true,
-            lang: 'en',
-            pathResolver: function(path) {
-                var resolvedPaths = {
-                    // Core stylesheets
-                    'core.css': "{{ asset('assets/css/core.css') }}",
-                    'core-dark.css': "{{ asset('assets/css/core-dark.css') }}",
-
-                    // Themes
-                    'theme-default.css': '{{ asset('assets/css/theme-default.css') }}',
-                    'theme-default-dark.css': '{{ asset('assets/css/theme-default-dark.css') }}',
-                    'theme-bordered.css': '{{ asset('assets/css/theme-bordered.css') }}',
-                    'theme-bordered-dark.css': '{{ asset('assets/css/theme-bordered-dark.css') }}',
-                    'theme-semi-dark.css': '{{ asset('assets/css/theme-semi-dark.css') }}',
-                    'theme-semi-dark-dark.css': '{{ asset('assets/css/theme-semi-dark-dark.css') }}',
-                }
-                return resolvedPaths[path] || path;
-            },
-            'controls': ["rtl", "style", "layoutType", "showDropdownOnHover", "layoutNavbarFixed",
-                "layoutFooterFixed", "themes"
-            ],
-        });
-    </script> --}}
     @routes
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead

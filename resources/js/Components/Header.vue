@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from "vue";
-import { Link, router, usePage } from "@inertiajs/vue3";
+import { ref, onMounted, computed } from "vue";
+import { Link, usePage } from "@inertiajs/vue3";
 import { useI18n } from "vue-i18n";
 import Button from "./Button.vue";
 
@@ -13,38 +13,52 @@ defineProps({
 const { t, locale } = useI18n();
 const page = usePage();
 
-// تغيير اللغة
+// Get current locale from server-side Inertia props
+const currentLocale = computed(() => page.props.locale || 'ar');
+
+// Generate locale-aware URL
+const localeHref = (path: string) => {
+    if (currentLocale.value === 'en') {
+        return '/en' + (path === '/' ? '' : path);
+    }
+    return path;
+};
+
+// Get the base URL path for active state checking (strips /en prefix)
+const basePath = computed(() => {
+    const url = page.url;
+    if (url.startsWith('/en')) {
+        return url.slice(3) || '/';
+    }
+    return url;
+});
+
+// URL-based language switching for SEO
 const switchLang = (lang: string) => {
-    locale.value = lang;
-    localStorage.setItem("lang", lang);
-    localStorage.setItem("dir", lang === "ar" ? "rtl" : "ltr");
+    const currentPath = window.location.pathname;
 
-    document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
-    document.documentElement.setAttribute("lang", lang === "ar" ? "ar" : "en");
+    // Remove existing /en/ prefix if present
+    let cleanPath = currentPath;
+    if (cleanPath.startsWith('/en')) {
+        cleanPath = cleanPath.slice(3) || '/';
+    }
 
-    nextTick(() => {
-        location.reload();
-    });
+    // Navigate to the appropriate locale URL
+    if (lang === 'en') {
+        window.location.href = '/en' + (cleanPath === '/' ? '' : cleanPath);
+    } else {
+        window.location.href = cleanPath || '/';
+    }
 };
 
 onMounted(() => {
-    const savedLang = localStorage.getItem("lang");
-    const savedDir = localStorage.getItem("dir");
+    // Set locale from server-side Inertia props (determined by URL prefix)
+    const serverLocale = page.props.locale || 'ar';
+    locale.value = serverLocale;
 
-    if (savedLang) {
-        locale.value = savedLang;
-    }
-
-    if (savedDir) {
-        document.documentElement.setAttribute("dir", savedDir);
-        document.documentElement.setAttribute(
-            "lang",
-            savedDir == "ltr" ? "en" : "ar",
-        );
-    } else {
-        document.documentElement.setAttribute("dir", "rtl");
-        document.documentElement.setAttribute("lang", "ar");
-    }
+    // Set document attributes to match server locale
+    document.documentElement.setAttribute("dir", serverLocale === "ar" ? "rtl" : "ltr");
+    document.documentElement.setAttribute("lang", serverLocale);
 });
 </script>
 
@@ -60,11 +74,13 @@ onMounted(() => {
                     class="mx-10 xl:mx-20 w-[80px] mt-2 w-[300px] 2xl:w-[100px] relative"
                     :class="mobileMenuOpen ? 'mb-4' : 'mb-10'"
                 >
-                    <img
-                        src="/images/logo.png"
-                        alt=""
-                        class="w-full h-full object-content-fit"
-                    />
+                    <Link :href="localeHref('/')">
+                        <img
+                            src="/images/logo.png"
+                            :alt="currentLocale === 'ar' ? 'كوفى جلوب - Coffee Globe' : 'Coffee Globe'"
+                            class="w-full h-full object-content-fit"
+                        />
+                    </Link>
                 </div>
                 <!-- Desktop Menu -->
                 <div class="hidden xl:block">
@@ -72,11 +88,11 @@ onMounted(() => {
                         class="flex gap-3 font-bold text-main items-end mb-2 text-sm xl:text-base ltr:text-sm"
                     >
                         <li>
-                            <Link href="/">
+                            <Link :href="localeHref('/')">
                                 <Button
                                     :isNav="true"
                                     :type="
-                                        page.url === '/' || page.url === '/home'
+                                        basePath === '/' || basePath === '/home'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -84,11 +100,11 @@ onMounted(() => {
                             /></Link>
                         </li>
                         <li>
-                            <Link href="/about">
+                            <Link :href="localeHref('/about')">
                                 <Button
                                     :isNav="true"
                                     :type="
-                                        page.url === '/about' || page.url === '/about#expert_team'
+                                        basePath === '/about' || basePath === '/about#expert_team'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -97,11 +113,11 @@ onMounted(() => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/solution">
+                            <Link :href="localeHref('/solution')">
                                 <Button
                                     :isNav="true"
                                     :type="
-                                        page.url === '/solution'
+                                        basePath === '/solution'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -110,11 +126,11 @@ onMounted(() => {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/blogs">
+                            <Link :href="localeHref('/blogs')">
                                 <Button
                                     :isNav="true"
                                     :type="
-                                        page.url === '/blogs'
+                                        basePath === '/blogs'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -124,11 +140,11 @@ onMounted(() => {
                         </li>
 
                         <li>
-                            <Link href="/fqs">
+                            <Link :href="localeHref('/fqs')">
                                 <Button
                                     :isNav="true"
                                     :type="
-                                        page.url === '/fqs'
+                                        basePath === '/fqs'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -137,11 +153,11 @@ onMounted(() => {
                             </Link>
                         </li>
                         <li>
-                            <a href="/#contact">
+                            <a :href="localeHref('/#contact')">
                                 <Button
                                     :isNav="true"
                                     :type="
-                                        page.url === '/#contact'
+                                        basePath === '/#contact'
                                             ? 'primary'
                                             : 'secondary'
                                     "
@@ -206,22 +222,22 @@ onMounted(() => {
             >
                 <ul class="flex flex-col gap-6 font-bold text-gray-700 text-sm">
                     <li class="hover:text-primary text-main transition">
-                        <Link href="/">{{ $t("home") }}</Link>
+                        <Link :href="localeHref('/')">{{ $t("home") }}</Link>
                     </li>
                     <li class="hover:text-primary text-main transition">
-                        <Link href="/about">{{ $t("about") }}</Link>
+                        <Link :href="localeHref('/about')">{{ $t("about") }}</Link>
                     </li>
                     <li class="hover:text-primary text-main transition">
-                        <Link href="/solution">{{ $t("our_solutions") }}</Link>
+                        <Link :href="localeHref('/solution')">{{ $t("our_solutions") }}</Link>
                     </li>
                     <li class="hover:text-primary text-main transition">
-                        <Link href="/blogs">{{ $t("blogs") }}</Link>
+                        <Link :href="localeHref('/blogs')">{{ $t("blogs") }}</Link>
                     </li>
                     <li class="hover:text-primary text-main transition">
-                        <Link href="/fqs">{{ $t("fqs") }}</Link>
+                        <Link :href="localeHref('/fqs')">{{ $t("fqs") }}</Link>
                     </li>
                     <li class="hover:text-primary text-main transition">
-                        <Link href="/#contact">{{ $t("contact") }}</Link>
+                        <Link :href="localeHref('/#contact')">{{ $t("contact") }}</Link>
                     </li>
                     <li>
                         <div

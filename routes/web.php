@@ -22,19 +22,54 @@ use App\Http\Controllers\Website\FQsController;
 use App\Http\Controllers\Website\IndexController;
 use App\Http\Controllers\Website\SolutionController;
 use App\Http\Controllers\Website\TestController;
+use App\Models\ContactUs;
+use App\Models\SocialMedia;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [IndexController::class, 'index']);
-Route::get('/about', [AboutController::class, 'index']);
-Route::get('/solution', [SolutionController::class, 'index']);
-Route::get('/blogs', [BlogsController::class, 'index']);
-Route::get('/blog/{id}', [BlogsController::class, 'detail']);
-Route::get('/fqs', [FQsController::class, 'index']);
-Route::get('/test', [TestController::class, 'index']);
-Route::get('/contact', [ContactController::class, 'index']);
-Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+/*
+|--------------------------------------------------------------------------
+| Public Website Routes - Arabic (default, no prefix) & English (/en/ prefix)
+|--------------------------------------------------------------------------
+*/
 
+$publicWebsiteRoutes = function () {
+    Route::get('/', [IndexController::class, 'index'])->name('home');
+    Route::get('/about', [AboutController::class, 'index'])->name('about');
+    Route::get('/solution', [SolutionController::class, 'index'])->name('solution');
+    Route::get('/blogs', [BlogsController::class, 'index'])->name('blogs');
+    Route::get('/blog/{id}', [BlogsController::class, 'detail'])->name('blog.detail');
+    Route::get('/fqs', [FQsController::class, 'index'])->name('fqs');
+    Route::get('/test', [TestController::class, 'index'])->name('test');
+    Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+    Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+
+    Route::get('/privacy-policy', function () {
+        return Inertia::render('Website/PrivacyPolicy', [
+            'contact_us_infos' => ContactUs::where('is_active', 1)->get(),
+            'social_media_infos' => SocialMedia::where('is_active', 1)->get(),
+        ]);
+    })->name('privacy-policy');
+
+    Route::get('/terms-of-service', function () {
+        return Inertia::render('Website/TermsOfService', [
+            'contact_us_infos' => ContactUs::where('is_active', 1)->get(),
+            'social_media_infos' => SocialMedia::where('is_active', 1)->get(),
+        ]);
+    })->name('terms-of-service');
+};
+
+// Arabic routes (default - no prefix)
+$publicWebsiteRoutes();
+
+// English routes (/en/ prefix)
+Route::prefix('en')->group($publicWebsiteRoutes);
+
+/*
+|--------------------------------------------------------------------------
+| Dashboard & Admin Routes (no locale prefix)
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/dashboard', function () {
     return Inertia::render('Admin/Dashboard');
@@ -66,7 +101,7 @@ Route::middleware(['auth', 'role:super_admin|admin'])->group(function () {
         Route::put('/client_reviews/update/{id}', 'update')->name('client_reviews.update');
         Route::post('/client_reviews/active/{id}', 'active')->name('client_reviews.active');
     });
-    
+
     Route::controller(FQController::class)->group(function () {
         Route::get('/admin_fqs', 'index')->name('admin_fqs.index');
         Route::get('/fqs/create', 'create')->name('fqs.create');
@@ -75,7 +110,7 @@ Route::middleware(['auth', 'role:super_admin|admin'])->group(function () {
         Route::put('/fqs/update/{id}', 'update')->name('fqs.update');
         Route::post('/fqs/active/{id}', 'active')->name('fqs.active');
     });
-    
+
     Route::controller(BlogController::class)->group(function () {
         Route::get('/admin_blogs', 'index')->name('admin_blogs.index');
         Route::get('/blogs/create', 'create')->name('blogs.create');
@@ -154,21 +189,20 @@ Route::middleware(['auth', 'role:super_admin|admin'])->group(function () {
         Route::post('/social_media_infos/active/{id}', 'active')->name('social_media_infos.active');
     });
 
-     // Admin Mange About Page
+    // Admin Mange About Page
     Route::controller(PagesAboutController::class)->group(function () {
         Route::get('/about_page_infos', 'index')->name('about_page_infos.index');
         Route::get('/about_page_infos/edit/{id}', 'edit')->name('about_page_infos.edit');
         Route::put('/about_page_infos/update/{id}', 'update')->name('about_page_infos.update');
     });
 
-      // Admin Mange About Page
+    // Admin Mange Pages
     Route::controller(PageController::class)->group(function () {
         Route::get('/pages', 'index')->name('pages.index');
         Route::get('/pages/edit/{id}', 'edit')->name('pages.edit');
         Route::put('/pages/update/{id}', 'update')->name('pages.update');
     });
 
-
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

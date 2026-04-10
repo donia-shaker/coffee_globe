@@ -15,23 +15,8 @@ const messagesLocales = Object.fromEntries(
     )
 );
 
-// Create a Vue app
-const i18n = createI18n({
-    locale: "ar", // Default language
-    messages: messagesLocales,
-    legacy: false, // ✅ تشغيل Composition API
-});
-
-const filterIcons = [
-    "default",
-    "createFromIconfontCN",
-    "getTwoToneColor",
-    "setTwoToneColor",
-];
-
 // Create Vue app and register the translation function globally
 createInertiaApp({
-    // title: (title) => `${title} - ${appName}`,
     title: (title) => `${appName}`,
     resolve: (name) =>
         resolvePageComponent(
@@ -39,14 +24,23 @@ createInertiaApp({
             import.meta.glob("./Pages/**/*.vue")
         ),
     setup({ el, App, props, plugin }) {
+        // Read locale from Inertia shared props (set by server from URL prefix)
+        const serverLocale = props.initialPage.props.locale || "ar";
+
+        const i18n = createI18n({
+            locale: serverLocale,
+            messages: messagesLocales,
+            legacy: false,
+        });
+
         const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
             .use(i18n);
 
-        // Add translation method globally
+        // Add translation method globally for JSON-based multilingual fields
         app.config.globalProperties.$tt = function (translations) {
-            return translations[this.$i18n.locale] || translations["en"]; // Default to 'en' if translation not found
+            return translations[this.$i18n.locale] || translations["en"] || translations["ar"] || "";
         };
 
         app.mount(el);
