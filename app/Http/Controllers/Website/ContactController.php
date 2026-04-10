@@ -5,16 +5,29 @@ namespace App\Http\Controllers\Website;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Website\ContactUsMessageRequest;
 use App\Mail\ContactUsEmail;
-use App\Models\Brand;
 use App\Models\ContactUs;
-use App\Models\Section;
+use App\Models\PageImage;
 use App\Models\SocialMedia;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class ContactController extends Controller
 {
+    public function index()
+    {
+        $contact_us_infos = ContactUs::where('is_active', 1)->get();
+        $social_media_infos = SocialMedia::where('is_active', 1)->get();
+
+        $page = PageImage::whereHas('media', function ($q) {
+            $q->where('model', 'page');
+        })->first();
+
+        return Inertia::render('Website/Contact', [
+            'contact_us_infos' => $contact_us_infos,
+            'social_media_infos' => $social_media_infos,
+            'page' => $page,
+        ]);
+    }
 
     public function send(ContactUsMessageRequest $request)
     {

@@ -13,8 +13,13 @@ Artisan::command('inspire', function () {
 Artisan::command('db:monitor', function () {
     try {
         DB::connection()->getPdo();
+
         return 0;
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         return 1;
     }
 })->purpose('Check database connection');
+
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('sitemap:generate')->dailyAt('02:00');

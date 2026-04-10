@@ -1,0 +1,1 @@
+import{c as e,e as t,G as o,o as r}from"./app-BQr7-k51.js";const p={__name:"SchemaOrg",props:{type:{type:String,default:"organization",validator:a=>["organization","localBusiness","blogPost","breadcrumb","faq"].includes(a)},data:{type:Object,default:()=>({})}},setup(a){return(s,c)=>(r(),e(t(o)))}};export{p as _};

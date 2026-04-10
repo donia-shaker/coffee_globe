@@ -1,0 +1,26 @@
+{
+    "name": "Coffee Globe - كوفى جلوب",
+    "short_name": "Coffee Globe",
+    "description": "شركة كوفى جلوب لخدمات تجارة البن اليمنى - أجود أنواع القهوة اليمنية الفاخرة",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FDF6EF",
+    "theme_color": "#501810",
+    "orientation": "portrait-primary",
+    "lang": "ar",
+    "dir": "rtl",
+    "icons": [
+        {
+            "src": "/images/logo.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/images/logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "categories": ["food", "business"],
+    "scope": "/"
+}
