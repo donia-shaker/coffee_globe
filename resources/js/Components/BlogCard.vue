@@ -1,9 +1,21 @@
 <script setup>
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
+import { computed } from "vue";
 
 defineProps({
     blog: Object,
 });
+
+const page = usePage();
+const currentLocale = computed(() => page.props.locale || 'ar');
+
+// Generate locale-aware URL
+const localeHref = (path) => {
+    if (currentLocale.value === 'en') {
+        return '/en' + path;
+    }
+    return path;
+};
 </script>
 <template>
     <div class="relative border group border-primary rounded-3xl">
@@ -29,7 +41,7 @@ defineProps({
             <p class="text-main text-sm text-secondary leading-[1.7]">
                 {{ $tt(blog.text).slice(0, 120) + "..." }}
             </p>
-            <Link :href="'blog/' + blog.id">
+            <Link :href="localeHref('/blog/' + blog.id)">
                 <div
                     class="text-primary flex items-end mt-2 text-sm xl:text-md font-bold"
                 >

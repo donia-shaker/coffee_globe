@@ -1,6 +1,6 @@
 <script setup>
 import { useForm, usePage } from "@inertiajs/vue3";
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import ContactCards from "./ContactCards.vue";
 import Button from "./Button.vue";
 
@@ -15,6 +15,7 @@ const form = useForm({
 });
 
 const page = usePage();
+const currentLocale = computed(() => page.props.locale || 'ar');
 
 const successMessage = ref(page.props.flash?.success);
 const errorMessage = ref(page.props.flash?.error);
@@ -40,7 +41,8 @@ defineProps({
 });
 
 const submitForm = () => {
-    form.post(route("contact.send"), {
+    const routeName = currentLocale.value === 'en' ? 'en.contact.send' : 'contact.send';
+    form.post(route(routeName), {
         preserveScroll: true,
         onSuccess: () => form.reset(),
     });

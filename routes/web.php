@@ -62,8 +62,8 @@ $publicWebsiteRoutes = function () {
 // Arabic routes (default - no prefix)
 $publicWebsiteRoutes();
 
-// English routes (/en/ prefix)
-Route::prefix('en')->group($publicWebsiteRoutes);
+// English routes (/en/ prefix, with prefixed names to avoid conflicts)
+Route::prefix('en')->name('en.')->group($publicWebsiteRoutes);
 
 /*
 |--------------------------------------------------------------------------
