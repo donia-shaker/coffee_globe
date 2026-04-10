@@ -27,11 +27,16 @@ defineProps({
             <div
                 class="w-full md:w-[50%] flex items-center order-1 md:order-2 mb-14 md:mb-0 md:px-10 h-full"
             >
-                <img
-                    :src="about_page_data[0].media?.url ?? '/images/about.svg'"
-                    class="w-full h-full object-contain"
-                    :alt="$tt(about_page_data[0]['name'])"
-                />
+                <picture>
+                    <source srcset="/images/about.webp" type="image/webp">
+                    <img
+                        :src="about_page_data[0].media?.url ?? '/images/about.svg'"
+                        class="w-full h-full object-contain"
+                        :alt="$tt(about_page_data[0]['name'])"
+                        width="600" height="400"
+                        loading="lazy"
+                    />
+                </picture>
             </div>
         </div>
     </div>

@@ -52,13 +52,16 @@ const switchLang = (lang: string) => {
 };
 
 onMounted(() => {
-    // Set locale from server-side Inertia props (determined by URL prefix)
-    const serverLocale = page.props.locale || 'ar';
-    locale.value = serverLocale;
+    // Use requestAnimationFrame to batch DOM modifications and avoid forced reflows
+    requestAnimationFrame(() => {
+        // Set locale from server-side Inertia props (determined by URL prefix)
+        const serverLocale = page.props.locale || 'ar';
+        locale.value = serverLocale;
 
-    // Set document attributes to match server locale
-    document.documentElement.setAttribute("dir", serverLocale === "ar" ? "rtl" : "ltr");
-    document.documentElement.setAttribute("lang", serverLocale);
+        // Set document attributes to match server locale
+        document.documentElement.setAttribute("dir", serverLocale === "ar" ? "rtl" : "ltr");
+        document.documentElement.setAttribute("lang", serverLocale);
+    });
 });
 </script>
 
@@ -75,11 +78,16 @@ onMounted(() => {
                     :class="mobileMenuOpen ? 'mb-4' : 'mb-10'"
                 >
                     <Link :href="localeHref('/')">
-                        <img
-                            src="/images/logo.png"
-                            :alt="currentLocale === 'ar' ? 'كوفى جلوب - Coffee Globe' : 'Coffee Globe'"
-                            class="w-full h-full object-content-fit"
-                        />
+                        <picture>
+                            <source srcset="/images/logo.webp" type="image/webp">
+                            <img
+                                src="/images/logo.png"
+                                :alt="currentLocale === 'ar' ? 'كوفى جلوب - Coffee Globe' : 'Coffee Globe'"
+                                class="w-full h-full object-content-fit"
+                                width="100" height="100"
+                                fetchpriority="high"
+                            />
+                        </picture>
                     </Link>
                 </div>
                 <!-- Desktop Menu -->

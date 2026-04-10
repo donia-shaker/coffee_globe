@@ -35,13 +35,63 @@
 
     <link rel="manifest" href="/manifest.json">
 
-    <link rel="stylesheet" href="{{ asset('css/all.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/normalized.css') }}" />
+    {{-- Phase 4: Preload LCP image with fetchpriority --}}
+    <link rel="preload" as="image" href="{{ asset('images/logo.webp') }}" type="image/webp" fetchpriority="high">
+
+    {{-- Phase 3: Preload critical Cairo fonts (SemiBold and Bold are most used) --}}
+    <link rel="preload" href="{{ asset('fonts/Cairo/Cairo-SemiBold.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('fonts/Cairo/Cairo-Bold.woff2') }}" as="font" type="font/woff2" crossorigin>
+
+    {{-- Phase 2: Inline critical CSS to eliminate render-blocking resources --}}
+    <style>
+        /* Critical CSS - inlined from normalized.css + style.css */
+        html{line-height:1.15;-webkit-text-size-adjust:100%}
+        body{margin:0;font-family:"Cairo",sans-serif!important}
+        main{display:block}
+        h1{font-size:2em;margin:.67em 0}
+        hr{box-sizing:content-box;height:0;overflow:visible}
+        pre{font-family:monospace,monospace;font-size:1em}
+        a{background-color:transparent}
+        abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}
+        b,strong{font-weight:bolder}
+        code,kbd,samp{font-family:monospace,monospace;font-size:1em}
+        small{font-size:80%}
+        sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+        sub{bottom:-.25em}
+        sup{top:-.5em}
+        img{border-style:none}
+        button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}
+        button,input{overflow:visible}
+        button,select{text-transform:none}
+        [type=button],[type=reset],[type=submit],button{-webkit-appearance:button}
+        [type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}
+        [type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}
+        fieldset{padding:.35em .75em .625em}
+        legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}
+        progress{vertical-align:baseline}
+        textarea{overflow:auto}
+        [type=checkbox],[type=radio]{box-sizing:border-box;padding:0}
+        [type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}
+        [type=search]{-webkit-appearance:textfield;outline-offset:-2px}
+        [type=search]::-webkit-search-decoration{-webkit-appearance:none}
+        ::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}
+        details{display:block}
+        summary{display:list-item}
+        template{display:none}
+        [hidden]{display:none}
+    </style>
+
+    {{-- Phase 2: Defer non-critical Font Awesome CSS --}}
+    <link rel="preload" href="{{ asset('css/all.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/all.min.css') }}"></noscript>
+
+    {{-- Phase 3: Load Cairo fonts with swap (already has font-display:swap) --}}
     <link rel="preload" as="style" href="{{ asset('css/cairo.css') }}" onload="this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('css/cairo.css') }}"></noscript>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    <script src="{{ asset('assets/vendor/js/helpers.js') }}" defer></script>
+    {{-- Phase 3: Preload Font Awesome woff2 fonts to reduce critical chain --}}
+    <link rel="preload" href="{{ asset('webfonts/fa-solid-900.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('webfonts/fa-brands-400.woff2') }}" as="font" type="font/woff2" crossorigin>
 
     @routes
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])

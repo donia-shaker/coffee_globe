@@ -25,6 +25,8 @@ const localeHref = (path) => {
                     :src="blog.media?.url ?? '/images/service.png'"
                     :alt="$tt(blog.name)"
                     class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    width="400" height="300"
+                    loading="lazy"
                 />
                 <div
                     class="absolute inset-0 bg-gray_normal bg-opacity-50 scale-x-0 rtl:origin-right ltr:origin-left transition-transform duration-500 group-hover:scale-x-100"

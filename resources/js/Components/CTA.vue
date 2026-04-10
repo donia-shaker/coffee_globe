@@ -7,12 +7,12 @@ import Button from "./Button.vue";
     <div class="">
     <div
         class="bg-main relative bg-cover bg-center bg-no-repeat"
-        style="background-image: url('/images/mask_2.png')"
+        style="background-image: url('/images/mask_2.webp')"
     >
             <!-- الصورة في الشاشات الصغيرة (تبدأ من 0) -->
             <div
                 class="absolute -top-32 w-[80%]  h-[80%] sm:w-[70%] sm:h-[70%]  left-1/2 -translate-x-1/2 translate-y-0 md:-top-20 md:w-[50%] md:h-[60%] bg-cover bg-center bg-no-repeat lg:hidden"
-                style="background-image: url('/images/CTA1.svg')"
+                style="background-image: url('/images/CTA1.webp')"
             ></div>
 
             <!-- مساحة لترك النص بعد الصورة -->
@@ -21,7 +21,7 @@ import Button from "./Button.vue";
                 <div
                     class="hidden lg:block absolute -top-28 2xl:-top-20 h-[150%] w-1/2 bg-no-repeat bg-cover rtl:left-0 ltr:right-0"
                     :style="{
-                        backgroundImage: `url('/images/CTA1.svg')`,
+                        backgroundImage: `url('/images/CTA1.webp')`,
                         backgroundPosition: 'center',
                         transform:
                             $i18n.locale === 'en' ? 'rotateY(180deg)' : 'none',

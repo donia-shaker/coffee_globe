@@ -2,19 +2,17 @@
 import { Swiper, SwiperSlide } from "swiper/vue";
 import {
     Autoplay,
-    Navigation,
     Pagination,
-    Scrollbar,
     EffectFade,
 } from "swiper/modules";
 import "swiper/css";
 import { Link } from "@inertiajs/vue3";
 import Button from "./Button.vue";
 
-const modules = [Autoplay, Pagination, Navigation, Scrollbar, EffectFade];
+const modules = [Autoplay, Pagination, EffectFade];
 
 const props = defineProps({
-    sliders: Object, // نستخدم Array لأننا هنجلبها من الـ API
+    sliders: Object,
 });
 </script>
 
@@ -49,45 +47,60 @@ const props = defineProps({
                 >
                     <div class="relative xl:hidden w-full">
                         <div class="absolute w-full mt-6 xl:mt-0">
-                            <img
-                                src="/images/layout_2.png"
-                                alt=""
-                                class="w-full h-auto object-contain"
-                                :style="{
-                                    transform:
-                                        $i18n.locale === 'en'
-                                            ? 'rotateY(180deg)'
-                                            : 'none',
-                                }"
-                            />
+                            <picture>
+                                <source srcset="/images/layout_2.webp" type="image/webp">
+                                <img
+                                    src="/images/layout_2.png"
+                                    alt=""
+                                    class="w-full h-auto object-contain"
+                                    width="650" height="1421"
+                                    loading="lazy"
+                                    :style="{
+                                        transform:
+                                            $i18n.locale === 'en'
+                                                ? 'rotateY(180deg)'
+                                                : 'none',
+                                    }"
+                                />
+                            </picture>
                         </div>
                     </div>
                     <div class="relative hidden xl:block w-full">
                         <div class="absolute w-full mt-6 xl:mt-0">
-                            <img
-                                src="/images/layout.png"
-                                alt=""
-                                class="w-full h-auto object-contain"
-                                :style="{
-                                    transform:
-                                        $i18n.locale === 'en'
-                                            ? 'rotateY(180deg)'
-                                            : 'none',
-                                }"
-                            />
+                            <picture>
+                                <source srcset="/images/layout.webp" type="image/webp">
+                                <img
+                                    src="/images/layout.png"
+                                    alt=""
+                                    class="w-full h-auto object-contain"
+                                    width="1400" height="900"
+                                    loading="lazy"
+                                    :style="{
+                                        transform:
+                                            $i18n.locale === 'en'
+                                                ? 'rotateY(180deg)'
+                                                : 'none',
+                                    }"
+                                />
+                            </picture>
                         </div>
                         <div class="absolute w-full mt-6 xl:mt-0">
-                            <img
-                                src="/images/mask.png"
-                                alt=""
-                                class="w-full h-auto object-contain"
-                                :style="{
-                                    transform:
-                                        $i18n.locale === 'en'
-                                            ? 'rotateY(180deg)'
-                                            : 'none',
-                                }"
-                            />
+                            <picture>
+                                <source srcset="/images/mask.webp" type="image/webp">
+                                <img
+                                    src="/images/mask.png"
+                                    alt=""
+                                    class="w-full h-auto object-contain"
+                                    width="1400" height="900"
+                                    loading="lazy"
+                                    :style="{
+                                        transform:
+                                            $i18n.locale === 'en'
+                                                ? 'rotateY(180deg)'
+                                                : 'none',
+                                    }"
+                                />
+                            </picture>
                         </div>
                     </div>
                     <div
@@ -98,9 +111,6 @@ const props = defineProps({
                             class="w-full xl:w-[55%] flex flex-col items-center mt-40 md:mt-60 xl:mt-0 px-4 rtl:xl:pr-12 ltr:xl:pl-12"
                         >
                             <div class="w-full xl:w-[90%]">
-                                <!-- <div class="mb-6 xl:mb-10 mx-10 xl:mx-20">
-                                    <img src="/images/logo.png" alt="" class="w-[80px]  md:w-[100px]" />
-                                </div> -->
                                 <h1
                                     class="text-2xl text-main sm:text-3xl 2xl:text-4xl font-bold mb-6"
                                     style="line-height: 1.5"
@@ -125,17 +135,21 @@ const props = defineProps({
                         </div>
 
                         <div class="w-full xl:w-[44%] mt-2 p-10 xl:mt-0">
-                            <img
-                                :src="slider.media?.url ?? '/images/slider.png'"
-                                alt=""
-                                class="w-full h-auto object-contain"
-                                :style="{
-                                    transform:
-                                        $i18n.locale === 'en'
-                                            ? 'rotateY(180deg)'
-                                            : 'none',
-                                }"
-                            />
+                            <picture>
+                                <source :srcset="(slider.media?.url ?? '/images/slider.png').replace(/\.(png|jpg|jpeg)$/, '.webp')" type="image/webp">
+                                <img
+                                    :src="slider.media?.url ?? '/images/slider.png'"
+                                    alt=""
+                                    class="w-full h-auto object-contain"
+                                    width="540" height="416"
+                                    :style="{
+                                        transform:
+                                            $i18n.locale === 'en'
+                                                ? 'rotateY(180deg)'
+                                                : 'none',
+                                    }"
+                                />
+                            </picture>
                         </div>
                     </div>
                 </swiper-slide>
@@ -158,7 +172,6 @@ const props = defineProps({
     opacity: 1;
 }
 
-/* رجّعت هذا الجزء لأنه كان ناقص ويسبب الخطأ */
 .swiper-button-prev,
 .swiper-button-next {
     width: 40px;

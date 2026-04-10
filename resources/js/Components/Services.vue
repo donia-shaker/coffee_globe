@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { Swiper, SwiperSlide } from "swiper/vue"; // Import Swiper and SwiperSlide from swiper/vue
-import { Autoplay, Navigation, Pagination, Scrollbar } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Autoplay, Scrollbar } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/scrollbar";
-import "swiper/css/pagination";
 import { reactive } from "vue";
 
 const props = defineProps({
@@ -13,7 +12,7 @@ const props = defineProps({
 const reactiveServices = reactive(
     props.services.map((service) => ({ ...service, hovered: false })),
 );
-const modules = [Autoplay, Pagination, Navigation, Scrollbar];
+const modules = [Autoplay, Scrollbar];
 </script>
 
 <template>
@@ -21,17 +20,22 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
         <div class="bg-[#FBE9D9] rounded-3xl py-10 xl:bg-[unset]">
             <div class="relative hidden xl:block w-full">
                 <div class="absolute w-full mt-6 xl:mt-0">
-                    <img
-                        src="/images/layout_3.png"
-                        alt=""
-                        class="w-full h-auto object-contain"
-                        :style="{
-                            transform:
-                                $i18n.locale === 'en'
-                                    ? 'rotateY(180deg)'
-                                    : 'none',
-                        }"
-                    />
+                    <picture>
+                        <source srcset="/images/layout_3.webp" type="image/webp">
+                        <img
+                            src="/images/layout_3.png"
+                            alt=""
+                            class="w-full h-auto object-contain"
+                            width="1400" height="900"
+                            loading="lazy"
+                            :style="{
+                                transform:
+                                    $i18n.locale === 'en'
+                                        ? 'rotateY(180deg)'
+                                        : 'none',
+                            }"
+                        />
+                    </picture>
                 </div>
             </div>
             <div
@@ -81,33 +85,43 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
                             :key="service"
                             class="relative h-[360px] md:h-[300px]"
                         >
-                            <img
-                                src="/images/card_bg.png"
-                                :alt="$tt(service.name)"
-                                class="w-full h-auto rounded-xl object-contain"
-                                :style="{
-                                    transform:
-                                        $i18n.locale === 'en'
-                                            ? 'rotateY(180deg)'
-                                            : 'none',
-                                }"
-                            />
+                            <picture>
+                                <source srcset="/images/card_bg.webp" type="image/webp">
+                                <img
+                                    src="/images/card_bg.png"
+                                    :alt="$tt(service.name)"
+                                    class="w-full h-auto rounded-xl object-contain"
+                                    width="400" height="300"
+                                    loading="lazy"
+                                    :style="{
+                                        transform:
+                                            $i18n.locale === 'en'
+                                                ? 'rotateY(180deg)'
+                                                : 'none',
+                                    }"
+                                />
+                            </picture>
                             <div class="absolute w-full h-full top-0">
                                 <div class="p-4 xl:pb-0 pb-2 2xl:pb-2">
-                                    <img
-                                        :src="
-                                            service.media?.url ??
-                                            '/images/service.png'
-                                        "
-                                        :alt="$tt(service.name)"
-                                        class="w-full h-auto rounded-xl object-contain"
-                                        :style="{
-                                            transform:
-                                                $i18n.locale === 'en'
-                                                    ? 'rotateY(180deg)'
-                                                    : 'none',
-                                        }"
-                                    />
+                                    <picture>
+                                        <source srcset="/images/service.webp" type="image/webp">
+                                        <img
+                                            :src="
+                                                service.media?.url ??
+                                                '/images/service.png'
+                                            "
+                                            :alt="$tt(service.name)"
+                                            class="w-full h-auto rounded-xl object-contain"
+                                            width="400" height="200"
+                                            loading="lazy"
+                                            :style="{
+                                                transform:
+                                                    $i18n.locale === 'en'
+                                                        ? 'rotateY(180deg)'
+                                                        : 'none',
+                                            }"
+                                        />
+                                    </picture>
                                 </div>
                                 <div class="px-4 ltr:pr-0 w-[75%]">
                                     <h3
@@ -131,12 +145,16 @@ const modules = [Autoplay, Pagination, Navigation, Scrollbar];
                                     src="/images/layer_1.svg"
                                     :alt="$tt(service.name)"
                                     class="w-full h-auto rounded-xl object-contain transition-opacity duration-500 opacity-100"
+                                    width="80" height="80"
+                                    loading="lazy"
                                 />
                                 <!-- الصورة عند hover -->
                                 <img
                                     src="/images/layer_6.svg"
                                     :alt="$tt(service.name)"
                                     class="absolute top-0 left-0 w-full h-auto object-contain transition-opacity duration-500 opacity-0 hover:opacity-100"
+                                    width="80" height="80"
+                                    loading="lazy"
                                 /> </a>
                             </div></swiper-slide
                     ></swiper>

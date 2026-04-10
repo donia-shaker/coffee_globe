@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import About from "@/Components/About.vue";
-import ExpertTeam from "@/Components/ExpertTeam.vue";
-import Footer from "@/Components/Footer.vue";
 import Header from "@/Components/Header.vue";
-import Join from "@/Components/Join.vue";
 import PageTitle from "@/Components/PageTitle.vue";
-import Values from "@/Components/Values.vue";
 import SchemaOrg from "@/Components/SchemaOrg.vue";
+import { defineAsyncComponent } from "vue";
 import { Head } from "@inertiajs/vue3";
 import { computed } from "vue";
 import { usePage } from "@inertiajs/vue3";
+
+// Lazy load below-fold components
+const About = defineAsyncComponent(() => import("@/Components/About.vue"));
+const ExpertTeam = defineAsyncComponent(() => import("@/Components/ExpertTeam.vue"));
+const Values = defineAsyncComponent(() => import("@/Components/Values.vue"));
+const Join = defineAsyncComponent(() => import("@/Components/Join.vue"));
+const Footer = defineAsyncComponent(() => import("@/Components/Footer.vue"));
 
 defineProps({
     values: Object,

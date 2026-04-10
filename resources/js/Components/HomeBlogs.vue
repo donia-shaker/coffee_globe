@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { Swiper, SwiperSlide } from "swiper/vue"; // Import Swiper and SwiperSlide from swiper/vue
-import { Autoplay, Navigation, Pagination, Scrollbar } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Autoplay, Scrollbar } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/scrollbar";
-import "swiper/css/pagination";
 import { Link } from "@inertiajs/vue3";
 import BlogCard from "./BlogCard.vue";
 
@@ -11,7 +10,7 @@ defineProps({
     blogs: Object,
 });
 
-const modules = [Autoplay, Pagination, Navigation, Scrollbar];
+const modules = [Autoplay, Scrollbar];
 </script>
 
 <template>

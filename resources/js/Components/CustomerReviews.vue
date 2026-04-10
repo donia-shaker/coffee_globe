@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { Swiper, SwiperSlide } from "swiper/vue"; // Import Swiper and SwiperSlide from swiper/vue
-import { Autoplay, Navigation, Pagination, Scrollbar } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/scrollbar";
 import "swiper/css/pagination";
 
 defineProps({
     client_reviews: Object,
 });
 
-const modules = [Autoplay, Pagination, Navigation, Scrollbar];
+const modules = [Autoplay, Pagination];
 
 const rating = 3;
 const maxStars = 5;
@@ -67,6 +66,8 @@ const maxStars = 5;
                                             "
                                             alt=""
                                             class="w-[60px] h-[60px] rounded-full object-contain"
+                                            width="60" height="60"
+                                            loading="lazy"
                                             :style="{
                                                 transform:
                                                     $i18n.locale === 'en'

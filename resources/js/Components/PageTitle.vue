@@ -45,10 +45,14 @@ defineProps({
             </div>
             <div class="relative hidden xl:block w-full h-auto">
                 <div class="absolute w-full mt-6 xl:mt-0">
-                    <img
+                    <picture>
+                        <source srcset="/images/about_bg.webp" type="image/webp">
+                        <img
                         :src="image??'/images/about_bg.svg'"
                         alt=""
                         class="w-full h-auto object-contain"
+                        loading="lazy"
+                    </picture>
                         :style="{
                             transform:
                                 $i18n.locale === 'en'

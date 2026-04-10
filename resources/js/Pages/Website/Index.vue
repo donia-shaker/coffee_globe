@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import Header from "@/Components/Header.vue";
 import HeroSlide from "@/Components/HeroSlide.vue";
-import CTA from "@/Components/CTA.vue";
-import Services from "@/Components/Services.vue";
-import CustomerReviews from "@/Components/CustomerReviews.vue";
-import FQS from "@/Components/FQS.vue";
-import ContactForm from "@/Components/ContactForm.vue";
-import HomeBlogs from "@/Components/HomeBlogs.vue";
-import Footer from "@/Components/Footer.vue";
+import { defineAsyncComponent } from "vue";
 import SchemaOrg from "@/Components/SchemaOrg.vue";
 import { Head } from "@inertiajs/vue3";
 import { computed } from "vue";
 import { usePage } from "@inertiajs/vue3";
+
+// Eager load above-fold components
+// Lazy load below-fold components for better performance
+const CTA = defineAsyncComponent(() => import("@/Components/CTA.vue"));
+const Services = defineAsyncComponent(() => import("@/Components/Services.vue"));
+const CustomerReviews = defineAsyncComponent(() => import("@/Components/CustomerReviews.vue"));
+const FQS = defineAsyncComponent(() => import("@/Components/FQS.vue"));
+const ContactForm = defineAsyncComponent(() => import("@/Components/ContactForm.vue"));
+const HomeBlogs = defineAsyncComponent(() => import("@/Components/HomeBlogs.vue"));
+const Footer = defineAsyncComponent(() => import("@/Components/Footer.vue"));
 
 defineProps({
     sliders: Object,
