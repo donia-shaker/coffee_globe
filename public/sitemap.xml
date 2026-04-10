@@ -1,145 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
-    <loc>https:/coffeeglobe.sa/</loc>
+    <loc>https://coffeeglobe.sa/</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/en</loc>
+    <loc>https://coffeeglobe.sa/en</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/about</loc>
+    <loc>https://coffeeglobe.sa/about</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/en/about</loc>
+    <loc>https://coffeeglobe.sa/en/about</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/solution</loc>
+    <loc>https://coffeeglobe.sa/solution</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/en/solution</loc>
+    <loc>https://coffeeglobe.sa/en/solution</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/blogs</loc>
+    <loc>https://coffeeglobe.sa/blogs</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/en/blogs</loc>
+    <loc>https://coffeeglobe.sa/en/blogs</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/fqs</loc>
+    <loc>https://coffeeglobe.sa/fqs</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/en/fqs</loc>
+    <loc>https://coffeeglobe.sa/en/fqs</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/contact</loc>
+    <loc>https://coffeeglobe.sa/contact</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/en/contact</loc>
+    <loc>https://coffeeglobe.sa/en/contact</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/privacy-policy</loc>
-    <lastmod>2026-04-10T00:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-            </url>
-    <url>
-    <loc>https:/coffeeglobe.sa/en/privacy-policy</loc>
+    <loc>https://coffeeglobe.sa/privacy-policy</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/terms-of-service</loc>
+    <loc>https://coffeeglobe.sa/en/privacy-policy</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/en/terms-of-service</loc>
+    <loc>https://coffeeglobe.sa/terms-of-service</loc>
     <lastmod>2026-04-10T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/blog/1</loc>
+    <loc>https://coffeeglobe.sa/en/terms-of-service</loc>
+    <lastmod>2026-04-10T00:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+            </url>
+    <url>
+    <loc>https://coffeeglobe.sa/blog/1</loc>
     <lastmod>2026-04-09T23:20:42+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/en/blog/1</loc>
+    <loc>https://coffeeglobe.sa/en/blog/1</loc>
     <lastmod>2026-04-09T23:20:42+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/blog/2</loc>
+    <loc>https://coffeeglobe.sa/blog/2</loc>
     <lastmod>2026-04-09T23:20:42+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/en/blog/2</loc>
+    <loc>https://coffeeglobe.sa/en/blog/2</loc>
     <lastmod>2026-04-09T23:20:42+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/blog/3</loc>
+    <loc>https://coffeeglobe.sa/blog/3</loc>
     <lastmod>2026-04-09T23:20:42+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/en/blog/3</loc>
+    <loc>https://coffeeglobe.sa/en/blog/3</loc>
     <lastmod>2026-04-09T23:20:42+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/blog/4</loc>
+    <loc>https://coffeeglobe.sa/blog/4</loc>
     <lastmod>2026-04-09T23:20:42+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
             </url>
     <url>
-    <loc>https:/coffeeglobe.sa/en/blog/4</loc>
+    <loc>https://coffeeglobe.sa/en/blog/4</loc>
     <lastmod>2026-04-09T23:20:42+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
